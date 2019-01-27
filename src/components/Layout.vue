@@ -8,9 +8,10 @@
                 app
                 :mini-variant="miniVariant"
                 :clipped="clipped"
+                hide-overlay
         >
 
-            <layout-logo></layout-logo>
+
 
             <layout-menu-list :nav="nav"></layout-menu-list>
 
@@ -19,14 +20,13 @@
 
         <v-toolbar color="pink" dark fixed app clipped-left>
             <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-            <v-toolbar-title>{{title}}</v-toolbar-title>
+          <layout-toolbar-logo></layout-toolbar-logo>
+            <v-spacer></v-spacer>
+            <login-account></login-account>
         </v-toolbar>
 
         <v-content>
-
-                <slot></slot>
-
-
+            <slot></slot>
         </v-content>
 
         <v-footer color="pink" app>
@@ -39,11 +39,13 @@
 
     import LayoutMenuList from './LayoutMenuList'
     import LayoutLogo from './LayoutLogo'
+    import LayoutToolbarLogo from './LayoutToolbarLogo'
+    import LoginAccount from './LoginAccount'
 
     export default {
-        components: {LayoutMenuList, LayoutLogo},
+        components: {LayoutMenuList, LayoutLogo, LayoutToolbarLogo, LoginAccount},
         data: () => ({
-                drawer: null,
+                drawer: false,
                 clipped: true,
                 miniVariant: false,
                 fixed: true,
@@ -57,8 +59,8 @@
                     },
                     {
                         icon: 'contact_mail',
-                        text: 'Abaut',
-                        link: {name: "abaut"}
+                        text: 'About',
+                        link: {name: "about"}
                     },
                 ]
 

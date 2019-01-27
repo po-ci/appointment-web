@@ -1,5 +1,5 @@
 <template>
-    <v-list dense>
+    <v-list dense class="pt-3">
         <v-list-tile v-for="item in nav" :key="item.text" :to="item.link" exact>
             <v-list-tile-action>
                 <v-icon>{{ item.icon }}</v-icon>

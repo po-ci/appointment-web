@@ -1,7 +1,6 @@
 <template>
 
-        <v-layout fluid row justify-center class="pt-3">
-            <v-flex xs4 sm4 lg4 justify-center>
+    <v-btn icon large>
                 <v-avatar
                         :tile="tile"
                         :size="avatarSize"
@@ -9,17 +8,15 @@
                 >
                     <img :src="src">
                 </v-avatar>
-            </v-flex>
-        </v-layout>
-
+    </v-btn>
 </template>
 
 <script>
     export default {
-        name: "LayoutLogo",
+        name: "LayoutToolbarLogo",
         data: () => ({
             src: '/assets/sonriu.jpg',
-            avatarSize: 100,
+            avatarSize: 40,
             tile: false
         })
     }
