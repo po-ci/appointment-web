@@ -18,7 +18,7 @@ export default {
             return state.access_token
         },
         isLogin: (state) => {
-           return (state.user.id)?true:false
+            return (state.user.id) ? true : false
         },
     },
     actions: {
@@ -40,6 +40,17 @@ export default {
 
             }).catch((error) => {
                 console.log('Exception in auth.')
+                console.log(error)
+                return false
+            });
+        },
+        register({commit, dispatch}, {name, username, email, phone, password}) {
+            AuthService.register(name, username, email, phone, password).then((response) => {
+
+                console.log(response)
+
+            }).catch((error) => {
+                console.log('Exception in register.')
                 console.log(error)
                 return false
             });

@@ -31,7 +31,7 @@
                                           name="name"
                                           label="Nombre y Apellido"
                                           type="text"
-                                          v-model="register.name"
+                                          v-model="form.name"
                                           :rules="validations.name"
                                           placeholder="Nombre y Apellido"
                                           required
@@ -43,7 +43,7 @@
                                           name="username"
                                           label="Usuario"
                                           type="text"
-                                          v-model="register.username"
+                                          v-model="form.username"
                                           :rules="validations.username"
                                           placeholder="Usuario"
                                           autocomplete="new-password"
@@ -56,7 +56,7 @@
                                           name="email"
                                           label="Email"
                                           type="text"
-                                          v-model="register.email"
+                                          v-model="form.email"
                                           :rules="validations.email"
                                           placeholder="Email"
 
@@ -69,7 +69,7 @@
                                           name="phone"
                                           label="Telefono"
                                           type="text"
-                                          v-model="register.phone"
+                                          v-model="form.phone"
                                           :rules="validations.phone"
                                           placeholder="Telefono"
                                           required
@@ -82,7 +82,7 @@
                                           name="password"
                                           label="Contraseña"
                                           type="password"
-                                          v-model="register.password"
+                                          v-model="form.password"
                                           :rules="validations.password"
                                           placeholder="Contraseña"
                                           autocomplete="new-password"
@@ -111,7 +111,7 @@
         name: "Login",
         data: () => ({
                 valid: true,
-                register: {
+                form: {
                     name: null,
                     username: null,
                     password: null,
@@ -148,11 +148,12 @@
         methods: {
             submit: function () {
                 if (this.$refs.form.validate()) {
-                   console.log("Validate ok")
+                    console.log("Validate ok")
+                    this.register(this.form.name, this.form.username, this.form.email, this.form.phone, this.form.password)
                 }
             },
             ...mapActions([
-                'auth',
+                'register',
             ]),
         }
     }
