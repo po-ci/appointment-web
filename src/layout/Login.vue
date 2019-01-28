@@ -1,5 +1,18 @@
-<template>
-    <v-container fluid fill-height class="grey lighten-3">
+<template >
+    <v-container v-if="isLogin" fluid fill-height class="grey lighten-3">
+        <v-layout align-center justify-center>
+            <v-flex xs12 sm8 md4>
+                <v-card class="elevation-12">
+                    <v-card-text>
+                        Sesión Iniciada como: <strong>{{getUser.username}}</strong>
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+        </v-layout>
+    </v-container>
+
+    <v-container v-else fluid fill-height class="grey lighten-3">
+
         <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
                 <v-card class="elevation-12">
@@ -45,21 +58,24 @@
 
 <script>
 
-    import {mapActions} from 'vuex'
+    import {mapActions, mapGetters} from 'vuex'
 
     export default {
         name: "Login",
         data: () => ({
                 username: null,
-                password: null
+                password: null,
+                lo : false
             }
         ),
-        mounted: function(){
-            console.log(process.env)
-            console.log(process.env.VUE_APP_APIHOST)
+        computed: {
+            ...mapGetters([
+                'getUser',
+                'isLogin'
+            ]),
         },
         methods: {
-            login: function() {
+            login: function () {
                 this.auth({username: this.username, password: this.password})
             },
             ...mapActions([

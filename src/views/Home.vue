@@ -6,9 +6,10 @@
 </template>
 
 <script>
-    import LayoutLogo from '../components/LayoutLogo'
+    import LayoutLogo from '../layout/LayoutLogo'
 
     export default {
+        name: 'Home',
         components: {
             LayoutLogo
         }

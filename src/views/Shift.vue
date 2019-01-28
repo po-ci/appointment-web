@@ -1,15 +1,15 @@
 <template>
     <div>
-        <login></login>
+
+        Shift
     </div>
 </template>
 
 <script>
-    import Login from '../layout/Login'
 
     export default {
         components: {
-            Login
+
         }
     }
 </script>

@@ -38,12 +38,11 @@
 <script>
 
     import LayoutMenuList from './LayoutMenuList'
-    import LayoutLogo from './LayoutLogo'
     import LayoutToolbarLogo from './LayoutToolbarLogo'
     import LoginAccount from './LoginAccount'
 
     export default {
-        components: {LayoutMenuList, LayoutLogo, LayoutToolbarLogo, LoginAccount},
+        components: {LayoutMenuList,  LayoutToolbarLogo, LoginAccount},
         data: () => ({
                 drawer: false,
                 clipped: true,
@@ -53,13 +52,19 @@
                 nav: [
                     {
                         icon: 'home',
-                        text: 'Home',
+                        text: 'Principal',
                         link: {name: "home"}
 
                     },
                     {
+                        icon: 'event',
+                        text: 'Turnos',
+                        link: {name: "shift"}
+
+                    },
+                    {
                         icon: 'contact_mail',
-                        text: 'About',
+                        text: 'Acerca de Nosotros',
                         link: {name: "about"}
                     },
                 ]

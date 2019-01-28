@@ -3,9 +3,9 @@
     <avatar v-if="isLogin"></avatar>
     <v-btn v-else color="grey"
            dark
-           @click="showLogin"
+           to="/login"
     >
-        Login
+        Iniciar Sesión
         <v-icon right dark>forward</v-icon>
     </v-btn>
 

@@ -1,7 +1,8 @@
 <template>
 
+    <v-toolbar-items>
+        <v-btn flat>{{getUsername}}</v-btn>
         <v-btn icon large>
-            <span class="pr-2">{{getUsername}}</span>
             <v-avatar
                     :tile="tile"
                     :size="avatarSize"
@@ -11,6 +12,8 @@
                 <img :src="getSrc">
             </v-avatar>
         </v-btn>
+
+    </v-toolbar-items>
 
 </template>
 
