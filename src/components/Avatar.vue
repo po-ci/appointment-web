@@ -1,13 +1,17 @@
 <template>
-    <v-btn icon large>
-        <v-avatar
-                :tile="tile"
-                :size="avatarSize"
-                color="grey lighten-4"
-        >
-            <img :src="getSrc">
-        </v-avatar>
-    </v-btn>
+
+        <v-btn icon large>
+            <span class="pr-2">{{getUsername}}</span>
+            <v-avatar
+                    :tile="tile"
+                    :size="avatarSize"
+                    color="grey lighten-4"
+
+            >
+                <img :src="getSrc">
+            </v-avatar>
+        </v-btn>
+
 </template>
 
 <script>
@@ -21,14 +25,17 @@
             tile: false
         }),
         computed: {
-            getSrc: function(){
-              let user = this.getUser
+            getSrc: function () {
+                let user = this.getUser
 
-              if(user.img){
-                  return user.img
-              }else{
-                  return this.src
-              }
+                if (user.img) {
+                    return user.img
+                } else {
+                    return this.src
+                }
+            },
+            getUsername: function(){
+              return this.getUser.username
             },
             ...mapGetters([
                 'getUser'

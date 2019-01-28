@@ -1,16 +1,15 @@
 <template>
     <div>
-      <layout-logo></layout-logo>
-        HOME
+        <login></login>
     </div>
 </template>
 
 <script>
-    import LayoutLogo from '../components/LayoutLogo'
+    import Login from '../components/Login'
 
     export default {
         components: {
-            LayoutLogo
+            Login
         }
     }
 </script>

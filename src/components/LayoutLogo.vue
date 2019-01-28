@@ -1,7 +1,7 @@
 <template>
 
         <v-layout fluid row justify-center class="pt-3">
-            <v-flex xs4 sm4 lg4 justify-center>
+            <v-flex xs4 sm4 lg2 align-center justify-center>
                 <v-avatar
                         :tile="tile"
                         :size="avatarSize"
