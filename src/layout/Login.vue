@@ -1,10 +1,11 @@
-<template >
+<template>
     <v-container v-if="isLogin" fluid fill-height class="grey lighten-3">
         <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
                 <v-card class="elevation-12">
                     <v-card-text>
-                        Sesión Iniciada como: <strong>{{getUser.username}}</strong>
+                        Sesión Iniciada como:
+                        <strong>{{getUser.username}}</strong>
                     </v-card-text>
                 </v-card>
             </v-flex>
@@ -17,7 +18,7 @@
             <v-flex xs12 sm8 md4>
                 <v-card class="elevation-12">
                     <v-toolbar dark color="grey">
-                        <v-toolbar-title>Login form</v-toolbar-title>
+                        <v-toolbar-title>Login</v-toolbar-title>
                         <v-spacer></v-spacer>
 
 
@@ -48,8 +49,15 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="grey" dark @click="login">Login</v-btn>
+                        <v-btn color="grey" dark @click="login">Iniciar Sesión</v-btn>
                     </v-card-actions>
+                </v-card>
+
+                <v-card class="elevation-12 mt-3">
+                    <v-card-text>
+                        Aun no tienes cuenta?
+                        <router-link to="register">Crear Cuenta</router-link>
+                    </v-card-text>
                 </v-card>
             </v-flex>
         </v-layout>
@@ -65,7 +73,7 @@
         data: () => ({
                 username: null,
                 password: null,
-                lo : false
+                lo: false
             }
         ),
         computed: {
@@ -86,5 +94,7 @@
 </script>
 
 <style scoped>
-
+    a {
+        text-decoration: none;
+    }
 </style>

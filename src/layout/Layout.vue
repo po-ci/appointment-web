@@ -18,7 +18,7 @@
 
         </v-navigation-drawer>
 
-        <v-toolbar color="pink" dark fixed app clipped-left>
+        <v-toolbar color="primary" dark fixed app clipped-left>
             <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
           <layout-toolbar-logo></layout-toolbar-logo>
             <v-spacer></v-spacer>
@@ -29,7 +29,7 @@
             <slot></slot>
         </v-content>
 
-        <v-footer color="pink" app>
+        <v-footer color="primary" app>
             <span class="white--text">Son.Riu &copy; 2019</span>
         </v-footer>
     </v-app>
