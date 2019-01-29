@@ -53,6 +53,11 @@ class AuthProvider extends HttpRequest {
         )
     }
 
+    validate (id,token) {
+
+        return this.axios.get(process.env.VUE_APP_APIHOST + '/security/api/validate/'+id+'/'+token)
+    }
+
 }
 
 export default AuthProvider

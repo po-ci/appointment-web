@@ -4,6 +4,8 @@ import Home from './views/Home.vue'
 import Shift from './views/Shift.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
+import Recovery from './views/Recovery.vue'
+import Validate from './views/Validate.vue'
 
 Vue.use(Router)
 
@@ -28,6 +30,16 @@ export default new Router({
             path: '/register',
             name: 'register',
             component: Register
+        },
+        {
+            path: '/recovery',
+            name: 'recovery',
+            component: Recovery
+        },
+        {
+            path: '/validate/:id/:token',
+            name: 'validate',
+            component: Validate
         },
         {
             path: '/about',

@@ -19,7 +19,9 @@
                 <v-card class="elevation-12">
                     <v-card-text>
                         <p>Hemos enviado un correo para confirmar y finalizar la creación de su cuenta.</p>
-                        <p>Por favor, acceda a su correo y haga click en el enlace de confirmación, para terminar de activar su cuenta</p>
+                        <p>Por favor, acceda a su correo y haga click en el enlace de confirmación, para terminar de
+                            activar su cuenta
+                        </p>
                     </v-card-text>
                 </v-card>
             </v-flex>
@@ -115,7 +117,7 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="grey" dark @click="submit">Crear Cuenta</v-btn>
+                        <v-btn :loading="getAuthLoading" color="grey" dark @click="submit">Crear Cuenta</v-btn>
                     </v-card-actions>
                 </v-card>
 
@@ -170,13 +172,15 @@
         computed: {
             ...mapGetters([
                 'getUser',
-                'isLogin'
+                'isLogin',
+                'getAuthLoading'
             ]),
 
         },
         methods: {
             resetValidation: function () {
-                this.$refs.form.resetValidation()
+                this.valid = true
+              //  this.$refs.form.resetValidation()
                 this.errors = {
                     name: [],
                     username: [],
@@ -190,6 +194,7 @@
                 this.resetValidation()
 
                 if (this.$refs.form.validate()) {
+                this.$store.commit('SET_AUTH_LOADING', true)
                     this.register(this.form).then((response) => {
                         if (response.data.status) {
                             //TODO confirmar creacion de cuenta
@@ -197,6 +202,7 @@
                         } else {
                             this.errors = Object.assign({}, this.errors, response.data.errors);
                         }
+                        this.$store.commit('SET_AUTH_LOADING', false)
                     })
                 }
             },

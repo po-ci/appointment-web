@@ -23,7 +23,7 @@
 
 
                     </v-toolbar>
-                    <v-card-text>
+                    <v-card-text class="pb-0">
 
                         <v-alert
                                 :value="getLoginError"
@@ -31,7 +31,7 @@
                                 outline
                                 class="mb-3"
                         >
-                           {{getLoginErrorMessage}}
+                            {{getLoginMessage}}
                         </v-alert>
 
 
@@ -49,23 +49,35 @@
                             <v-text-field id="password"
                                           prepend-icon="lock"
                                           name="password"
-                                          label="Password"
+                                          label="Contraseña"
                                           type="password"
                                           v-model="password"
-                                          placeholder="Password"
+                                          placeholder="Contraseña"
                             >
 
                             </v-text-field>
+
                         </v-form>
                     </v-card-text>
+
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="grey" dark @click="login">Iniciar Sesión</v-btn>
+                        <v-btn
+                                :loading="getAuthLoading"
+                                color="grey"
+                                dark
+                                @click="login">
+                            Iniciar Sesión
+                        </v-btn>
                     </v-card-actions>
+
+                    <v-card-text class="text-xs-left pt-0 mt-0">
+                        <router-link to="recovery">Olvido su contraseña?</router-link>
+                    </v-card-text>
                 </v-card>
 
                 <v-card class="elevation-12 mt-3">
-                    <v-card-text  class="text-xs-center">
+                    <v-card-text class="text-xs-center">
                         Aun no tienes cuenta?
                         <router-link to="register">Crear Cuenta</router-link>
                     </v-card-text>
@@ -94,7 +106,8 @@
                 'getUser',
                 'isLogin',
                 'getLoginError',
-                'getLoginErrorMessage'
+                'getLoginMessage',
+                'getAuthLoading'
             ]),
         },
         methods: {

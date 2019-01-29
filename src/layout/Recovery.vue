@@ -36,7 +36,7 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="grey" dark @click="submit">Recuperar Contraseña</v-btn>
+                        <v-btn :loading="getAuthLoading" color="grey" dark @click="submit">Recuperar Contraseña</v-btn>
                     </v-card-actions>
                 </v-card>
 
@@ -70,7 +70,8 @@
         computed: {
             ...mapGetters([
                 'getUser',
-                'isLogin'
+                'isLogin',
+                'getAuthLoading'
             ]),
 
         },
@@ -86,13 +87,14 @@
                 this.resetValidation()
 
                 if (this.$refs.form.validate()) {
-
+                    this.$store.commit('SET_AUTH_LOADING', true)
                     this.recovery(this.form).then((response) => {
                         if (response.data.status) {
 //Configurar recovery
                         } else {
                             this.errors = Object.assign({}, this.errors, response.data.errors);
                         }
+                        this.$store.commit('SET_AUTH_LOADING', false)
                     })
 
                 }
