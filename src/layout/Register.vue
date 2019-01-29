@@ -12,6 +12,20 @@
         </v-layout>
     </v-container>
 
+    <v-container v-else-if="isAccountCreated" fluid fill-height class="grey lighten-3">
+
+        <v-layout align-center justify-center>
+            <v-flex xs12 sm8 md4>
+                <v-card class="elevation-12">
+                    <v-card-text>
+                        <p>Hemos enviado un correo para confirmar y finalizar la creación de su cuenta.</p>
+                        <p>Por favor, acceda a su correo y haga click en el enlace de confirmación, para terminar de activar su cuenta</p>
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+        </v-layout>
+    </v-container>
+
     <v-container v-else fluid fill-height class="grey lighten-3">
 
         <v-layout align-center justify-center>
@@ -118,6 +132,7 @@
         name: "Login",
         data: () => ({
                 valid: true,
+                isAccountCreated: false,
                 form: {
                     name: null,
                     username: null,
@@ -176,8 +191,10 @@
 
                 if (this.$refs.form.validate()) {
                     this.register(this.form).then((response) => {
-                        if (!response.data.status) {
-                            //Merge Errors
+                        if (response.data.status) {
+                            //TODO confirmar creacion de cuenta
+                            this.isAccountCreated = true
+                        } else {
                             this.errors = Object.assign({}, this.errors, response.data.errors);
                         }
                     })

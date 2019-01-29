@@ -24,6 +24,17 @@
 
                     </v-toolbar>
                     <v-card-text>
+
+                        <v-alert
+                                :value="getLoginError"
+                                type="error"
+                                outline
+                                class="mb-3"
+                        >
+                           {{getLoginErrorMessage}}
+                        </v-alert>
+
+
                         <v-form>
                             <v-text-field prepend-icon="person"
                                           name="username"
@@ -73,13 +84,17 @@
         data: () => ({
                 username: null,
                 password: null,
-                lo: false
+                lo: false,
+                error: false,
+                errorMessage: ""
             }
         ),
         computed: {
             ...mapGetters([
                 'getUser',
-                'isLogin'
+                'isLogin',
+                'getLoginError',
+                'getLoginErrorMessage'
             ]),
         },
         methods: {

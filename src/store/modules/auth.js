@@ -9,6 +9,8 @@ export default {
             username: null
         },
         exp: null,
+        loginError: false,
+        loginErrorMessage: null
     },
     getters: {
         getUser: (state) => {
@@ -20,29 +22,32 @@ export default {
         isLogin: (state) => {
             return (state.user.id) ? true : false
         },
+        getLoginError: (state) => {
+            return state.loginError
+        },
+        getLoginErrorMessage: (state) => {
+            return state.loginErrorMessage
+        },
     },
     actions: {
         auth({commit, dispatch}, {username, password}) {
-            AuthService.auth(username, password).then((response) => {
+           AuthService.auth(username, password).then((response) => {
 
                 if (response.data.success) {
 
                     commit('SET_TOKEN', response.data.token)
 
                     dispatch('extractTokenPayload')
-
-                    return true
-                } else {
-                    console.log('Login Failed')
-                    console.log(response.data.message)
-                    return false
+                }else{
+                    commit('SET_LOGIN_ERROR', true)
+                    commit('SET_LOGIN_ERROR_MESSAGE', response.data.message)
                 }
 
             }).catch((error) => {
-                console.log('Exception in auth.')
-                console.log(error)
-                return false
+               commit('SET_LOGIN_ERROR', true)
+               commit('SET_LOGIN_ERROR_MESSAGE', error.response.data.message)
             });
+
         },
         register({commit}, {name, username, email, phone, password}) {
             return AuthService.register(name, username, email, phone, password)
@@ -93,6 +98,12 @@ export default {
         },
         ['SET_EXP'](state, exp) {
             state.exp = exp;
+        },
+        ['SET_LOGIN_ERROR'](state, error) {
+            state.loginError = error;
+        },
+        ['SET_LOGIN_ERROR_MESSAGE'](state, errorMessage) {
+            state.loginErrorMessage = errorMessage;
         },
     },
 }
