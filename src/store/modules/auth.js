@@ -52,6 +52,9 @@ export default {
         register({commit}, {name, username, email, phone, password}) {
             return AuthService.register(name, username, email, phone, password)
         },
+        recovery({commit}, {email}) {
+            return AuthService.register(email)
+        },
         extractTokenPayload({state, commit}) {
             let payload = JSON.parse(atob(state.access_token.split('.')[1]))
             commit('SET_USER', payload.data)

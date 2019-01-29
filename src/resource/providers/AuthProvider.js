@@ -18,6 +18,7 @@ class AuthProvider extends HttpRequest {
             }
         )
     }
+
     register (name, username, email, phone, password) {
 
         let data = new FormData()
@@ -29,6 +30,21 @@ class AuthProvider extends HttpRequest {
 
         return this.axios.post(
             process.env.VUE_APP_APIHOST + '/security/api/register',
+            data,
+            {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+
+            }
+        )
+    }
+
+    recovery (email) {
+
+        let data = new FormData()
+        data.append('email',email)
+
+        return this.axios.post(
+            process.env.VUE_APP_APIHOST + '/security/api/recovery',
             data,
             {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}

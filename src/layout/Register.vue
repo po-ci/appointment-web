@@ -129,7 +129,7 @@
     import {mapActions, mapGetters} from 'vuex'
 
     export default {
-        name: "Login",
+        name: "Register",
         data: () => ({
                 valid: true,
                 isAccountCreated: false,
