@@ -21,14 +21,14 @@ class AuthProvider extends HttpRequest {
     register (name, username, email, phone, password) {
 
         let data = new FormData()
-        data.append('name',username)
+        data.append('name',name)
         data.append('username',username)
-        data.append('email',username)
-        data.append('phone',username)
+        data.append('email',email)
+        data.append('phone',phone)
         data.append('password',password)
 
         return this.axios.post(
-            process.env.VUE_APP_APIHOST + '/user/register',
+            process.env.VUE_APP_APIHOST + '/security/api/register',
             data,
             {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}

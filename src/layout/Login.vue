@@ -54,7 +54,7 @@
                 </v-card>
 
                 <v-card class="elevation-12 mt-3">
-                    <v-card-text>
+                    <v-card-text  class="text-xs-center">
                         Aun no tienes cuenta?
                         <router-link to="register">Crear Cuenta</router-link>
                     </v-card-text>

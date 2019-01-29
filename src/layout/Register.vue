@@ -149,7 +149,7 @@
             submit: function () {
                 if (this.$refs.form.validate()) {
                     console.log("Validate ok")
-                    this.register(this.form.name, this.form.username, this.form.email, this.form.phone, this.form.password)
+                    this.register(this.form)
                 }
             },
             ...mapActions([
