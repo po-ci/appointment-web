@@ -47,6 +47,10 @@
                                           :rules="validations.username"
                                           placeholder="Usuario"
                                           autocomplete="new-password"
+
+                                          :error="errors.username.length?true:false"
+                                          :error-messages="errors.username"
+
                                           required
                             >
 
@@ -59,6 +63,9 @@
                                           v-model="form.email"
                                           :rules="validations.email"
                                           placeholder="Email"
+
+                                          :error="errors.email.length?true:false"
+                                          :error-messages="errors.email"
 
                                           required
                             >
@@ -117,7 +124,13 @@
                     password: null,
                     email: null,
                     phone: null,
-                    lo: false,
+                },
+                errors: {
+                    name: [],
+                    username: [],
+                    password: [],
+                    email: [],
+                    phone: [],
                 },
                 validations: {
                     name: [
@@ -144,12 +157,30 @@
                 'getUser',
                 'isLogin'
             ]),
+
         },
         methods: {
+            resetValidation: function () {
+                this.$refs.form.resetValidation()
+                this.errors = {
+                    name: [],
+                    username: [],
+                    password: [],
+                    email: [],
+                    phone: [],
+                }
+            },
             submit: function () {
+
+                this.resetValidation()
+
                 if (this.$refs.form.validate()) {
-                    console.log("Validate ok")
-                    this.register(this.form)
+                    this.register(this.form).then((response) => {
+                        if (!response.data.status) {
+                            //Merge Errors
+                            this.errors = Object.assign({}, this.errors, response.data.errors);
+                        }
+                    })
                 }
             },
             ...mapActions([

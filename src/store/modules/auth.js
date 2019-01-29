@@ -44,16 +44,8 @@ export default {
                 return false
             });
         },
-        register({commit, dispatch}, {name, username, email, phone, password}) {
-            AuthService.register(name, username, email, phone, password).then((response) => {
-
-                console.log(response)
-
-            }).catch((error) => {
-                console.log('Exception in register.')
-                console.log(error)
-                return false
-            });
+        register({commit}, {name, username, email, phone, password}) {
+            return AuthService.register(name, username, email, phone, password)
         },
         extractTokenPayload({state, commit}) {
             let payload = JSON.parse(atob(state.access_token.split('.')[1]))
