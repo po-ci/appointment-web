@@ -6,6 +6,8 @@ import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import Recovery from './views/Recovery.vue'
 import Validate from './views/Validate.vue'
+import Profile from './views/Profile.vue'
+
 
 Vue.use(Router)
 
@@ -40,6 +42,11 @@ export default new Router({
             path: '/validate/:id/:token',
             name: 'validate',
             component: Validate
+        },
+        {
+            path: '/profile',
+            name: 'profile',
+            component: Profile
         },
         {
             path: '/about',
