@@ -18,10 +18,17 @@
             <v-flex xs12 sm8 md4>
                 <v-card class="elevation-12">
                     <v-card-text>
-                        <p>Hemos enviado un correo para confirmar y finalizar la creación de su cuenta.</p>
-                        <p>Por favor, acceda a su correo y haga click en el enlace de confirmación, para terminar de
-                            activar su cuenta
-                        </p>
+                        <v-alert
+                                :value="true"
+                                color="success"
+                                icon="check_circle"
+                                outline
+                        >
+                            Hemos enviado un correo para confirmar y finalizar la creación de su cuenta.
+
+                        </v-alert>
+
+
                     </v-card-text>
                 </v-card>
             </v-flex>
@@ -50,6 +57,11 @@
                                           v-model="form.name"
                                           :rules="validations.name"
                                           placeholder="Nombre y Apellido"
+
+                                          :error="errors.name.length?true:false"
+                                          :error-messages="errors.name"
+
+
                                           required
                             >
 
@@ -95,6 +107,10 @@
                                           v-model="form.phone"
                                           :rules="validations.phone"
                                           placeholder="Telefono"
+
+                                          :error="errors.phone.length?true:false"
+                                          :error-messages="errors.phone"
+
                                           required
                             >
 
@@ -109,6 +125,11 @@
                                           :rules="validations.password"
                                           placeholder="Contraseña"
                                           autocomplete="new-password"
+
+                                          :error="errors.password.length?true:false"
+                                          :error-messages="errors.password"
+
+
                                           required
                             >
 

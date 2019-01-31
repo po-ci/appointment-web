@@ -1,6 +1,28 @@
 <template>
 
-    <v-container fluid fill-height class="grey lighten-3">
+
+    <v-container v-if="recoverySuccess"  fluid fill-height class="grey lighten-3">
+
+        <v-layout align-center justify-center>
+            <v-flex xs12 sm8 md4>
+                <v-card class="elevation-12">
+                    <v-card-text>
+                        <v-alert
+                                :value="true"
+                                color="success"
+                                icon="check_circle"
+                                outline
+                        >
+                            {{recoveryMessage}}
+                        </v-alert>
+
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+        </v-layout>
+    </v-container>
+
+    <v-container v-else fluid fill-height class="grey lighten-3">
 
         <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
@@ -53,6 +75,8 @@
         name: "Recovery",
         data: () => ({
                 valid: true,
+                recoverySuccess: false,
+                recoveryMessage: '',
                 form: {
                     email: null,
                 },
@@ -77,7 +101,6 @@
         },
         methods: {
             resetValidation: function () {
-                this.$refs.form.resetValidation()
                 this.errors = {
                     email: [],
                 }
@@ -88,11 +111,13 @@
 
                 if (this.$refs.form.validate()) {
                     this.$store.commit('SET_AUTH_LOADING', true)
+
                     this.recovery(this.form).then((response) => {
                         if (response.data.status) {
-//Configurar recovery
+                            this.recoverySuccess = true
+                            this.recoveryMessage = response.data.message
                         } else {
-                            this.errors = Object.assign({}, this.errors, response.data.errors);
+                            this.errors = Object.assign({}, this.errors, response.data.errors)
                         }
                         this.$store.commit('SET_AUTH_LOADING', false)
                     })

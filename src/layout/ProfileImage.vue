@@ -1,40 +1,34 @@
 <template>
-    <v-container v-if="isLogin" fluid fill-height class="grey lighten-3">
-        <v-layout align-center justify-center>
-            <v-flex xs12 sm8 md4>
-                <v-card class="elevation-12">
-                    <v-card-text class="text-xs-center">
-                        <profile-avatar v-on:avatarClick="pickFile"></profile-avatar>
-                    </v-card-text>
-                    <v-card-text>
-                        <v-form ref="form" autocomplete="off" v-model="valid">
-                            <input
-                                    type="file"
-                                    style="display: none"
-                                    ref="img"
-                                    accept="image/*"
-                                    @change="onFilePicked"
-                            >
 
-                            <v-alert
-                                    :value="errors.img.length?true:false"
-                                    color="error"
-                                    icon="warning"
-                                    outline
-                            >
-                                <ul>
-                                    <li v-for="error in errors.img">
-                                        {{error}}
-                                    </li>
-                                </ul>
-                            </v-alert>
+    <v-card-text class="text-xs-center">
+        <profile-avatar v-on:avatarClick="pickFile"></profile-avatar>
 
-                        </v-form>
-                    </v-card-text>
-                </v-card>
-            </v-flex>
-        </v-layout>
-    </v-container>
+
+        <v-form ref="form" autocomplete="off" v-model="valid">
+            <input
+                    type="file"
+                    style="display: none"
+                    ref="img"
+                    accept="image/*"
+                    @change="onFilePicked"
+            >
+
+            <v-alert
+                    :value="errors.img.length?true:false"
+                    color="error"
+                    icon="warning"
+                    outline
+            >
+                <ul>
+                    <li v-for="error in errors.img">
+                        {{error}}
+                    </li>
+                </ul>
+            </v-alert>
+
+        </v-form>
+    </v-card-text>
+
 </template>
 
 <script>

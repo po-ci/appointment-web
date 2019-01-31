@@ -7,7 +7,11 @@ export default {
         access_token: null,
         user: {
             id: null,
-            username: null
+            username: null,
+            name: null,
+            email: null,
+            phone: null,
+            img: null,
         },
         exp: null,
         //Define si hay errores en el login
@@ -69,8 +73,12 @@ export default {
                 commit('SET_AUTH_LOADING', false)
             }).catch((error) => {
                 commit('SET_LOGIN_ERROR', true)
-                commit('SET_LOGIN_MESSAGE', error.response.data.message)
                 commit('SET_AUTH_LOADING', false)
+                if (error.response) {
+                    commit('SET_LOGIN_MESSAGE', error.response.data.message)
+                } else {
+                    commit('SET_LOGIN_MESSAGE', 'Imposible conectar con el servidor')
+                }
             });
 
         },
@@ -88,7 +96,7 @@ export default {
             return AuthService.validate(id, token).then((response) => {
                 if (response.data.status) {
                     commit('SET_VALIDATE', true)
-                }else{
+                } else {
                     commit('SET_VALIDATE_ERROR', true)
                     commit('SET_VALIDATE_MESSAGE', response.data.message)
                 }
@@ -100,6 +108,11 @@ export default {
             })
         },
 
+        imageChange({commit, getters}, img) {
+            return AuthService.imageChange(img, getters.getAccessToken)
+        },
+
+
         extractTokenPayload({state, commit}) {
             let payload = JSON.parse(atob(state.access_token.split('.')[1]))
             commit('SET_USER', payload.data)
@@ -108,7 +121,14 @@ export default {
 
         logout: ({commit}) => {
             commit('SET_TOKEN', '')
-            commit('SET_USER', {id: null, username: null})
+            commit('SET_USER', {
+                id: null,
+                username: null,
+                name: null,
+                email: null,
+                phone: null,
+                img: null,
+            })
             commit('SET_EXP', null)
         },
 
@@ -149,6 +169,9 @@ export default {
         },
         ['SET_USER'](state, user) {
             state.user = user;
+        },
+        ['SET_USER_IMG'](state, img) {
+            state.user.img = img;
         },
         ['SET_EXP'](state, exp) {
             state.exp = exp;

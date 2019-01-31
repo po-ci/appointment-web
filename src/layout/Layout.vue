@@ -25,7 +25,7 @@
             <login-account></login-account>
         </v-toolbar>
 
-        <v-content>
+        <v-content class="grey lighten-3">
             <slot></slot>
         </v-content>
 

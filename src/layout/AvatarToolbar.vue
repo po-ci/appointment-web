@@ -17,6 +17,9 @@
             </v-avatar>
 
                 <v-list>
+                    <v-list-tile to="profile">
+                        <v-list-tile-title>Perfil</v-list-tile-title>
+                    </v-list-tile>
                     <v-list-tile @click="logout">
                         <v-list-tile-title>Cerrar Sesión</v-list-tile-title>
                     </v-list-tile>
@@ -32,7 +35,7 @@
     import {mapGetters, mapActions} from 'vuex'
 
     export default {
-        name: "Avatar",
+        name: "AvatarToolbar",
         data: () => ({
             src: '/assets/user.jpg',
             avatarSize: 30,

@@ -17,7 +17,15 @@
                     </v-card-text>
 
                     <v-card-text v-else>
-                        El proceso de validacion fue exitoso
+                        <v-alert
+                                :value="true"
+                                color="success"
+                                icon="check_circle"
+                                outline
+                        >
+                            El proceso de validación fue exitoso
+                        </v-alert>
+
                     </v-card-text>
 
                     <v-card-text v-if="getAuthLoading === true">

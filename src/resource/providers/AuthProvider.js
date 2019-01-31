@@ -53,6 +53,25 @@ class AuthProvider extends HttpRequest {
         )
     }
 
+
+    imageChange (img,token) {
+
+        let data = new FormData()
+        data.append('img',img)
+
+        return this.axios.post(
+            process.env.VUE_APP_APIHOST + '/security/api/image-change',
+            data,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'authorization': 'Bearer ' + token
+                }
+
+            }
+        )
+    }
+
     validate (id,token) {
 
         return this.axios.get(process.env.VUE_APP_APIHOST + '/security/api/validate/'+id+'/'+token)

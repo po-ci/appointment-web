@@ -1,6 +1,6 @@
 <template>
 
-    <avatar v-if="isLogin"></avatar>
+    <avatar-toolbar v-if="isLogin"></avatar-toolbar>
     <v-btn v-else color="grey"
            dark
            to="/login"
@@ -12,22 +12,25 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
-    import Avatar from './Avatar'
+    import {mapGetters,mapActions} from 'vuex'
+    import AvatarToolbar from './AvatarToolbar'
 
     export default {
         name: "LoginAccount",
-        components: {Avatar},
+        components: {AvatarToolbar},
         computed: {
             ...mapGetters([
                 'getUser',
                 'isLogin'
             ]),
         },
+        mounted: function(){
+            this.checkAuth()
+        },
         methods: {
-            showLogin: function () {
-
-            }
+            ...mapActions([
+                'checkAuth'
+            ])
         }
     }
 </script>
