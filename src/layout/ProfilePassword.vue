@@ -25,7 +25,7 @@
                 <v-btn
                         color="success"
                         flat="flat"
-                        @click="dialog = false"
+                        @click="closeDialog"
                 >
                     Cerrar
                 </v-btn>
@@ -83,7 +83,7 @@
                 <v-btn
                         color="orange darken-1"
                         flat="flat"
-                        @click="dialog = false"
+                        @click="closeDialog"
                 >
                     Cancelar
                 </v-btn>
@@ -139,6 +139,13 @@
                 'setChangePasswordDialog',
                 'passwordChange'
             ]),
+
+            closeDialog: function(){
+
+                this.dialog = false
+                this.isPasswordChange = false
+
+            },
 
             resetValidation: function () {
                 this.errors = {
