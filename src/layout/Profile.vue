@@ -51,8 +51,10 @@
 
                     </v-card-text>
 
-                    <v-card-text>
-                        <v-btn @click="setChangePasswordDialog(true)">Cambiar Contraseña</v-btn>
+                    <v-card-text class="text-xs-center pt-0">
+                        <v-btn @click="setChangePasswordDialog(true)">
+                            <v-icon left>lock</v-icon>
+                            Cambiar Contraseña</v-btn>
 
                     </v-card-text>
                 </v-card>
