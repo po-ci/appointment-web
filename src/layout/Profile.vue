@@ -8,63 +8,80 @@
                     <profile-image></profile-image>
                     <v-divider></v-divider>
 
-                    <v-list two-line>
-                        <v-list-tile >
-                            <v-list-tile-action>
-                                <v-icon color="primary">account_box</v-icon>
-                            </v-list-tile-action>
+                    <v-card-text>
+                        <v-list two-line>
+                            <v-list-tile>
+                                <v-list-tile-action>
+                                    <v-icon color="primary">account_box</v-icon>
+                                </v-list-tile-action>
 
-                            <v-list-tile-content>
-                                <v-list-tile-sub-title class="primary--text">Nombre</v-list-tile-sub-title>
-                                <v-list-tile-title> {{getUser.name}}</v-list-tile-title>
+                                <v-list-tile-content>
+                                    <v-list-tile-sub-title class="primary--text">Nombre</v-list-tile-sub-title>
+                                    <v-list-tile-title> {{getUser.name}}</v-list-tile-title>
 
-                            </v-list-tile-content>
-                        </v-list-tile>
+                                </v-list-tile-content>
+                            </v-list-tile>
 
-                        <v-list-tile >
-                            <v-list-tile-action>
-                                <v-icon color="primary">alternate_email</v-icon>
-                            </v-list-tile-action>
+                            <v-list-tile>
+                                <v-list-tile-action>
+                                    <v-icon color="primary">alternate_email</v-icon>
+                                </v-list-tile-action>
 
-                            <v-list-tile-content>
-                                <v-list-tile-sub-title class="primary--text">Email</v-list-tile-sub-title>
-                                <v-list-tile-title> {{getUser.email}}</v-list-tile-title>
+                                <v-list-tile-content>
+                                    <v-list-tile-sub-title class="primary--text">Email</v-list-tile-sub-title>
+                                    <v-list-tile-title> {{getUser.email}}</v-list-tile-title>
 
-                            </v-list-tile-content>
-                        </v-list-tile>
+                                </v-list-tile-content>
+                            </v-list-tile>
 
-                        <v-list-tile >
-                            <v-list-tile-action>
-                                <v-icon color="primary">phone</v-icon>
-                            </v-list-tile-action>
+                            <v-list-tile>
+                                <v-list-tile-action>
+                                    <v-icon color="primary">phone</v-icon>
+                                </v-list-tile-action>
 
-                            <v-list-tile-content>
-                                <v-list-tile-sub-title class="primary--text">Télefono</v-list-tile-sub-title>
-                                <v-list-tile-title> {{getUser.phone}}</v-list-tile-title>
+                                <v-list-tile-content>
+                                    <v-list-tile-sub-title class="primary--text">Télefono</v-list-tile-sub-title>
+                                    <v-list-tile-title> {{getUser.phone}}</v-list-tile-title>
 
-                            </v-list-tile-content>
-                        </v-list-tile>
-                    </v-list>
+                                </v-list-tile-content>
 
+
+                            </v-list-tile>
+                        </v-list>
+
+                    </v-card-text>
+
+                    <v-card-text>
+                        <v-btn @click="setChangePasswordDialog(true)">Cambiar Contraseña</v-btn>
+
+                    </v-card-text>
                 </v-card>
             </v-flex>
-        </v-layout>
 
+
+        </v-layout>
+        <profile-password></profile-password>
     </v-container>
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
+    import {mapGetters, mapActions} from 'vuex'
     import ProfileImage from './ProfileImage'
+    import ProfilePassword from './ProfilePassword'
 
     export default {
         name: "Profile",
-        components: {ProfileImage},
+        components: {ProfileImage, ProfilePassword},
         computed: {
             ...mapGetters([
                 'getUser',
                 'isLogin',
                 'getAuthLoading'
+            ]),
+        },
+        methods: {
+            ...mapActions([
+                'setChangePasswordDialog',
             ]),
         }
     }

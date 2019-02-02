@@ -22,7 +22,9 @@ export default {
         validateError: false,
         validateMessage: null,
         //Recovery define si el recovery se realizo con exito
-        recovery: false
+        recovery: false,
+        //dialog change  password
+        changePasswordDialog: false,
     },
     getters: {
         getUser: (state) => {
@@ -52,8 +54,15 @@ export default {
         getAuthLoading: (state) => {
             return state.authLoading
         },
+        getChangePasswordDialog: (state) => {
+            return state.changePasswordDialog
+        },
     },
     actions: {
+
+        setChangePasswordDialog({commit}, value) {
+            commit('SET_CHANGE_PASSWORD_DIALOG', value)
+        },
 
         auth({commit, dispatch}, {username, password}) {
             commit('SET_AUTH_LOADING', true)
@@ -87,10 +96,6 @@ export default {
             return AuthService.register(name, username, email, phone, password)
         },
 
-        recovery({commit}, {email}) {
-            return AuthService.recovery(email)
-        },
-
         validate({commit}, {id, token}) {
             commit('SET_AUTH_LOADING', true)
             return AuthService.validate(id, token).then((response) => {
@@ -106,6 +111,14 @@ export default {
                 commit('SET_VALIDATE_MESSAGE', error.response.data.message)
                 commit('SET_AUTH_LOADING', false)
             })
+        },
+
+        recovery({commit}, {email}) {
+            return AuthService.recovery(email)
+        },
+
+        passwordChange({commit,getters}, {password,password_verify}) {
+            return AuthService.passwordChange(password,password_verify,getters.getAccessToken)
         },
 
         imageChange({commit, getters}, img) {
@@ -190,6 +203,9 @@ export default {
         },
         ['SET_VALIDATE_MESSAGE'](state, message) {
             state.validateMessage = message;
+        },
+        ['SET_CHANGE_PASSWORD_DIALOG'](state, value) {
+            state.changePasswordDialog = value;
         },
     },
 }
