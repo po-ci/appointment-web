@@ -1,4 +1,4 @@
-import {AuthService} from './../../resource/index'
+import {AuthService} from '../../resource/index'
 
 export default {
     namespaced: false,

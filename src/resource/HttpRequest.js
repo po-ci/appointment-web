@@ -2,7 +2,7 @@ import axios from 'axios'
 
 
 let axiosInstance = axios.create({
-    baseURL: "/api/",
+    baseURL: process.env.VUE_APP_APIHOST + "/zfmr/api/",
     timeout: process.env.CONF_HTTP_TIMEOUT,
     headers: {
         accept: 'application/json'
@@ -24,49 +24,59 @@ axiosInstance.interceptors.response.use(function (response) {
 })
 
 class HttpRequest {
-    constructor (entity) {
+    constructor(entity) {
         this.entity = entity;
         this.axios = axios;
         this.axiosInstance = axiosInstance;
     }
 
-    setHeader (header) {
+    setHeader(header) {
         axiosInstance.defaults.headers.common[header.key] = header.value
         axiosInstance.defaults.headers.post['Content-Type'] = 'application/json'
     }
 
-    fetchAll () {
+    fetchAll() {
         return axiosInstance.get(this.entity)
     }
 
-    fetch (id) {
-        return axiosInstance.get(this.entity+"/"+id)
+    fetch(id) {
+        return axiosInstance.get(this.entity + "/" + id)
     }
 
-    fetchFilters (filters) {
-        return axiosInstance.get(this.entity+filters)
+    fetchFilters(filters) {
+        return axiosInstance.get(this.entity + filters)
     }
 
-    create (data) {
+    create(data) {
         return axiosInstance.post(this.entity, data)
     }
 
-    update (id, data) {
-        return axiosInstance.put(this.entity+"/"+id, data)
+    update(id, data) {
+        return axiosInstance.put(this.entity + "/" + id, data)
     }
 
-    delete (id) {
-        return axiosInstance.delete(this.entity+"/"+id)
+    delete(id) {
+        return axiosInstance.delete(this.entity + "/" + id)
     }
 
-    request (type, url, data) {
+    request(type, url, data) {
         let promise = null
         switch (type) {
-            case 'GET': promise = axios.get(url, { params: data }); break
-            case 'POST': promise = axios.post(url, data); break
-            case 'PUT': promise = axios.put(url, data); break
-            case 'DELETE': promise = axios.delete(url, data); break
-            default : promise = axios.get(url, { params: data }); break
+            case 'GET':
+                promise = axios.get(url, {params: data});
+                break
+            case 'POST':
+                promise = axios.post(url, data);
+                break
+            case 'PUT':
+                promise = axios.put(url, data);
+                break
+            case 'DELETE':
+                promise = axios.delete(url, data);
+                break
+            default :
+                promise = axios.get(url, {params: data});
+                break
         }
         return promise
     }

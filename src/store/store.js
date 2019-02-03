@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import auth from './modules/auth'
+import AuthStore from '../layout/modules/AuthStore'
+import CalendarStore from './modules/CalendarStore'
 
 Vue.use(Vuex)
 
@@ -9,6 +10,7 @@ export default new Vuex.Store({
     mutations: {},
     actions: {},
     modules: {
-        auth: auth
+        auth: AuthStore,
+        calendar: CalendarStore
     }
 })

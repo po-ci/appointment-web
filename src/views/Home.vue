@@ -6,7 +6,7 @@
 </template>
 
 <script>
-    import LayoutLogo from '../layout/LayoutLogo'
+    import LayoutLogo from '../layout/components/LayoutLogo'
 
     export default {
         name: 'Home',

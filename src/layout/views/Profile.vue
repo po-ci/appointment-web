@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import Profile from '../layout/Profile.vue'
+    import Profile from '../components/Profile.vue'
 
     export default {
         components: {

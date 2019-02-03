@@ -11,7 +11,7 @@
 </template>
 
 <script>
-    import Layout from './layout/Layout'
+    import Layout from './layout/components/Layout'
 
     export default {
         name: 'App',

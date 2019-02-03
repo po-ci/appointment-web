@@ -1,13 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import Shift from './views/Shift.vue'
-import Login from './views/Login.vue'
-import Register from './views/Register.vue'
-import Recovery from './views/Recovery.vue'
-import Validate from './views/Validate.vue'
-import Profile from './views/Profile.vue'
-
+import Login from './layout/views/Login.vue'
+import Register from './layout/views/Register.vue'
+import Recovery from './layout/views/Recovery.vue'
+import Validate from './layout/views/Validate.vue'
+import Profile from './layout/views/Profile.vue'
+import Turnos from './views/Turnos.vue'
 
 Vue.use(Router)
 
@@ -17,11 +16,6 @@ export default new Router({
             path: '/',
             name: 'home',
             component: Home
-        },
-        {
-            path: '/shift',
-            name: 'shift',
-            component: Shift
         },
         {
             path: '/login',
@@ -47,6 +41,11 @@ export default new Router({
             path: '/profile',
             name: 'profile',
             component: Profile
+        },
+        {
+            path: '/shift',
+            name: 'shift',
+            component: Turnos
         },
         {
             path: '/about',

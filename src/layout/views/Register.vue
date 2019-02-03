@@ -1,15 +1,15 @@
 <template>
     <div>
-       <validate></validate>
+       <register></register>
     </div>
 </template>
 
 <script>
-    import Validate from '../layout/Validate.vue'
+    import Register from '../components/Register.vue'
 
     export default {
         components: {
-            Validate
+            Register
         }
     }
 </script>

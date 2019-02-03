@@ -6,6 +6,8 @@
                 <v-card class="elevation-12">
 
                     <profile-image></profile-image>
+
+
                     <v-divider></v-divider>
 
                     <v-card-text>
@@ -51,7 +53,8 @@
 
                     </v-card-text>
 
-                    <v-card-text class="text-xs-center pt-0">
+
+                    <v-card-text class="text-xs-center pt-0 pb-3">
                         <v-btn @click="setChangePasswordDialog(true)">
                             <v-icon left>lock</v-icon>
                             Cambiar Contraseña</v-btn>

@@ -1,15 +1,15 @@
 <template>
     <div>
-       <recovery></recovery>
+        <login></login>
     </div>
 </template>
 
 <script>
-    import Recovery from '../layout/Recovery.vue'
+    import Login from '../components/Login'
 
     export default {
         components: {
-            Recovery
+            Login
         }
     }
 </script>
