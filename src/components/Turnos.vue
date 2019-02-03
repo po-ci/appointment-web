@@ -10,6 +10,20 @@
                     </v-toolbar>
 
                     <v-card-text>
+
+                        <v-layout>
+
+                            <v-flex class="col-md-4 col-xs-12">
+                                <turnos-date-picker></turnos-date-picker>
+                            </v-flex>
+
+                            <v-flex class="col-md-8 col-xs-12">
+                             YOUR TURN
+                            </v-flex>
+
+                        </v-layout>
+
+
                     </v-card-text>
 
                 </v-card>
@@ -24,9 +38,11 @@
 <script>
 
     import {mapActions} from 'vuex'
+    import TurnosDatePicker from './TurnosDatePicker'
 
     export default {
         name: "Turnos",
+        components: {TurnosDatePicker},
         mounted: function () {
             this.fetchCalendars()
         },
