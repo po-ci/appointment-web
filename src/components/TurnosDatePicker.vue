@@ -1,8 +1,9 @@
 <template>
     <v-date-picker
             v-model="datePick"
-            class="mt-3"
             locale="es-es"
+            full-width
+            color="secondary"
     ></v-date-picker>
 </template>
 

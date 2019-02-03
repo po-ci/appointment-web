@@ -4,21 +4,21 @@
         <v-layout align-center justify-center>
             <v-flex xs12 sm12 md12>
                 <v-card class="elevation-12">
-                    <v-toolbar dark color="grey">
-                        <v-toolbar-title>Turnos</v-toolbar-title>
-                        <v-spacer></v-spacer>
-                    </v-toolbar>
+                    <v-card-title class="pb-0">
+                        <h2>Turnos</h2>
+                    </v-card-title>
 
-                    <v-card-text>
+                    <v-card-text class="pt-1">
 
-                        <v-layout>
+                        <v-layout fluid row wrap>
 
-                            <v-flex class="col-md-4 col-xs-12">
+                            <v-flex xs12 md3 class="pa-1">
                                 <turnos-date-picker></turnos-date-picker>
                             </v-flex>
 
-                            <v-flex class="col-md-8 col-xs-12">
-                             YOUR TURN
+                            <v-flex xs12 md9 class="pa-1">
+
+                                <turnos-tab></turnos-tab>
                             </v-flex>
 
                         </v-layout>
@@ -37,14 +37,20 @@
 
 <script>
 
-    import {mapActions} from 'vuex'
+    import {mapActions, mapGetters} from 'vuex'
     import TurnosDatePicker from './TurnosDatePicker'
+    import TurnosTab from './TurnosTab'
 
     export default {
         name: "Turnos",
-        components: {TurnosDatePicker},
+        components: {TurnosTab, TurnosDatePicker},
         mounted: function () {
             this.fetchCalendars()
+        },
+        computed: {
+            ...mapGetters([
+                'getDateFormated'
+            ]),
         },
         methods: {
             ...mapActions([

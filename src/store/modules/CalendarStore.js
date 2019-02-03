@@ -28,6 +28,12 @@ export default {
         getDateFormated: (state) => {
             return state.date.format("YYYY-MM-DD")
         },
+        getCalendars: (state) => {
+            return state.calendars
+        },
+        getEvents: (state) => {
+            return state.events
+        },
     },
     actions: {
 
