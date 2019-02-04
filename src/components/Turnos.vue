@@ -1,7 +1,7 @@
 <template>
 
     <v-container fluid fill-height class="grey lighten-3">
-        <v-layout align-center justify-center>
+        <v-layout justify-center>
             <v-flex xs12 sm12 md12>
                 <v-card class="elevation-12">
                     <v-card-title class="pb-0">
