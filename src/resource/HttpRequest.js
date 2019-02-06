@@ -2,7 +2,7 @@ import axios from 'axios'
 
 
 let axiosInstance = axios.create({
-    baseURL: process.env.VUE_APP_APIHOST + "/zfmr/api/",
+    baseURL: process.env.VUE_APP_APIHOST + "/api/",
     timeout: process.env.CONF_HTTP_TIMEOUT,
     headers: {
         accept: 'application/json'
