@@ -10,20 +10,25 @@ import {
   SET_CALENDAR_SELECTED,
   SET_EVENTS,
   SET_CALENDAR_GENERAL_ERRORS,
-  SET_AVAILABLE_SHIFTS
+  SET_AVAILABLE_SHIFTS,
+  SET_CALENDAR_LOADING
 } from './calendar-mutation-types'
 
 export default {
   namespaced: false,
   state: {
-    date: moment().tz('America/Argentina/Buenos_Aires').locale('es'),
+    date: null,
     calendarSelected: null,
     calendars: [],
     calendarGeneralErrors: [],
     events: [],
-    availableShifts: []
+    availableShifts: [],
+    calendarLoading: false,
   },
   getters: {
+    getCalendarLoading: (state) => {
+      return state.calendarLoading
+    },
     getDate: (state) => {
       return state.date
     },
@@ -31,7 +36,10 @@ export default {
       return state.calendarSelected
     },
     getDateFormated: (state) => {
-      return state.date.format("YYYY-MM-DD")
+      if(state.date) {
+        return state.date.format("YYYY-MM-DD")
+      }
+      return null
     },
     getCalendars: (state) => {
       return state.calendars
@@ -48,17 +56,21 @@ export default {
     },
   },
   actions: {
-
+    setCalendarLoading({commit, getters}, value) {
+      commit(SET_CALENDAR_LOADING, value);
+    },
 
     setCalendarSelected({commit, getters}, calendar) {
       commit(SET_CALENDAR_SELECTED, calendar);
     },
 
     fetchAvailableShifts({commit, getters}) {
+      commit(SET_CALENDAR_LOADING, true);
       if (getters.getDate && getters.getCalendarSelected) {
         commit(SET_AVAILABLE_SHIFTS, [])
         CalendarService.availableShifts(getters.getCalendarSelected.id, getters.getDateFormated).then((response) => {
           commit(SET_AVAILABLE_SHIFTS, response.data)
+          commit(SET_CALENDAR_LOADING, false);
         })
       }
     },
@@ -99,6 +111,9 @@ export default {
     },
   },
   mutations: {
+    [SET_CALENDAR_LOADING](state, value) {
+      state.calendarLoading = value;
+    },
     [SET_DATE](state, value) {
       state.date = moment(value).tz('America/Argentina/Buenos_Aires').locale('es');
     },

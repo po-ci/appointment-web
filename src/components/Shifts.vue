@@ -23,10 +23,33 @@
                   Por favor, seleccionar Agenda y Fecha.
                 </div>
 
-                <div v-else>
+                <div v-else-if="getCalendarLoading" class="text-xs-center mt-5">
+                  <v-progress-circular
+                    :size="100"
+                    :width="6"
+                    color="primary"
+                    indeterminate
+                  ></v-progress-circular>
+                </div>
+
+                <div v-else-if="getAvailableShifts.length > 0">
                   <shifts-available v-for="s in getAvailableShifts"
                                     :hour="s.hour"
+                                    :calendar="getCalendarSelected"
                   ></shifts-available>
+                </div>
+
+
+
+                <div v-else>
+                  <v-alert
+                    :value="true"
+                    color="warning"
+                    icon="priority_high"
+                    outline
+                  >
+                    No hay turnos para la agenda y fecha seleccionada. Intenta otra fecha por favor.
+                  </v-alert>
                 </div>
 
               </v-flex>
@@ -61,7 +84,10 @@
     watch: {
       getDate: function () {
         this.fetchAvailableShifts()
-      }
+      },
+      getCalendarSelected: function () {
+        this.fetchAvailableShifts()
+      },
     },
     computed: {
       isSelected() {
@@ -72,7 +98,8 @@
         'getDateFormated',
         'getDate',
         'getCalendarSelected',
-        'getAvailableShifts'
+        'getAvailableShifts',
+        'getCalendarLoading'
       ]),
     },
     methods: {

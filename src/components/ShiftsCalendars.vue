@@ -29,12 +29,7 @@
     methods: {
 
       onChange: function (value) {
-        console.log(value)
-        let object = this.findCalendarById(value)
-        console.log(object)
-        this.setCalendarSelected(object)
-
-
+        this.setCalendarSelected(this.findCalendarById(value))
       },
 
       ...mapActions([

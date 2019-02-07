@@ -11,6 +11,9 @@
 
 <script>
     import moment from 'moment'
+    import tz from 'moment-timezone'
+    import 'moment/locale/es';
+
     import {mapGetters} from 'vuex'
 
     export default {
@@ -19,7 +22,7 @@
         methods: {
 
             allowedDates: function (val) {
-                let start = moment()
+                let start = moment().tz('America/Argentina/Buenos_Aires').locale('es').startOf('day')
                 let end = start.clone()
                 end.add(this.getMaxDays, 'days')
 
