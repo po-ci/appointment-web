@@ -1,7 +1,6 @@
 <template>
     <div>
       <layout-logo></layout-logo>
-        HOME
     </div>
 </template>
 
