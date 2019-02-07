@@ -9,12 +9,12 @@
 
     <v-card>
 
-      <v-card-title
+      <v-card-title class="pb-0"
       >
         <span class="headline">Confirmación de Turno</span>
       </v-card-title>
 
-      <v-card-text v-if="dialog">
+      <v-card-text v-if="dialog" class="pt-0">
 
         <v-list two-line>
 
@@ -61,14 +61,14 @@
 
 
         <v-btn
-          color="orange darken-1"
+          color="grey darken-1"
           flat="flat"
           @click="$emit('closeDialog')"
         >
           Cancelar
         </v-btn>
 
-        <v-btn :loading="getCalendarLoading" color="success" dark @click="confirmShift">Confirmar Turno</v-btn>
+        <v-btn :loading="getCalendarLoading" color="primary" dark @click="confirmShift">Confirmar Turno</v-btn>
 
       </v-card-actions>
     </v-card>

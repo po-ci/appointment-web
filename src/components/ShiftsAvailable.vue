@@ -19,7 +19,7 @@
         </v-flex>
 
         <v-flex md3 xs12 class="text-xs-center">
-          <v-btn color="success" v-on:click="$emit('bookShift',{date: date, day: day, hour: hour,calendar: calendar})">
+          <v-btn color="info" v-on:click="$emit('bookShift',{date: date, day: day, hour: hour,calendar: calendar})">
             Reservar
           </v-btn>
 
