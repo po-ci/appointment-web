@@ -41,6 +41,14 @@ export default {
       }
       return null
     },
+
+    getDateDay: (state) => {
+      if(state.date) {
+        return state.date.format("dddd")
+      }
+      return null
+    },
+
     getCalendars: (state) => {
       return state.calendars
     },

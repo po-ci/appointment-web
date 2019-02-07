@@ -34,8 +34,11 @@
 
                 <div v-else-if="getAvailableShifts.length > 0">
                   <shifts-available v-for="s in getAvailableShifts"
+                                    :date="getDateFormated"
+                                    :day="getDateDay"
                                     :hour="s.hour"
                                     :calendar="getCalendarSelected"
+                                    v-on:bookShift="bookShift"
                   ></shifts-available>
                 </div>
 
@@ -62,6 +65,9 @@
         </v-card>
 
       </v-flex>
+
+      <shifts-confirm :dialog="dialog" :shift="shift" v-on:closeDialog="dialog = false"></shifts-confirm>
+
     </v-layout>
 
   </v-container>
@@ -74,28 +80,39 @@
   import ShiftsDatePicker from './ShiftsDatePicker'
   import ShiftsCalendars from './ShiftsCalendars'
   import ShiftsAvailable from './ShiftsAvailable'
+  import ShiftsConfirm from './ShiftsConfirm'
 
   export default {
     name: "Turnos",
-    components: {ShiftsCalendars, ShiftsDatePicker,ShiftsAvailable},
+    components: {ShiftsCalendars, ShiftsDatePicker,ShiftsAvailable,ShiftsConfirm},
+    data: () => ({
+        dialog: false,
+        shift: null
+      }
+    ),
     mounted: function () {
       this.fetchCalendars()
     },
     watch: {
+
       getDate: function () {
         this.fetchAvailableShifts()
       },
+
       getCalendarSelected: function () {
         this.fetchAvailableShifts()
       },
+
     },
     computed: {
+
       isSelected() {
         return (this.getDate && this.getCalendarSelected) ? false : true
       },
 
       ...mapGetters([
         'getDateFormated',
+        'getDateDay',
         'getDate',
         'getCalendarSelected',
         'getAvailableShifts',
@@ -103,6 +120,12 @@
       ]),
     },
     methods: {
+
+      bookShift: function(shiftData){
+        this.dialog = true
+        this.shift = shiftData
+      },
+
       ...mapActions([
         'fetchCalendars',
         'fetchAvailableShifts'
