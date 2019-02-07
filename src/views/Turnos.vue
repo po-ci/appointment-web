@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import Turnos from '../components/Turnos'
+    import Turnos from '../components/Shifts'
 
     export default {
         name: 'Home',

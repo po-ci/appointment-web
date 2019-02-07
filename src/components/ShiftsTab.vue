@@ -12,6 +12,7 @@
                 v-for="calendar in getCalendars"
                 :href="'#tab-' + calendar.id"
                 :key="'#tab-' + calendar.id"
+                @click="setCalendarSelected(calendar)"
         >
             {{ calendar.name }}
         </v-tab>
@@ -24,6 +25,13 @@
             >
                 <v-card flat>
                     <v-card-text>{{ calendar.description }}</v-card-text>
+
+                    <shifts-available v-for="s in getAvailableShifts"
+                    :hour="s.hour"
+                    >
+
+                    </shifts-available>
+
                 </v-card>
             </v-tab-item>
         </v-tabs-items>
@@ -32,17 +40,21 @@
 
 <script>
     import {mapActions, mapGetters} from 'vuex'
+    import ShiftsAvailable from './ShiftsAvailable'
 
     export default {
         name: "TurnosTab",
+        components: {ShiftsAvailable},
         computed: {
             ...mapGetters([
                 'getCalendars',
-
+                'getAvailableShifts'
             ]),
         },
         methods: {
-            ...mapActions([])
+            ...mapActions([
+                'setCalendarSelected'
+            ])
         }
     }
 </script>
