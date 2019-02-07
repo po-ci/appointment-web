@@ -1,7 +1,6 @@
 <template>
 
-        <v-layout fluid row justify-center class="pt-3">
-            <v-flex xs4 sm4 lg2 align-center justify-center>
+
                 <v-avatar
                         :tile="tile"
                         :size="avatarSize"
@@ -9,8 +8,6 @@
                 >
                     <img :src="src">
                 </v-avatar>
-            </v-flex>
-        </v-layout>
 
 </template>
 
@@ -19,7 +16,7 @@
         name: "LayoutLogo",
         data: () => ({
             src: '/assets/sonriu.jpg',
-            avatarSize: 100,
+            avatarSize: 200,
             tile: false
         })
     }
