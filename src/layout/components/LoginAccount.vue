@@ -1,12 +1,12 @@
 <template>
 
     <avatar-toolbar v-if="isLogin"></avatar-toolbar>
-    <v-btn v-else color="grey"
+    <v-btn v-else
+           flat
            dark
            to="/login"
     >
         Iniciar Sesión
-        <v-icon right dark>forward</v-icon>
     </v-btn>
 
 </template>

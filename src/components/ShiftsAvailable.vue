@@ -1,8 +1,8 @@
 <template>
   <v-card class="ma-1">
-    <v-card-text>
+    <v-card-text class="pt-1 pb-1">
       <v-layout row wrap>
-        <v-flex md3 xs12>
+        <v-flex  xs9>
           <v-btn flat color="primary">
             <v-icon dark left>alarm</v-icon>
             {{hour}}
@@ -10,17 +10,9 @@
 
         </v-flex>
 
-        <v-flex md6 xs12>
-          <v-btn flat color="primary">
-            <v-icon dark left>assignment_ind</v-icon>
-            {{calendar.name}}
-          </v-btn>
-
-        </v-flex>
-
-        <v-flex md3 xs12 class="text-xs-center">
-          <v-btn color="info" v-on:click="$emit('bookShift',{date: date, day: day, hour: hour,calendar: calendar})">
-            Reservar
+        <v-flex xs3 class="text-xs-center">
+          <v-btn color="secondary" v-on:click="$emit('bookShift',{date: date, day: day, hour: hour,calendar: calendar})">
+            <v-icon>insert_invitation</v-icon>
           </v-btn>
 
         </v-flex>

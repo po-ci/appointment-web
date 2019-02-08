@@ -17,8 +17,8 @@
         <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
                 <v-card class="elevation-12">
-                    <v-toolbar dark color="grey">
-                        <v-toolbar-title>Login</v-toolbar-title>
+                    <v-toolbar dark color="secondary">
+                        <v-toolbar-title>Inicio de Sesión</v-toolbar-title>
                         <v-spacer></v-spacer>
 
 

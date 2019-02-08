@@ -40,7 +40,7 @@
         <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
                 <v-card class="elevation-12">
-                    <v-toolbar dark color="grey">
+                    <v-toolbar dark color="secondary">
                         <v-toolbar-title>Crear Cuenta</v-toolbar-title>
                         <v-spacer></v-spacer>
 
@@ -138,7 +138,7 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn :loading="getAuthLoading" color="grey" dark @click="submit">Crear Cuenta</v-btn>
+                        <v-btn :loading="getAuthLoading" color="primary" flat dark @click="submit">Crear Cuenta</v-btn>
                     </v-card-actions>
                 </v-card>
 

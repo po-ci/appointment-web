@@ -19,8 +19,17 @@
 
               <v-flex xs12 md9 class="pa-1">
 
-                <div v-if="isSelected">
-                  Por favor, seleccionar Agenda y Fecha.
+                <div v-if="isSelected" class="text-xs-center">
+                    <v-alert
+                            class="ma-5"
+                            :value="true"
+                            color="info"
+                            icon="priority_high"
+                            outline
+                    >
+                        Seleccionar Agenda y Fecha.
+                    </v-alert>
+
                 </div>
 
                 <div v-else-if="getCalendarLoading" class="text-xs-center mt-5">
@@ -33,6 +42,14 @@
                 </div>
 
                 <div v-else-if="getAvailableShifts.length > 0">
+
+                   <v-layout row wrap class="mb-4">
+                       <v-flex class="text-xs-center">
+                           <h4 class="grey--text text--darken-2">Agenda: {{getCalendarSelected.name}}</h4>
+                           <h5 class="grey--text text--darken-1">Fecha: {{getDateFormated}}</h5>
+                       </v-flex>
+                   </v-layout>
+
                   <shifts-available v-for="s in getAvailableShifts"
                                     :date="getDateFormated"
                                     :day="getDateDay"
