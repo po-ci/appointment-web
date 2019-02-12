@@ -13,22 +13,22 @@
             <v-layout fluid row wrap>
 
               <v-flex xs12 md3 class="pa-1">
-                <shifts-calendars></shifts-calendars>
-                <shifts-date-picker></shifts-date-picker>
+                <appointments-calendars></appointments-calendars>
+                <appointments-date-picker></appointments-date-picker>
               </v-flex>
 
               <v-flex xs12 md9 class="pa-1">
 
                 <div v-if="isSelected" class="text-xs-center">
-                    <v-alert
-                            class="ma-5"
-                            :value="true"
-                            color="info"
-                            icon="priority_high"
-                            outline
-                    >
-                        Seleccionar Agenda y Fecha.
-                    </v-alert>
+                  <v-alert
+                    class="ma-5"
+                    :value="true"
+                    color="info"
+                    icon="priority_high"
+                    outline
+                  >
+                    Seleccionar Agenda y Fecha.
+                  </v-alert>
 
                 </div>
 
@@ -43,22 +43,23 @@
 
                 <div v-else-if="getAvailableShifts.length > 0">
 
-                   <v-layout row wrap class="mb-4">
-                       <v-flex class="text-xs-center">
-                           <h4 class="grey--text text--darken-2">Agenda: {{getCalendarSelected.name}}</h4>
-                           <h5 class="grey--text text--darken-1">Fecha: {{getDateFormated}}</h5>
-                       </v-flex>
-                   </v-layout>
+                  <v-layout row wrap class="mb-4">
+                    <v-flex class="text-xs-center">
+                      <h4 class="grey--text text--darken-2">Agenda: {{getCalendarSelected.name}}</h4>
+                      <h5 class="grey--text text--darken-1">Fecha: {{getDateFormated}}</h5>
+                    </v-flex>
+                  </v-layout>
 
-                  <shifts-available v-for="s in getAvailableShifts"
-                                    :date="getDateFormated"
-                                    :day="getDateDay"
-                                    :hour="s.hour"
-                                    :calendar="getCalendarSelected"
-                                    v-on:bookShift="bookShift"
-                  ></shifts-available>
+                  <appointments-available v-for="s in getAvailableShifts"
+                                          :date="getDateFormated"
+                                          :day="getDateDay"
+                                          :start="s.start"
+                                          :hour="s.hour"
+                                          :duration="s.duration"
+                                          :calendar="getCalendarSelected"
+                                          v-on:bookShift="bookShift"
+                  ></appointments-available>
                 </div>
-
 
 
                 <div v-else>
@@ -83,7 +84,7 @@
 
       </v-flex>
 
-      <shifts-confirm :dialog="dialog" :shift="shift" v-on:closeDialog="dialog = false"></shifts-confirm>
+      <appointments-confirm :dialog="dialog" :shift="shift" v-on:closeDialog="dialog = false"></appointments-confirm>
 
     </v-layout>
 
@@ -94,14 +95,14 @@
 <script>
 
   import {mapActions, mapGetters} from 'vuex'
-  import ShiftsDatePicker from './ShiftsDatePicker'
-  import ShiftsCalendars from './ShiftsCalendars'
-  import ShiftsAvailable from './ShiftsAvailable'
-  import ShiftsConfirm from './ShiftsConfirm'
+  import AppointmentsDatePicker from './AppointmentsDatePicker'
+  import AppointmentsCalendars from './AppointmentsCalendars'
+  import AppointmentsAvailable from './AppointmentsAvailable'
+  import AppointmentsConfirm from './AppointmentsConfirm'
 
   export default {
     name: "Turnos",
-    components: {ShiftsCalendars, ShiftsDatePicker,ShiftsAvailable,ShiftsConfirm},
+    components: {AppointmentsCalendars, AppointmentsDatePicker, AppointmentsAvailable, AppointmentsConfirm},
     data: () => ({
         dialog: false,
         shift: null
@@ -113,11 +114,11 @@
     watch: {
 
       getDate: function () {
-        this.fetchAvailableShifts()
+        this.fetchAvailableAppointments()
       },
 
       getCalendarSelected: function () {
-        this.fetchAvailableShifts()
+        this.fetchAvailableAppointments()
       },
 
     },
@@ -138,14 +139,14 @@
     },
     methods: {
 
-      bookShift: function(shiftData){
+      bookShift: function (shiftData) {
         this.dialog = true
         this.shift = shiftData
       },
 
       ...mapActions([
         'fetchCalendars',
-        'fetchAvailableShifts'
+        'fetchAvailableAppointments'
       ])
     }
   }

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import Turnos from '../components/Shifts'
+    import Turnos from '../components/Appointments'
 
     export default {
         name: 'Home',

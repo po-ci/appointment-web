@@ -17,7 +17,7 @@
     import {mapGetters} from 'vuex'
 
     export default {
-        name: "TurnosDatePicker",
+        name: "AppointmentsDatePicker",
         data: () => ({}),
         methods: {
 

@@ -1,5 +1,6 @@
 <template>
   <v-select
+    v-if="getCalendars.length > 0"
     v-model="select"
     :items="getCalendars"
     item-text="name"
@@ -7,6 +8,10 @@
     label="Agenda"
     v-on:change="onChange"
   ></v-select>
+
+  <v-progress-linear v-else indeterminate>
+
+  </v-progress-linear>
 </template>
 
 <script>
@@ -15,7 +20,7 @@
 
 
   export default {
-    name: "ShiftsCalendars",
+    name: "AppointmentsCalendars",
     data: () => ({
       select: null
     }),

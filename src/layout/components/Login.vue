@@ -29,6 +29,7 @@
                                 :value="getLoginError"
                                 type="error"
                                 outline
+
                                 class="mb-3"
                         >
                             {{getLoginMessage}}
@@ -36,6 +37,8 @@
 
 
                         <v-form>
+
+
                             <v-text-field prepend-icon="person"
                                           name="username"
                                           label="Usuario"

@@ -5,8 +5,6 @@
     persistent
   >
 
-
-
     <v-card>
 
       <v-card-title class="pb-0"
@@ -84,7 +82,7 @@
   import {mapGetters, mapActions} from 'vuex'
 
   export default {
-    name: "ShiftsConfirm",
+    name: "AppointmentsConfirm",
     props: {
       dialog: {type: Boolean, default: false},
       shift: {type: Object}
@@ -95,15 +93,20 @@
       ...mapGetters([
         'getCalendarLoading'
       ]),
-    }
-    ,
+    },
     methods: {
 
       confirmShift: function () {
-
+        this.takeAppointment({
+          calendar: this.shift.calendar.id,
+          start: this.shift.start,
+          duration: this.shift.duration
+        });
       },
 
-      ...mapActions([]),
+      ...mapActions([
+        'takeAppointment'
+      ]),
 
     }
   }
