@@ -1,8 +1,11 @@
 <template>
     <v-app>
         <layout>
+          <template slot="toolbar">
+            <appointments-toolbar></appointments-toolbar>
+          </template>
 
-                <router-view/>
+          <router-view/>
 
 
         </layout>
@@ -12,10 +15,10 @@
 
 <script>
     import Layout from './layout/components/Layout'
-
+    import AppointmentsToolbar from './components/AppointmentsToolbar'
     export default {
         name: 'App',
-        components: {Layout},
+        components: {Layout,AppointmentsToolbar},
         data() {
             return {
                 //

@@ -16,7 +16,7 @@
     import AvatarToolbar from './AvatarToolbar'
 
     export default {
-        name: "LoginAccount",
+        name: "LoginToolbar",
         components: {AvatarToolbar},
         computed: {
             ...mapGetters([
