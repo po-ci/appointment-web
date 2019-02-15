@@ -9,10 +9,10 @@ let axiosInstance = axios.create({
   }
 })
 
-const access_token = localStorage.getItem('access_token')
+/*const access_token = localStorage.getItem('access_token')
 if (access_token) {
   axiosInstance.defaults.headers.common['authorization'] = 'Bearer '+ access_token
-}
+}*/
 
 
 export let ai = axiosInstance;

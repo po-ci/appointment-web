@@ -96,7 +96,11 @@ export default {
         AppointmentService.availables(getters.getCalendarSelected.id, getters.getDateFormated).then((response) => {
           commit(SET_AVAILABLE_SHIFTS, response.data)
           commit(SET_CALENDAR_LOADING, false);
-        })
+        }).catch(
+          (error) => {
+            //@TODO Show errors
+          }
+        )
       }
     },
 
@@ -106,16 +110,12 @@ export default {
       AppointmentService.myAppointments().then((response) => {
         commit(SET_APPOINTMENTS, response.data)
         commit(SET_CALENDAR_LOADING, false);
-      }).error(
+      }).catch(
         (error) => {
           //@TODO Show errors
         }
       )
 
-    },
-
-    clearLastAppointment: ({commit}) => {
-      commit(SET_LAST_APPOINTMENT, null)
     },
 
     takeAppointment({commit, getters}, {calendar, start, duration}) {
@@ -131,6 +131,10 @@ export default {
         commit(SET_CALENDAR_LOADING, false);
       })
 
+    },
+
+    clearLastAppointment: ({commit}) => {
+      commit(SET_LAST_APPOINTMENT, null)
     },
 
     setCalendarLoading({commit, getters}, value) {
@@ -152,29 +156,6 @@ export default {
           }
         }
       );
-    },
-
-    findEventsByCalendarAndDate({state, commit,}) {
-
-      if (state.calendarSelected && state.date) {
-        let dateFrom = state.date.clone();
-        let dateTo = state.date.clone();
-        dateTo.add(1, 'days');
-
-        EventService.findEventsByCalendarAndDate(state.calendarSelected.id, dateFrom.format("YYYY-MM-DD"), dateTo.format("YYYY-MM-DD")).then((response) => {
-
-          commit(SET_EVENTS, response.data);
-
-        }).catch(
-          (error) => {
-            if (error.response && error.response.data && response.data.errors) {
-              commit(SET_CALENDAR_GENERAL_ERRORS, response.data.errors);
-            }
-          }
-        );
-      }
-
-
     },
   },
   mutations: {

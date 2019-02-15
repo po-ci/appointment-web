@@ -40,36 +40,16 @@
 
   export default {
     components: {LayoutMenuList, LayoutToolbarLogo, LoginToolbar},
+    props: {
+      nav: {type: Array, default: null}
+    },
     data: () => ({
         drawer: false,
         clipped: true,
         miniVariant: false,
         fixed: true,
         title: 'Son.Riu',
-        nav: [
-          {
-            icon: 'home',
-            text: 'Principal',
-            link: {name: "home"}
-
-          },
-          {
-            icon: 'event',
-            text: 'Turnos',
-            link: {name: "shift"}
-
-          },
-          {
-            icon: 'contact_mail',
-            text: 'Acerca de Nosotros',
-            link: {name: "about"}
-          },
-        ]
-
       }
-    ),
-    props: {
-      source: String
-    }
+    )
   }
 </script>

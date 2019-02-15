@@ -56,7 +56,7 @@
     components: {ProfileImage},
     data: () => ({
       src: '/assets/user.jpg',
-      avatarSize: 30,
+      avatarSize: 45,
       tile: false
     }),
     methods: {
