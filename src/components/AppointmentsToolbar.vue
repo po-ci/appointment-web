@@ -1,7 +1,7 @@
 <template>
   <v-toolbar-items>
 
-    <v-btn flat to="myAppointments">
+    <v-btn flat to="my-appointments">
       <v-badge left color="red" :value="getQtyAppointments">
         <span slot="badge">{{getQtyAppointments}}</span>
         <v-icon large>event_note</v-icon>

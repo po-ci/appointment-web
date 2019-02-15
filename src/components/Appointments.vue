@@ -91,7 +91,7 @@
 
       </v-flex>
 
-      <appointments-confirm :dialog="dialog" :shift="shift" v-on:closeDialog="dialog = false"></appointments-confirm>
+      <appointments-confirm :dialog="dialog" :appointment="appointment" v-on:closeDialog="dialog = false"></appointments-confirm>
 
     </v-layout>
 
@@ -112,7 +112,7 @@
     components: {AppointmentsCalendars, AppointmentsDatePicker, AppointmentsAvailable, AppointmentsConfirm},
     data: () => ({
         dialog: false,
-        shift: null
+        appointment: null
       }
     ),
     mounted: function () {
@@ -147,11 +147,11 @@
     },
     methods: {
 
-      bookAppointment: function (shiftData) {
+      bookAppointment: function (appointmentData) {
 
         this.clearLastAppointment()
         this.dialog = true
-        this.shift = shiftData
+        this.appointment = appointmentData
       },
 
       ...mapActions([
