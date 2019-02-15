@@ -17,11 +17,11 @@
                 <appointments-date-picker></appointments-date-picker>
               </v-flex>
 
-              <v-flex xs12 md9 class="pa-1">
+              <v-flex xs12 md7 offset-md1 class="pa-1">
 
                 <div v-if="isSelected" class="text-xs-center">
                   <v-alert
-                    class="ma-5"
+                    class="ma-5 headline"
                     :value="true"
                     color="info"
                     icon="priority_high"
@@ -33,7 +33,9 @@
                 </div>
 
                 <div v-else-if="getCalendarLoading" class="text-xs-center mt-5">
+                  <span class="primary--text headline">Buscando turnos disponibles</span><br>
                   <v-progress-circular
+                    class="mt-3"
                     :size="100"
                     :width="6"
                     color="primary"
@@ -45,8 +47,12 @@
 
                   <v-layout row wrap class="mb-4">
                     <v-flex class="text-xs-center">
-                      <h4 class="grey--text text--darken-2">Agenda: {{getCalendarSelected.name}}</h4>
-                      <h5 class="grey--text text--darken-1">Fecha: {{getDateFormated}}</h5>
+
+                      <h5 class="grey--text text--darken-1 title text-uppercase">
+                        <v-icon>calendar_today</v-icon>
+                        {{getCalendarSelected.name}}: {{getFriendlyDateFormated}}
+                      </h5>
+
                     </v-flex>
                   </v-layout>
 
@@ -57,19 +63,20 @@
                                           :hour="s.hour"
                                           :duration="s.duration"
                                           :calendar="getCalendarSelected"
-                                          v-on:bookShift="bookShift"
+                                          v-on:bookAppointment="bookAppointment"
                   ></appointments-available>
                 </div>
 
 
                 <div v-else>
                   <v-alert
+                    class=" headline text-xs-center"
                     :value="true"
                     color="warning"
                     icon="priority_high"
                     outline
                   >
-                    No hay turnos para la agenda y fecha seleccionada. Intenta otra fecha por favor.
+                    No hay turnos disponibles para la fecha seleccionada. <br>Intenta otra fecha por favor.
                   </v-alert>
                 </div>
 
@@ -134,19 +141,23 @@
         'getDate',
         'getCalendarSelected',
         'getAvailableShifts',
-        'getCalendarLoading'
+        'getCalendarLoading',
+        'getFriendlyDateFormated'
       ]),
     },
     methods: {
 
-      bookShift: function (shiftData) {
+      bookAppointment: function (shiftData) {
+
+        this.clearLastAppointment()
         this.dialog = true
         this.shift = shiftData
       },
 
       ...mapActions([
         'fetchCalendars',
-        'fetchAvailableAppointments'
+        'fetchAvailableAppointments',
+        'clearLastAppointment'
       ])
     }
   }

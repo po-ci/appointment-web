@@ -2,18 +2,16 @@
     <v-app id="inspire">
         <v-navigation-drawer
                 v-model="drawer"
-                enable-resize-watcher
-                persistent
+                disable-route-watcher
                 :fixed="fixed"
                 app
                 :mini-variant="miniVariant"
                 :clipped="clipped"
-                hide-overlay
         >
 
 
 
-            <layout-menu-list :nav="nav"></layout-menu-list>
+            <layout-menu-list :nav="nav" v-on:closeDrawer="drawer = false"></layout-menu-list>
 
 
         </v-navigation-drawer>

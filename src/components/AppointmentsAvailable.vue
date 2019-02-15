@@ -2,7 +2,7 @@
   <v-card class="ma-1">
     <v-card-text class="pt-1 pb-1">
       <v-layout row wrap>
-        <v-flex xs9>
+        <v-flex xs6>
           <v-btn flat color="primary">
             <v-icon dark left>alarm</v-icon>
             {{hour}}
@@ -10,9 +10,9 @@
 
         </v-flex>
 
-        <v-flex xs3 class="text-xs-center">
+        <v-flex xs6 class="text-xs-center">
           <v-btn color="secondary"
-                 v-on:click="$emit('bookShift',{date: date, day: day, start: start, duration: duration, hour: hour,calendar: calendar})">
+                 v-on:click="$emit('bookAppointment',{date: date, day: day, start: start, duration: duration, hour: hour,calendar: calendar})">
             <v-icon left>insert_invitation</v-icon>
             Confirmar
           </v-btn>

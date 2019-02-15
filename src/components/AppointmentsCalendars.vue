@@ -9,9 +9,12 @@
     v-on:change="onChange"
   ></v-select>
 
-  <v-progress-linear v-else indeterminate>
+  <v-flex v-else>
+    <span class="primary--text">Cargando Agendas</span>
+    <v-progress-linear  indeterminate> </v-progress-linear>
+  </v-flex>
 
-  </v-progress-linear>
+
 </template>
 
 <script>

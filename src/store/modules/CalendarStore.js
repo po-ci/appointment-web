@@ -11,7 +11,7 @@ import {
   SET_EVENTS,
   SET_CALENDAR_GENERAL_ERRORS,
   SET_AVAILABLE_SHIFTS,
-  SET_CALENDAR_LOADING, ADD_APPOINTMENT, SET_APPOINTMENTS
+  SET_CALENDAR_LOADING, ADD_APPOINTMENT, SET_APPOINTMENTS, SET_LAST_APPOINTMENT
 } from './calendar-mutation-types'
 
 export default {
@@ -24,9 +24,15 @@ export default {
     events: [],
     availableShifts: [],
     calendarLoading: false,
-    appointments: []
+    appointments: [],
+    lastAppointment: null,
   },
   getters: {
+
+    getLastAppointment: (state) => {
+      return state.lastAppointment
+    },
+
     getAppointments: (state) => {
       return state.appointments
     },
@@ -44,6 +50,14 @@ export default {
     getCalendarSelected: (state) => {
       return state.calendarSelected
     },
+
+    getFriendlyDateFormated: (state) => {
+      if (state.date) {
+        return state.date.format("dddd Do MMMM  YYYY")
+      }
+      return null
+    },
+
     getDateFormated: (state) => {
       if (state.date) {
         return state.date.format("YYYY-MM-DD")
@@ -74,12 +88,41 @@ export default {
   },
   actions: {
 
+
+    fetchAvailableAppointments({commit, getters}) {
+      commit(SET_CALENDAR_LOADING, true);
+      if (getters.getDate && getters.getCalendarSelected) {
+        commit(SET_AVAILABLE_SHIFTS, [])
+        AppointmentService.availables(getters.getCalendarSelected.id, getters.getDateFormated).then((response) => {
+          commit(SET_AVAILABLE_SHIFTS, response.data)
+          commit(SET_CALENDAR_LOADING, false);
+        })
+      }
+    },
+
+
+    fetchMyAppointments({commit, getters}) {
+      commit(SET_CALENDAR_LOADING, true);
+      AppointmentService.myAppointments().then((response) => {
+        commit(SET_APPOINTMENTS, response.data)
+        commit(SET_CALENDAR_LOADING, false);
+      }).error(
+        (error) => {
+          //@TODO Show errors
+        }
+      )
+
+    },
+
+    clearLastAppointment: ({commit}) => {
+      commit(SET_LAST_APPOINTMENT, null)
+    },
+
     takeAppointment({commit, getters}, {calendar, start, duration}) {
       commit(SET_CALENDAR_LOADING, true);
 
-      console.log(start)
-
       AppointmentService.take(calendar, start, duration).then((response) => {
+        commit(SET_LAST_APPOINTMENT, response.data)
         if (response.data.status) {
           commit(ADD_APPOINTMENT, response.data.item);
         }
@@ -98,16 +141,6 @@ export default {
       commit(SET_CALENDAR_SELECTED, calendar);
     },
 
-    fetchAvailableAppointments({commit, getters}) {
-      commit(SET_CALENDAR_LOADING, true);
-      if (getters.getDate && getters.getCalendarSelected) {
-        commit(SET_AVAILABLE_SHIFTS, [])
-        AppointmentService.availables(getters.getCalendarSelected.id, getters.getDateFormated).then((response) => {
-          commit(SET_AVAILABLE_SHIFTS, response.data)
-          commit(SET_CALENDAR_LOADING, false);
-        })
-      }
-    },
 
     fetchCalendars({state, commit, dispatch}) {
       CalendarService.findAll().then((response) => {
@@ -171,6 +204,9 @@ export default {
     },
     [SET_APPOINTMENTS](state, appointments) {
       state.appointments = appointments;
+    },
+    [SET_LAST_APPOINTMENT](state, appointment) {
+      state.lastAppointment = appointment;
     },
   },
 }

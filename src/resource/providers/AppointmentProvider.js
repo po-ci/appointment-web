@@ -6,6 +6,10 @@ class AppointmentProvider extends HttpRequest {
     return this.axiosInstance.get(this.apipath +  '/appointments/availables/' + calendarId + '/' + date)
   }
 
+  myAppointments() {
+    return this.axiosInstance.get(this.apipath +  '/appointments/my-appointments')
+  }
+
   take(calendar, start, duration) {
 
     let data = new FormData()
