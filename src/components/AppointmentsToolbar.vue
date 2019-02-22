@@ -20,13 +20,19 @@
       mounted: function(){
         this.fetchMyAppointments()
       },
+      watch: {
+        isLogin: function(){
+          this.fetchMyAppointments()
+        }
+      },
       computed: {
           getQtyAppointments: function(){
             return this.getAppointments.length
           },
 
           ...mapGetters([
-            'getAppointments'
+            'getAppointments',
+            'isLogin'
           ])
       },
       methods:{

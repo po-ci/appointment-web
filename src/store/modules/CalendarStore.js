@@ -107,14 +107,22 @@ export default {
 
     fetchMyAppointments({commit, getters}) {
       commit(SET_CALENDAR_LOADING, true);
-      AppointmentService.myAppointments().then((response) => {
-        commit(SET_APPOINTMENTS, response.data)
-        commit(SET_CALENDAR_LOADING, false);
-      }).catch(
-        (error) => {
-          //@TODO Show errors
-        }
-      )
+
+      if(getters.isLogin){
+
+        AppointmentService.myAppointments().then((response) => {
+          commit(SET_APPOINTMENTS, response.data)
+          commit(SET_CALENDAR_LOADING, false);
+        }).catch(
+          (error) => {
+            //@TODO Show errors
+          }
+        )
+
+
+      }
+
+
 
     },
 
