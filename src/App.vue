@@ -51,6 +51,12 @@
 
           },
           {
+            icon: 'assignment',
+            text: 'Administrar Turnos',
+            link: {name: "adminAppointments"},
+            role: 'admin'
+          },
+          {
             icon: 'contact_mail',
             text: 'Acerca de Nosotros',
             link: {name: "about"}

@@ -6,12 +6,15 @@ import Register from './layout/views/Register.vue'
 import Recovery from './layout/views/Recovery.vue'
 import Validate from './layout/views/Validate.vue'
 import Profile from './layout/views/Profile.vue'
-import Turnos from './views/Turnos.vue'
-import MisTurnos from './views/MisTurnos.vue'
+import Appointments from './views/Appointments.vue'
+import MyAppointments from './views/MyAppointments.vue'
+import AdminAppointments from './views/AdminAppointments.vue'
+
+import store from './store/store'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -46,12 +49,21 @@ export default new Router({
     {
       path: '/appointments',
       name: 'appointments',
-      component: Turnos
+      component: Appointments
     },
     {
       path: '/my-appointments',
       name: 'myAppointments',
-      component: MisTurnos
+      component: MyAppointments
+    },
+    {
+      path: '/admin-appointments',
+      name: 'adminAppointments',
+      component: AdminAppointments,
+      meta: {
+        requiresAuth: true,
+        role: 'admin'
+      }
     },
     {
       path: '/about',
@@ -63,3 +75,33 @@ export default new Router({
     }
   ]
 })
+
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (!store.getters.isLogin) {
+      next({
+        path: '/login',
+        query: {redirect: to.fullPath}
+      })
+    } else {
+
+      if (!store.getters.hasRole(to.meta.role)) {
+        next({
+          path: '/',
+          query: {redirect: to.fullPath}
+        })
+      } else {
+        next()
+      }
+
+    }
+  } else {
+    next() // make sure to always call next()!
+  }
+})
+
+
+export default router
