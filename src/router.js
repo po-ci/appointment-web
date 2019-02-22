@@ -49,12 +49,18 @@ const router = new Router({
     {
       path: '/appointments',
       name: 'appointments',
-      component: Appointments
+      component: Appointments,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/my-appointments',
       name: 'myAppointments',
-      component: MyAppointments
+      component: MyAppointments,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/admin-appointments',
@@ -88,7 +94,7 @@ router.beforeEach((to, from, next) => {
       })
     } else {
 
-      if (!store.getters.hasRole(to.meta.role)) {
+      if (to.meta.role && !store.getters.hasRole(to.meta.role)) {
         next({
           path: '/',
           query: {redirect: to.fullPath}
