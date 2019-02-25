@@ -57,6 +57,12 @@
             role: 'admin'
           },
           {
+            icon: 'label_important',
+            text: 'Administrar Calendarios',
+            link: {name: "crudCalendars"},
+            role: 'admin'
+          },
+          {
             icon: 'contact_mail',
             text: 'Acerca de Nosotros',
             link: {name: "about"}
