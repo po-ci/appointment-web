@@ -1,4 +1,4 @@
-import {CalendarService, AppointmentService} from '../../resource/index'
+import {CalendarProvider, AppointmentProvider} from '../../resource/index'
 
 import moment from 'moment'
 import tz from 'moment-timezone'
@@ -93,7 +93,7 @@ export default {
       commit(SET_CALENDAR_LOADING, true);
       if (getters.getDate && getters.getCalendarSelected) {
         commit(SET_AVAILABLE_SHIFTS, [])
-        AppointmentService.availables(getters.getCalendarSelected.id, getters.getDateFormated).then((response) => {
+        AppointmentProvider.availables(getters.getCalendarSelected.id, getters.getDateFormated).then((response) => {
           commit(SET_AVAILABLE_SHIFTS, response.data)
           commit(SET_CALENDAR_LOADING, false);
         }).catch(
@@ -110,7 +110,7 @@ export default {
 
       if(getters.isLogin){
 
-        AppointmentService.myAppointments().then((response) => {
+        AppointmentProvider.myAppointments().then((response) => {
           commit(SET_APPOINTMENTS, response.data)
           commit(SET_CALENDAR_LOADING, false);
         }).catch(
@@ -129,7 +129,7 @@ export default {
     takeAppointment({commit, getters}, {calendar, start, duration}) {
       commit(SET_CALENDAR_LOADING, true);
 
-      AppointmentService.take(calendar, start, duration).then((response) => {
+      AppointmentProvider.take(calendar, start, duration).then((response) => {
         commit(SET_LAST_APPOINTMENT, response.data)
         if (response.data.status) {
           commit(ADD_APPOINTMENT, response.data.item);
@@ -155,7 +155,7 @@ export default {
 
 
     fetchCalendars({state, commit, dispatch}) {
-      CalendarService.findAll().then((response) => {
+      CalendarProvider.findAll().then((response) => {
         commit(SET_CALENDARS, response.data);
       }).catch(
         (error) => {

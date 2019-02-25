@@ -8,13 +8,13 @@ class AppointmentProvider extends HttpRequest {
   }
 
   availables(calendarId, date) {
-    return this.axiosInstance.get(this.apipath + '/appointments/availables/' + calendarId + '/' + date,
+    return this.axiosInstance.get(this.entity + '/availables/' + calendarId + '/' + date,
       {headers: {'authorization': 'Bearer ' + localStorage.getItem('access_token')}}
     )
   }
 
   myAppointments() {
-    return this.axiosInstance.get(this.apipath + '/appointments/my-appointments',
+    return this.axiosInstance.get(this.entity + '/my-appointments',
       {
         headers: {'authorization': 'Bearer ' + localStorage.getItem('access_token')}
       })
@@ -27,7 +27,7 @@ class AppointmentProvider extends HttpRequest {
     data.append('start', start)
     data.append('duration', duration)
 
-    return this.axiosInstance.post(this.apipath + '/appointments/take',
+    return this.axiosInstance.post(this.entity + '/take',
       data,
       {
         headers: {

@@ -9,6 +9,7 @@ import Profile from './layout/views/Profile.vue'
 import Appointments from './views/Appointments.vue'
 import MyAppointments from './views/MyAppointments.vue'
 import AdminAppointments from './views/AdminAppointments.vue'
+import CrudCalendars from './views/CrudCalendars.vue'
 
 import store from './store/store'
 
@@ -60,6 +61,15 @@ const router = new Router({
       component: MyAppointments,
       meta: {
         requiresAuth: true
+      }
+    },
+    {
+      path: '/crud-calendars',
+      name: 'crudCalendars',
+      component: CrudCalendars,
+      meta: {
+        requiresAuth: true,
+        role: 'admin'
       }
     },
     {

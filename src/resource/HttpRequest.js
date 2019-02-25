@@ -30,8 +30,7 @@ axiosInstance.interceptors.response.use(function (response) {
 })
 
 class HttpRequest {
-  constructor(apipath, entity) {
-    this.apipath = apipath;
+  constructor(entity) {
     this.entity = entity;
     this.axios = axios;
     this.axiosInstance = axiosInstance;
@@ -43,27 +42,27 @@ class HttpRequest {
   }
 
   fetchAll() {
-    return axiosInstance.get(this.apipath + "/" + this.entity)
+    return axiosInstance.get(this.entity)
   }
 
   fetch(id) {
-    return axiosInstance.get(this.apipath + "/" + this.entity + "/" + id)
+    return axiosInstance.get(this.entity + "/" + id)
   }
 
   fetchFilters(filters) {
-    return axiosInstance.get(this.apipath + "/" + this.entity + filters)
+    return axiosInstance.get(this.entity + filters)
   }
 
   create(data) {
-    return axiosInstance.post(this.apipath + "/" + this.entity, data)
+    return axiosInstance.post( this.entity, data)
   }
 
   update(id, data) {
-    return axiosInstance.put(this.apipath + "/" + this.entity + "/" + id, data)
+    return axiosInstance.put( this.entity + "/" + id, data)
   }
 
   delete(id) {
-    return axiosInstance.delete(this.apipath + "/" + this.entity + "/" + id)
+    return axiosInstance.delete( this.entity + "/" + id)
   }
 
   request(type, url, data) {

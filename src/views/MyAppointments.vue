@@ -8,7 +8,7 @@
     import MyAppointments from '../components/MyAppointments'
 
     export default {
-        name: 'Home',
+        name: 'MyAppointments',
         components: {
           MyAppointments
         }
