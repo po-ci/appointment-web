@@ -8,7 +8,7 @@
     import MyAppointments from '../components/MyAppointments'
 
     export default {
-        name: 'MyAppointments',
+        name: 'MyAppointmentsView',
         components: {
           MyAppointments
         }

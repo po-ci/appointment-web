@@ -7,7 +7,7 @@ import Recovery from './layout/views/Recovery.vue'
 import Validate from './layout/views/Validate.vue'
 import Profile from './layout/views/Profile.vue'
 import Appointments from './views/Appointments.vue'
-import MyAppointments from './views/MyAppointments.vue'
+import MyAppointmentsView from './views/MyAppointmentsView.vue'
 import AdminAppointments from './views/AdminAppointments.vue'
 import CrudCalendars from './views/CrudCalendars.vue'
 
@@ -58,7 +58,7 @@ const router = new Router({
     {
       path: '/my-appointments',
       name: 'myAppointments',
-      component: MyAppointments,
+      component: MyAppointmentsView,
       meta: {
         requiresAuth: true
       }

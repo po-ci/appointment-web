@@ -2,14 +2,15 @@
 
     <div>
       CRUD CALENDARS
-
     </div>
+
+
 </template>
 
 <script>
 
     export default {
-        name: 'CrudCalendars',
+        name: 'CrudCalendarsView',
         components: {
 
         }
