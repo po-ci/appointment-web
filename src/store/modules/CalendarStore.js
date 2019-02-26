@@ -108,7 +108,7 @@ export default {
     fetchMyAppointments({commit, getters}) {
       commit(SET_CALENDAR_LOADING, true);
 
-      if(getters.isLogin){
+      if (getters.isLogin) {
 
         AppointmentProvider.myAppointments().then((response) => {
           commit(SET_APPOINTMENTS, response.data)
@@ -118,12 +118,7 @@ export default {
             //@TODO Show errors
           }
         )
-
-
       }
-
-
-
     },
 
     takeAppointment({commit, getters}, {calendar, start, duration}) {
@@ -155,7 +150,8 @@ export default {
 
 
     fetchCalendars({state, commit, dispatch}) {
-      CalendarProvider.findAll().then((response) => {
+
+      CalendarProvider.fetchAll().then((response) => {
         commit(SET_CALENDARS, response.data);
       }).catch(
         (error) => {
