@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import CalendarsTable from '../components/CalendarsTable'
+  import CalendarsTable from '../components/CalendarsCrud'
 
   export default {
     name: 'CrudCalendarsView',
