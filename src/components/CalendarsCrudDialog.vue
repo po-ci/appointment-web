@@ -37,7 +37,15 @@
       <v-card-text>
         Configuración del rango horario en el que se podrán agendar eventos en este calendario.
         <v-spacer></v-spacer>
+
       </v-card-text>
+
+      <template>
+        <v-data-table
+          :headers="headers">
+
+        </v-data-table>
+      </template>
 
       <v-card-actions>
         <v-btn
@@ -69,7 +77,16 @@
     },
     data() {
       return {
-        usuario: []
+        usuario: [],
+        time: null,
+        modal2: false,
+        headers: [
+          {text: 'Dias', value: 'dia', sortable: false},
+          {text: 'Desde', value: 'desde', sortable: false},
+          {text: 'Hasta', value: 'hasta', sortable: false},
+          {text: 'Desde2', value: 'desde2', sortable: false},
+          {text: 'Hasta2', value: 'hasta2', sortable: false},
+        ]
       }
     }
   }

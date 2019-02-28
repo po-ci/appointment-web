@@ -193,6 +193,9 @@ export default {
     [SET_CALENDARS](state, calendars) {
       state.calendars = calendars;
     },
+    [SET_CALENDAR_DELETED_RESPONSE](state, responseData) {
+      state.calendarDelete = responseData;
+    },
     [SET_CALENDAR_DELETED](state, id) {
       state.calendars = state.calendars.filter(doc => {
         return doc.id != id
