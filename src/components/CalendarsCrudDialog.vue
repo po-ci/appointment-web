@@ -26,11 +26,19 @@
             label="Descripcion"
             type="text">
           </v-text-field>
-
-          <v-spacer></v-spacer>
-
         </v-form>
       </v-card-text>
+
+
+      <v-spacer></v-spacer>
+
+      <v-card-title primary-title class="title">Programación horaria</v-card-title>
+
+      <v-card-text>
+        Configuración del rango horario en el que se podrán agendar eventos en este calendario.
+        <v-spacer></v-spacer>
+      </v-card-text>
+
       <v-card-actions>
         <v-btn
           color="primary"

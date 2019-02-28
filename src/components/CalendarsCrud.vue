@@ -30,12 +30,17 @@
                   </v-icon>
                   <v-icon
                     small
-                    @click="deleteCalendars(props.item)"
+                    @click="dialogDelete = true"
                   >
                     delete
                   </v-icon>
+                  <CalendarsCrudDialogDelete :dialogOpen="dialogDelete"
+                                             @closeDialogDelete="dialogDelete = false"
+                                             @acceptDelete="deleteCalendars(props.item.id)">
+                  </CalendarsCrudDialogDelete>
                 </td>
               </template>
+
             </v-data-table>
           </v-card-text>
 
@@ -51,17 +56,20 @@
 <script>
   import {mapGetters, mapActions} from 'vuex'
   import CalendarsCrudDialog from './CalendarsCrudDialog'
+  import CalendarsCrudDialogDelete from './CalendarsCrudDialogDelete'
 
 
   export default {
     name: "CalendarsCrud",
     components: {
-      CalendarsCrudDialog
+      CalendarsCrudDialog,
+      CalendarsCrudDialogDelete
     },
     data() {
       return {
         select: null,
         dialog: false,
+        dialogDelete: false,
         headers: [
           {text: 'ID', value: 'id'},
           {text: 'Nombre', value: 'name'},
@@ -76,13 +84,15 @@
         'getCalendars']),
     },
     methods: {
-      ...mapActions(['fetchCalendars']),
+      ...mapActions(['fetchCalendars', 'deleteCalendar']),
 
       editCalendars(calendar) {
-        alert("Aca estoy jej")
+        alert('hola')
       },
-      deleteCalendars(calendar) {
-        alert("Ahora estos aca jojo")
+
+      deleteCalendars(calendarId) {
+        this.deleteCalendar(calendarId)
+        this.dialogDelete = false
       }
 
 

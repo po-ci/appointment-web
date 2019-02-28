@@ -11,7 +11,9 @@ import {
   SET_EVENTS,
   SET_CALENDAR_GENERAL_ERRORS,
   SET_AVAILABLE_SHIFTS,
-  SET_CALENDAR_LOADING, ADD_APPOINTMENT, SET_APPOINTMENTS, SET_LAST_APPOINTMENT
+  SET_CALENDAR_LOADING, ADD_APPOINTMENT, SET_APPOINTMENTS, SET_LAST_APPOINTMENT,
+  SET_CALENDAR_DELETED_RESPONSE,
+  SET_CALENDAR_DELETED
 } from './calendar-mutation-types'
 
 export default {
@@ -26,6 +28,7 @@ export default {
     calendarLoading: false,
     appointments: [],
     lastAppointment: null,
+    calendarDelete: null,
   },
   getters: {
 
@@ -161,6 +164,20 @@ export default {
         }
       );
     },
+
+    deleteCalendar({state, commit}, calendarId) {
+
+      CalendarProvider.delete(calendarId).then((response) => {
+        commit(SET_CALENDAR_DELETED_RESPONSE, response.data);
+        commit(SET_CALENDAR_DELETED, calendarId);
+      }).catch(
+        (error) => {
+          if (error.response && error.response.data && response.data.errors) {
+            commit(SET_CALENDAR_GENERAL_ERRORS, response.data.errors);
+          }
+        }
+      );
+    },
   },
   mutations: {
     [SET_CALENDAR_LOADING](state, value) {
@@ -171,6 +188,11 @@ export default {
     },
     [SET_CALENDARS](state, calendars) {
       state.calendars = calendars;
+    },
+    [SET_CALENDAR_DELETED](state, id) {
+      state.calendars = state.calendars.filter(doc => {
+        return doc.id != id
+      });
     },
     [SET_CALENDAR_SELECTED](state, calendar) {
       state.calendarSelected = calendar;
@@ -192,6 +214,9 @@ export default {
     },
     [SET_LAST_APPOINTMENT](state, appointment) {
       state.lastAppointment = appointment;
+    },
+    [SET_CALENDAR_DELETED_RESPONSE](state, calendarId) {
+      state.calendarDelete = calendarId;
     },
   },
 }
