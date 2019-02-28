@@ -1,4 +1,4 @@
-import {CalendarProvider, AppointmentProvider} from '../../resource/index'
+import {CalendarProvider, AppointmentProvider, AuthService} from '../../resource/index'
 
 import moment from 'moment'
 import tz from 'moment-timezone'
@@ -13,7 +13,9 @@ import {
   SET_AVAILABLE_SHIFTS,
   SET_CALENDAR_LOADING, ADD_APPOINTMENT, SET_APPOINTMENTS, SET_LAST_APPOINTMENT,
   SET_CALENDAR_DELETED_RESPONSE,
-  SET_CALENDAR_DELETED
+  SET_CALENDAR_DELETED,
+  SET_USERS,
+  SET_USERS_GENERAL_ERROR
 } from './calendar-mutation-types'
 
 export default {
@@ -29,6 +31,8 @@ export default {
     appointments: [],
     lastAppointment: null,
     calendarDelete: null,
+    users: [],
+    usersGeneralErrors: []
   },
   getters: {
 
@@ -88,6 +92,9 @@ export default {
       let calendar = state.calendars.find(calendar => calendar.id === id);
       return calendar
     },
+    getUsers(state){
+      return state.users
+    }
   },
   actions: {
 
@@ -182,6 +189,18 @@ export default {
         }
       );
     },
+
+    allUsers({commit}) {
+      AuthService.users().then((response) => {
+        commit(SET_USERS, response.data)
+        console.log(response.data)
+      }).catch((error) => {
+          if (error.response && error.response.data && response.data.errors) {
+            commit(SET_USERS_GENERAL_ERROR, response.data.errors);
+          }
+        }
+      )
+    }
   },
   mutations: {
     [SET_CALENDAR_LOADING](state, value) {
@@ -224,6 +243,12 @@ export default {
     },
     [SET_CALENDAR_DELETED_RESPONSE](state, calendarId) {
       state.calendarDelete = calendarId;
+    },
+    [SET_USERS](state, response) {
+      state.users = response
+    },
+    [SET_USERS_GENERAL_ERROR](state, error) {
+      state.usersGeneralErrors = error
     },
   },
 }

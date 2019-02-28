@@ -39,14 +39,6 @@
         <v-spacer></v-spacer>
 
       </v-card-text>
-
-      <template>
-        <v-data-table
-          :headers="headers">
-
-        </v-data-table>
-      </template>
-
       <v-card-actions>
         <v-btn
           color="primary"
@@ -70,6 +62,7 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   export default {
     name: "CalendarCrudDialog",
     props: {
@@ -88,6 +81,6 @@
           {text: 'Hasta2', value: 'hasta2', sortable: false},
         ]
       }
-    }
+    },
   }
 </script>

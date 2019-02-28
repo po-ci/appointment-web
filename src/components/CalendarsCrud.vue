@@ -11,7 +11,8 @@
                                  @closeDialog="dialog = false"></calendars-crud-dialog>
 
           <v-card-text>
-            <v-btn color="primary" dark aling @click="dialog= true">New Item</v-btn>
+            <v-btn color="primary" dark aling @click="dialogOpen">New Item
+            </v-btn>
             <v-data-table
               :headers="headers"
               :items="getCalendars"
@@ -71,6 +72,7 @@
         select: null,
         dialog: false,
         dialogDelete: false,
+        users: [],
         headers: [
           {text: 'ID', value: 'id'},
           {text: 'Nombre', value: 'name'},
@@ -81,18 +83,23 @@
       }
     },
     computed: {
-      ...mapGetters(['getCalendars','getCalendarLoading']),
+      ...mapGetters(['getCalendars', 'getCalendarLoading']),
     },
     methods: {
-      ...mapActions(['fetchCalendars', 'deleteCalendar']),
+      ...mapActions(['fetchCalendars', 'deleteCalendar', 'allUsers']),
 
       editCalendars(calendar) {
+
         alert('hola')
       },
 
       deleteCalendars(calendarId) {
         this.deleteCalendar(calendarId)
         this.dialogDelete = false
+      },
+      dialogOpen() {
+        this.dialog = true
+        this.users = this.allUsers()
       }
 
 
