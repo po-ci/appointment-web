@@ -153,9 +153,11 @@ export default {
 
 
     fetchCalendars({state, commit, dispatch}) {
+      commit(SET_CALENDAR_LOADING, true);
 
       CalendarProvider.fetchAll().then((response) => {
         commit(SET_CALENDARS, response.data);
+        commit(SET_CALENDAR_LOADING, false);
       }).catch(
         (error) => {
           if (error.response && error.response.data && response.data.errors) {
@@ -166,10 +168,12 @@ export default {
     },
 
     deleteCalendar({state, commit}, calendarId) {
+      commit(SET_CALENDAR_LOADING, true);
 
       CalendarProvider.delete(calendarId).then((response) => {
         commit(SET_CALENDAR_DELETED_RESPONSE, response.data);
         commit(SET_CALENDAR_DELETED, calendarId);
+        commit(SET_CALENDAR_LOADING, false);
       }).catch(
         (error) => {
           if (error.response && error.response.data && response.data.errors) {

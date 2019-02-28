@@ -15,6 +15,7 @@
             <v-data-table
               :headers="headers"
               :items="getCalendars"
+              :loading="getCalendarLoading"
               class="elevation-1">
               <template slot="items" slot-scope="props">
                 <td>{{ props.item.id }}</td>
@@ -54,7 +55,7 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
+  import {mapGetters, mapActions, mapState} from 'vuex'
   import CalendarsCrudDialog from './CalendarsCrudDialog'
   import CalendarsCrudDialogDelete from './CalendarsCrudDialogDelete'
 
@@ -80,8 +81,7 @@
       }
     },
     computed: {
-      ...mapGetters([
-        'getCalendars']),
+      ...mapGetters(['getCalendars','getCalendarLoading']),
     },
     methods: {
       ...mapActions(['fetchCalendars', 'deleteCalendar']),
