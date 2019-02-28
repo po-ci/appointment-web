@@ -8,6 +8,7 @@
           </v-card-title>
 
           <calendars-crud-dialog :open="dialog"
+                                 :usures="getUsers"
                                  @closeDialog="dialog = false"></calendars-crud-dialog>
 
           <v-card-text>
@@ -83,7 +84,7 @@
       }
     },
     computed: {
-      ...mapGetters(['getCalendars', 'getCalendarLoading']),
+      ...mapGetters(['getCalendars', 'getCalendarLoading', 'getUsers']),
     },
     methods: {
       ...mapActions(['fetchCalendars', 'deleteCalendar', 'allUsers']),

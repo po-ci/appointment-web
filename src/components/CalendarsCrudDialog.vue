@@ -15,7 +15,7 @@
           </v-text-field>
 
           <v-select
-            :items="usuario"
+            :items="users"
             label="Usuario"
             data-vv-name="select"
             required
@@ -63,10 +63,12 @@
 
 <script>
   import {mapGetters} from 'vuex'
+
   export default {
     name: "CalendarCrudDialog",
     props: {
       open: Boolean,
+      users: {}
     },
     data() {
       return {
