@@ -8,7 +8,7 @@
           </v-card-title>
 
           <calendars-crud-dialog :open="dialog"
-                                 :usures="getUsers"
+                                 :users="getUsers"
                                  @closeDialog="dialog = false"></calendars-crud-dialog>
 
           <v-card-text>
