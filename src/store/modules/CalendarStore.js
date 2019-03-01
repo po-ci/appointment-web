@@ -193,7 +193,6 @@ export default {
     allUsers({commit}) {
       AuthService.users().then((response) => {
         commit(SET_USERS, response.data)
-        console.log(response.data)
       }).catch((error) => {
           if (error.response && error.response.data && response.data.errors) {
             commit(SET_USERS_GENERAL_ERROR, response.data.errors);

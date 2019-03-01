@@ -61,23 +61,23 @@
             Hasta 2
           </v-flex>
           <br>
-        </v-layout class="mt-2">
+        </v-layout>
         <template v-for="dia in days">
           <v-layout row>
             <v-flex xs3>
               {{dia}}
             </v-flex>
             <v-flex xs3>
-              <calendar-crud-dialog-time></calendar-crud-dialog-time>
+              <calendars-crud-dialog-time></calendars-crud-dialog-time>
             </v-flex>
             <v-flex xs3>
-              <calendar-crud-dialog-time></calendar-crud-dialog-time>
+              <calendars-crud-dialog-time></calendars-crud-dialog-time>
             </v-flex>
             <v-flex xs3>
-              <calendar-crud-dialog-time></calendar-crud-dialog-time>
+              <calendars-crud-dialog-time></calendars-crud-dialog-time>
             </v-flex>
             <v-flex xs3>
-              <calendar-crud-dialog-time></calendar-crud-dialog-time>
+              <calendars-crud-dialog-time></calendars-crud-dialog-time>
             </v-flex>
 
           </v-layout>
@@ -107,12 +107,12 @@
 </template>
 
 <script>
-  import CalendarCrudDialogTime from './CalendarCrudDialogTime'
+  import CalendarsCrudDialogTime from './CalendarsCrudDialogTime'
 
   export default {
     name: "CalendarCrudDialog",
     components: {
-      CalendarCrudDialogTime
+      CalendarsCrudDialogTime
     },
     props: {
       open: Boolean,
@@ -120,15 +120,6 @@
     },
     data() {
       return {
-        time: null,
-        menu2: false,
-        headers: [
-          {text: 'Dias', value: 'dia', sortable: false},
-          {text: 'Desde', value: 'desde', sortable: false},
-          {text: 'Hasta', value: 'hasta', sortable: false},
-          {text: 'Desde2', value: 'desde2', sortable: false},
-          {text: 'Hasta2', value: 'hasta2', sortable: false},
-        ],
         days: [
           'Lunes',
           'Martes',
@@ -142,7 +133,9 @@
         form: {
           name: null,
           description: null,
-          user: null
+          user: null,
+          lunes: [],
+          martes: []
         }
       }
     },

@@ -12,13 +12,13 @@
       min-width="290px"
     >
 
-        <v-text-field
-          slot="activator"
-          v-model="time"
-          label="Picker in menu"
-          prepend-icon="access_time"
-          readonly
-        ></v-text-field>
+      <v-text-field
+        slot="activator"
+        v-model="time"
+        label="Picker in menu"
+        prepend-icon="access_time"
+        readonly
+      ></v-text-field>
 
       <v-time-picker
         full-width
@@ -31,13 +31,18 @@
 
 <script>
   export default {
-    name: "CalendarCrudDialogTime",
+    name: "CalendarsCrudDialogTime",
     data() {
       return {
         time: null,
         openPick: false,
       }
     },
+    watch: {
+      time: function (value) {
+        this.$emit('time', value)
+      }
+    }
   }
 </script>
 
