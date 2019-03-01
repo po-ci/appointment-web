@@ -11,20 +11,24 @@
           <v-text-field
             name="name"
             label="Nombre del Calendario"
-            type="text">
+            type="text"
+            v-model="form.name">
           </v-text-field>
 
           <v-select
-            :items="users[0].name"
+            :items="users"
+            :item-text="'name'"
+            :item-value="'id'"
             label="Usuario"
-            data-vv-name="select"
+            v-model="form.user"
             required
           ></v-select>
 
           <v-text-field
             name="description"
             label="Descripcion"
-            type="text">
+            type="text"
+            v-model="form.description">
           </v-text-field>
         </v-form>
       </v-card-text>
@@ -37,6 +41,47 @@
       <v-card-text>
         Configuración del rango horario en el que se podrán agendar eventos en este calendario.
         <v-spacer></v-spacer>
+        <v-layout class="mt-2">
+          <v-flex xs3>
+            Dia
+          </v-flex>
+          <v-flex xs3>
+            Desde
+          </v-flex>
+
+          <v-flex xs3>
+            Hasta
+          </v-flex>
+
+          <v-flex xs3>
+            Desde 2
+          </v-flex>
+
+          <v-flex xs3>
+            Hasta 2
+          </v-flex>
+          <br>
+        </v-layout class="mt-2">
+        <template v-for="dia in days">
+          <v-layout row>
+            <v-flex xs3>
+              {{dia}}
+            </v-flex>
+            <v-flex xs3>
+              <calendar-crud-dialog-time></calendar-crud-dialog-time>
+            </v-flex>
+            <v-flex xs3>
+              <calendar-crud-dialog-time></calendar-crud-dialog-time>
+            </v-flex>
+            <v-flex xs3>
+              <calendar-crud-dialog-time></calendar-crud-dialog-time>
+            </v-flex>
+            <v-flex xs3>
+              <calendar-crud-dialog-time></calendar-crud-dialog-time>
+            </v-flex>
+
+          </v-layout>
+        </template>
 
       </v-card-text>
       <v-card-actions>
@@ -62,24 +107,43 @@
 </template>
 
 <script>
+  import CalendarCrudDialogTime from './CalendarCrudDialogTime'
+
   export default {
     name: "CalendarCrudDialog",
+    components: {
+      CalendarCrudDialogTime
+    },
     props: {
       open: Boolean,
-      users: {}
+      users: Array
     },
     data() {
       return {
-        usuario: [],
         time: null,
-        modal2: false,
+        menu2: false,
         headers: [
           {text: 'Dias', value: 'dia', sortable: false},
           {text: 'Desde', value: 'desde', sortable: false},
           {text: 'Hasta', value: 'hasta', sortable: false},
           {text: 'Desde2', value: 'desde2', sortable: false},
           {text: 'Hasta2', value: 'hasta2', sortable: false},
-        ]
+        ],
+        days: [
+          'Lunes',
+          'Martes',
+          'Miercoles',
+          'Jueves',
+          'Viernes',
+          'Sabado',
+          'Domingo',
+          'Feriado'
+        ],
+        form: {
+          name: null,
+          description: null,
+          user: null
+        }
       }
     },
   }

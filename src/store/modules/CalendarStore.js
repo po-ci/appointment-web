@@ -92,7 +92,7 @@ export default {
       let calendar = state.calendars.find(calendar => calendar.id === id);
       return calendar
     },
-    getUsers(state){
+    getUsers(state) {
       return state.users
     }
   },
