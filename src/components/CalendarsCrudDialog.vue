@@ -68,16 +68,16 @@
               {{dia}}
             </v-flex>
             <v-flex xs3>
-              <calendars-crud-dialog-time @time="timeCalendars"></calendars-crud-dialog-time>
+              <calendars-crud-dialog-time @time="timeCalendarsStart"></calendars-crud-dialog-time>
             </v-flex>
             <v-flex xs3>
-              <calendars-crud-dialog-time @time="timeCalendars"></calendars-crud-dialog-time>
+              <calendars-crud-dialog-time @time="timeCalendarsEnd"></calendars-crud-dialog-time>
             </v-flex>
             <v-flex xs3>
-              <calendars-crud-dialog-time @time="timeCalendars"></calendars-crud-dialog-time>
+              <calendars-crud-dialog-time @time="timeCalendarsStart"></calendars-crud-dialog-time>
             </v-flex>
             <v-flex xs3>
-              <calendars-crud-dialog-time @time="timeCalendars"></calendars-crud-dialog-time>
+              <calendars-crud-dialog-time @time="timeCalendarsEnd"></calendars-crud-dialog-time>
             </v-flex>
 
           </v-layout>
@@ -139,7 +139,10 @@
       }
     },
     methods: {
-      timeCalendars(values) {
+      timeCalendarsStart(values) {
+        console.log(values)
+      },
+      timeCalendarsEnd(values) {
         console.log(values)
       }
     }
