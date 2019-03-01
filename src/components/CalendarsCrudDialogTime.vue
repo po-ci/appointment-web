@@ -15,7 +15,7 @@
       <v-text-field
         slot="activator"
         v-model="time"
-        label="Picker in menu"
+        label="Hora"
         prepend-icon="access_time"
         readonly
       ></v-text-field>

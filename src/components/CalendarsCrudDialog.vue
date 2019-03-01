@@ -68,16 +68,16 @@
               {{dia}}
             </v-flex>
             <v-flex xs3>
-              <calendars-crud-dialog-time></calendars-crud-dialog-time>
+              <calendars-crud-dialog-time @time="timeCalendars"></calendars-crud-dialog-time>
             </v-flex>
             <v-flex xs3>
-              <calendars-crud-dialog-time></calendars-crud-dialog-time>
+              <calendars-crud-dialog-time @time="timeCalendars"></calendars-crud-dialog-time>
             </v-flex>
             <v-flex xs3>
-              <calendars-crud-dialog-time></calendars-crud-dialog-time>
+              <calendars-crud-dialog-time @time="timeCalendars"></calendars-crud-dialog-time>
             </v-flex>
             <v-flex xs3>
-              <calendars-crud-dialog-time></calendars-crud-dialog-time>
+              <calendars-crud-dialog-time @time="timeCalendars"></calendars-crud-dialog-time>
             </v-flex>
 
           </v-layout>
@@ -134,10 +134,14 @@
           name: null,
           description: null,
           user: null,
-          lunes: [],
-          martes: []
+          schedules: []
         }
       }
     },
+    methods: {
+      timeCalendars(values) {
+        console.log(values)
+      }
+    }
   }
 </script>
