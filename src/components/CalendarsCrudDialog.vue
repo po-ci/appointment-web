@@ -105,6 +105,56 @@
         </template>
 
       </v-card-text>
+
+      <v-card-text>
+        <v-card-title primary-title class="title py-0">Configuración de turnos</v-card-title>
+        <v-layout row wrap class="pa-3">
+          <v-flex xs6 md3 class="text-xs-center">
+            Tiempo de turno
+            <v-text-field class="px-2"
+                          label="Tiempo de turno"
+                          type="number"
+                          v-model="form.appointmentConfig.duration"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs6 md3 class="text-xs-center">
+            Tiempo libre entre turnos
+            <v-text-field class="px-2"
+                          label="Tiempo libre entre turnos"
+                          type="number"
+                          v-model="form.appointmentConfig.break"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs6 md3 class="text-xs-center">
+            Dias máximos para Turnos
+            <v-text-field class="px-2"
+                          label="Dias máximos para Turnos"
+                          type="number"
+                          v-model="form.appointmentConfig.maxTimeInDays"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs6 md3 class="text-xs-center">
+            Tiempo minimo para turno
+            <v-text-field class="px-2"
+                          label="Tiempo minimo para turno"
+                          type="number"
+                          v-model="form.appointmentConfig.minTimeInMinutes"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs6 md3 class="text-xs-center">
+            Tiempo minimo para cancelar
+            <v-text-field class="px-2"
+                          label="Tiempo minimo para cancelar"
+                          type="number"
+                          v-model="form.appointmentConfig.cancelTimeInMinutes"
+            ></v-text-field>
+          </v-flex>
+        </v-layout>
+
+
+      </v-card-text>
+
+
       <v-card-actions>
         <v-btn
           color="primary"
@@ -166,7 +216,14 @@
             {day: 7, start: null, end: null, start2: null, end2: null},
             {day: 8, start: null, end: null, start2: null, end2: null}
 
-          ]
+          ],
+          appointmentConfig: {
+            duration: null,
+            break: null,
+            minTimeInMinutes: null,
+            maxTimeInDays: null,
+            cancelTimeInMinutes: null
+          }
         }
       }
     },
