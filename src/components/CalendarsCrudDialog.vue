@@ -1,5 +1,7 @@
 <template>
-  <v-dialog :value="open" persistent>
+  <v-dialog :value="open"
+            fullscreen
+            persistent>
 
     <v-card>
       <v-card-title primary-title class="title">
@@ -7,77 +9,96 @@
       </v-card-title>
       <v-card-text>
         <v-form>
+          <v-layout row wrap>
+            <v-text-field
+              md4 xs12
+              class="px-2"
+              name="name"
+              label="Nombre del Calendario"
+              type="text"
+              v-model="form.name">
+            </v-text-field>
 
-          <v-text-field
-            name="name"
-            label="Nombre del Calendario"
-            type="text"
-            v-model="form.name">
-          </v-text-field>
+            <v-select
+              md4 xs12
+              class="px-2"
+              :items="users"
+              :item-text="'name'"
+              :item-value="'id'"
+              label="Usuario"
+              v-model="form.user"
+              required
+            ></v-select>
 
-          <v-select
-            :items="users"
-            :item-text="'name'"
-            :item-value="'id'"
-            label="Usuario"
-            v-model="form.user"
-            required
-          ></v-select>
-
-          <v-text-field
-            name="description"
-            label="Descripcion"
-            type="text"
-            v-model="form.description">
-          </v-text-field>
+            <v-text-field
+              md4 xs12
+              class="px-2"
+              name="description"
+              label="Descripcion"
+              type="text"
+              v-model="form.description">
+            </v-text-field>
+          </v-layout>
         </v-form>
       </v-card-text>
 
 
       <v-spacer></v-spacer>
 
-      <v-card-title primary-title class="title">Programación horaria</v-card-title>
+      <v-card-title primary-title class="title py-0">Programación horaria</v-card-title>
 
       <v-card-text>
         Configuración del rango horario en el que se podrán agendar eventos en este calendario.
         <v-spacer></v-spacer>
         <v-layout class="mt-2">
-          <v-flex xs3>
+          <v-flex xs3 class="text-xs-center">
             Dia
           </v-flex>
-          <v-flex xs3>
+          <v-flex xs3 class="text-xs-center">
             Desde
           </v-flex>
 
-          <v-flex xs3>
+          <v-flex xs3 class="text-xs-center">
             Hasta
           </v-flex>
 
-          <v-flex xs3>
+          <v-flex xs3 class="text-xs-center">
             Desde 2
           </v-flex>
 
-          <v-flex xs3>
+          <v-flex xs3 class="text-xs-center">
             Hasta 2
           </v-flex>
           <br>
         </v-layout>
-        <template v-for="dia in days">
+        <template v-for="day in days">
           <v-layout row>
-            <v-flex xs3>
-              {{dia}}
+            <v-flex xs3 class="text-xs-center pa-3">
+              {{day.name}}
             </v-flex>
             <v-flex xs3>
-              <calendars-crud-dialog-time @time="timeCalendarsStart"></calendars-crud-dialog-time>
+              <calendars-crud-dialog-time
+                :day="day.number"
+                :field="'start'"
+                @time="timeCalendars"></calendars-crud-dialog-time>
             </v-flex>
             <v-flex xs3>
-              <calendars-crud-dialog-time @time="timeCalendarsEnd"></calendars-crud-dialog-time>
+              <calendars-crud-dialog-time
+                :day="day.number"
+                :field="'end'"
+                @time="timeCalendars"></calendars-crud-dialog-time>
             </v-flex>
             <v-flex xs3>
-              <calendars-crud-dialog-time @time="timeCalendarsStart"></calendars-crud-dialog-time>
+              <calendars-crud-dialog-time
+                :day="day.number"
+                :field="'start2'"
+                @time="timeCalendars"></calendars-crud-dialog-time>
             </v-flex>
             <v-flex xs3>
-              <calendars-crud-dialog-time @time="timeCalendarsEnd"></calendars-crud-dialog-time>
+              <calendars-crud-dialog-time
+                :day="day.number"
+                :field="'end2'"
+                @time="timeCalendars"></calendars-crud-dialog-time>
             </v-flex>
 
           </v-layout>
@@ -96,7 +117,7 @@
         <v-btn
           color="primary"
           flat
-          @click=""
+          @click="submitForm"
         >
           Agregar
         </v-btn>
@@ -108,6 +129,7 @@
 
 <script>
   import CalendarsCrudDialogTime from './CalendarsCrudDialogTime'
+  import {mapActions} from 'vuex'
 
   export default {
     name: "CalendarCrudDialog",
@@ -121,29 +143,41 @@
     data() {
       return {
         days: [
-          'Lunes',
-          'Martes',
-          'Miercoles',
-          'Jueves',
-          'Viernes',
-          'Sabado',
-          'Domingo',
-          'Feriado'
+          {number: 1, name: 'Lunes'},
+          {number: 2, name: 'Martes'},
+          {number: 3, name: 'Miercoles'},
+          {number: 4, name: 'Jueves'},
+          {number: 5, name: 'Viernes'},
+          {number: 6, name: 'Sabado'},
+          {number: 7, name: 'Domingo'},
+          {number: 8, name: 'Feriado'}
         ],
         form: {
           name: null,
           description: null,
           user: null,
-          schedules: []
+          schedules: [
+            {day: 1, start: null, end: null, start2: null, end2: null},
+            {day: 2, start: null, end: null, start2: null, end2: null},
+            {day: 3, start: null, end: null, start2: null, end2: null},
+            {day: 4, start: null, end: null, start2: null, end2: null},
+            {day: 5, start: null, end: null, start2: null, end2: null},
+            {day: 6, start: null, end: null, start2: null, end2: null},
+            {day: 7, start: null, end: null, start2: null, end2: null},
+            {day: 8, start: null, end: null, start2: null, end2: null}
+
+          ]
         }
       }
     },
     methods: {
-      timeCalendarsStart(values) {
-        console.log(values)
+      timeCalendars(object) {
+        this.form.schedules.find(sc => sc.day === object.day)[object.field] = object.value;
       },
-      timeCalendarsEnd(values) {
-        console.log(values)
+      ...mapActions(['createCalendar']),
+
+      submitForm() {
+        this.createCalendar(this.form)
       }
     }
   }

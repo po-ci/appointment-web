@@ -18,6 +18,7 @@
         label="Hora"
         prepend-icon="access_time"
         readonly
+        class="pt-0"
       ></v-text-field>
 
       <v-time-picker
@@ -32,6 +33,10 @@
 <script>
   export default {
     name: "CalendarsCrudDialogTime",
+    props: {
+      day: Number,
+      field: String
+    },
     data() {
       return {
         time: null,
@@ -40,7 +45,7 @@
     },
     watch: {
       time: function (value) {
-        this.$emit('time', value)
+        this.$emit('time', {day: this.day, field: this.field, value: value})
       }
     }
   }
