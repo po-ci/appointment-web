@@ -9,7 +9,6 @@
 
           <calendars-crud-dialog :open="dialog"
                                  :users="getUsers"
-                                 @refreshAllCalendars="fetchCalendars"
                                  @closeDialog="dialog = false"></calendars-crud-dialog>
 
           <v-card-text>
@@ -34,14 +33,11 @@
                   </v-icon>
                   <v-icon
                     small
-                    @click="dialogDelete = true"
+                    @click="dialogDelete = true; calendarToDelete = props.item;"
                   >
                     delete
                   </v-icon>
-                  <CalendarsCrudDialogDelete :dialogOpen="dialogDelete"
-                                             @closeDialogDelete="dialogDelete = false"
-                                             @acceptDelete="deleteCalendars(props.item.id)">
-                  </CalendarsCrudDialogDelete>
+
                 </td>
               </template>
 
@@ -52,6 +48,12 @@
       </v-flex>
     </v-layout>
 
+
+    <CalendarsCrudDialogDelete :dialog-open="dialogDelete"
+                               :calendar="calendarToDelete"
+                               @closeDialogDelete="dialogDelete = false"
+                               @acceptDelete="deleteCalendars">
+    </CalendarsCrudDialogDelete>
 
   </v-container>
 
@@ -74,6 +76,7 @@
         select: null,
         dialog: false,
         dialogDelete: false,
+        calendarToDelete: null,
         users: [],
         headers: [
           {text: 'ID', value: 'id'},

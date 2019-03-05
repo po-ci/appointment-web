@@ -179,7 +179,6 @@
       submitForm() {
         this.createCalendar(this.form)
         this.$emit('closeDialog')
-        this.$emit('refreshAllCalendars')
       }
     }
   }

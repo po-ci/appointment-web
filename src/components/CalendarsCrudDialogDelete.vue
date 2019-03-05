@@ -22,7 +22,7 @@
         <v-btn
           color="green darken-1"
           flat="flat"
-          @click="$emit('acceptDelete')"
+          @click="$emit('acceptDelete', calendar.id)"
         >
           Aceptar
         </v-btn>
@@ -38,7 +38,8 @@
       return {}
     },
     props: {
-      dialogOpen: Boolean
+      dialogOpen: Boolean,
+      calendar: Object
     }
   }
 </script>

@@ -15,7 +15,8 @@ import {
   SET_CALENDAR_DELETED_RESPONSE,
   SET_CALENDAR_DELETED,
   SET_USERS,
-  SET_USERS_GENERAL_ERROR
+  SET_USERS_GENERAL_ERROR,
+  SET_NEW_CALENDAR
 } from './calendar-mutation-types'
 
 export default {
@@ -169,6 +170,7 @@ export default {
         (error) => {
           if (error.response && error.response.data && response.data.errors) {
             commit(SET_CALENDAR_GENERAL_ERRORS, response.data.errors);
+            commit(SET_CALENDAR_LOADING, false);
           }
         }
       );
@@ -176,6 +178,7 @@ export default {
 
     deleteCalendar({state, commit}, calendarId) {
       commit(SET_CALENDAR_LOADING, true);
+      console.log(calendarId)
 
       CalendarProvider.delete(calendarId).then((response) => {
         commit(SET_CALENDAR_DELETED_RESPONSE, response.data);
@@ -183,9 +186,10 @@ export default {
         commit(SET_CALENDAR_LOADING, false);
       }).catch(
         (error) => {
-          if (error.response && error.response.data && response.data.errors) {
-            commit(SET_CALENDAR_GENERAL_ERRORS, response.data.errors);
-          }
+          commit(SET_CALENDAR_GENERAL_ERRORS, error.response.data);
+          console.log(error.response.data)
+          commit(SET_CALENDAR_LOADING, false);
+
         }
       );
     },
@@ -200,10 +204,13 @@ export default {
         }
       )
     },
-    createCalendar({commit}, data) {
-
-      CalendarProvider.create(data).then((response) => {
+    createCalendar({commit}, newCalendar) {
+      commit(SET_CALENDAR_LOADING, true);
+      CalendarProvider.create(newCalendar).then((response) => {
         console.log(response.data)
+        newCalendar.id = response.data.id
+        commit(SET_NEW_CALENDAR, newCalendar)
+        commit(SET_CALENDAR_LOADING, false);
       }).catch((error) => {
         console.log(error.response.data)
 
@@ -258,5 +265,8 @@ export default {
     [SET_USERS_GENERAL_ERROR](state, error) {
       state.usersGeneralErrors = error
     },
+    [SET_NEW_CALENDAR](state, data) {
+      state.calendars.push(data)
+    }
   },
 }
