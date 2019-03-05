@@ -35,7 +35,7 @@
     name: "CalendarsCrudDialogTime",
     props: {
       day: Number,
-      field: String
+      field: String,
     },
     data() {
       return {

@@ -201,10 +201,8 @@ export default {
       )
     },
     createCalendar({commit}, data) {
-      commit(SET_CALENDAR_LOADING, true);
 
       CalendarProvider.create(data).then((response) => {
-        commit(SET_CALENDAR_LOADING, true);
         console.log(response.data)
       }).catch((error) => {
         console.log(error.response.data)

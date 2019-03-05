@@ -9,6 +9,7 @@
 
           <calendars-crud-dialog :open="dialog"
                                  :users="getUsers"
+                                 @refreshAllCalendars="fetchCalendars"
                                  @closeDialog="dialog = false"></calendars-crud-dialog>
 
           <v-card-text>
