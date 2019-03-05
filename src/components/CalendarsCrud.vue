@@ -4,15 +4,20 @@
       <v-flex xs12>
         <v-card>
           <v-card-title primary-title class="title">
-            Calendarios
+            Agendas
           </v-card-title>
 
-          <calendars-crud-dialog :open="dialog"
-                                 :users="getUsers"
-                                 @closeDialog="dialog = false"></calendars-crud-dialog>
+          <calendars-crud-dialog
+            :open="dialog"
+            :calendar-form="calendarForm"
+            :users="getUsers"
+            @closeDialog="dialog = false"
+
+          >
+          </calendars-crud-dialog>
 
           <v-card-text>
-            <v-btn color="primary" dark aling @click="dialogOpen">New Item
+            <v-btn color="primary" dark aling @click="dialogOpenCreate">Nueva Agenda
             </v-btn>
             <v-data-table
               :headers="headers"
@@ -27,7 +32,7 @@
                   <v-icon
                     small
                     class="mr-2"
-                    @click="editCalendars(props.item)"
+                    @click="dialogOpenEdit(props.item)"
                   >
                     edit
                   </v-icon>
@@ -74,6 +79,7 @@
     data() {
       return {
         select: null,
+        calendarForm: null,
         dialog: false,
         dialogDelete: false,
         calendarToDelete: null,
@@ -93,20 +99,24 @@
     methods: {
       ...mapActions(['fetchCalendars', 'deleteCalendar', 'allUsers']),
 
-      editCalendars(calendar) {
-
-        alert('hola')
-      },
 
       deleteCalendars(calendarId) {
         this.deleteCalendar(calendarId)
         this.dialogDelete = false
-      },
-      dialogOpen() {
-        this.dialog = true
-        this.users = this.allUsers()
-      }
 
+      },
+
+      dialogOpenCreate() {
+        this.users = this.allUsers()
+        this.calendarForm = null
+        this.dialog = true
+      },
+
+      dialogOpenEdit(calendar) {
+        this.users = this.allUsers()
+        this.calendarForm = calendar
+        this.dialog = true
+      },
 
     },
     created() {

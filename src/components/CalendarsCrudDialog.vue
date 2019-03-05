@@ -3,9 +3,9 @@
             fullscreen
             persistent>
 
-    <v-card>
+    <v-card tile>
       <v-card-title primary-title class="title">
-        Nuevo Calendario
+        Configuración de Agenda
       </v-card-title>
       <v-card-text>
         <v-form>
@@ -14,7 +14,7 @@
               md4 xs12
               class="px-2"
               name="name"
-              label="Nombre del Calendario"
+              label="Nombre de la agenda"
               type="text"
               v-model="form.name">
             </v-text-field>
@@ -46,9 +46,7 @@
       <v-spacer></v-spacer>
 
       <v-card-title primary-title class="title py-0">Programación horaria</v-card-title>
-
       <v-card-text>
-        Configuración del rango horario en el que se podrán agendar eventos en este calendario.
         <v-spacer></v-spacer>
         <v-layout class="mt-2">
           <v-flex xs3 class="text-xs-center">
@@ -80,24 +78,28 @@
               <calendars-crud-dialog-time
                 :day="day.number"
                 :field="'start'"
+                :value="findScheduleValue(day.number, 'start')"
                 @time="timeCalendars"></calendars-crud-dialog-time>
             </v-flex>
             <v-flex xs3>
               <calendars-crud-dialog-time
                 :day="day.number"
                 :field="'end'"
+                :value="findScheduleValue(day.number, 'end')"
                 @time="timeCalendars"></calendars-crud-dialog-time>
             </v-flex>
             <v-flex xs3>
               <calendars-crud-dialog-time
                 :day="day.number"
                 :field="'start2'"
+                :value="findScheduleValue(day.number, 'start2')"
                 @time="timeCalendars"></calendars-crud-dialog-time>
             </v-flex>
             <v-flex xs3>
               <calendars-crud-dialog-time
                 :day="day.number"
                 :field="'end2'"
+                :value="findScheduleValue(day.number, 'end2')"
                 @time="timeCalendars"></calendars-crud-dialog-time>
             </v-flex>
 
@@ -110,7 +112,7 @@
         <v-card-title primary-title class="title py-0">Configuración de turnos</v-card-title>
         <v-layout row wrap class="pa-3">
           <v-flex xs6 md3 class="text-xs-center">
-            Tiempo de turno
+
             <v-text-field class="px-2"
                           label="Tiempo de turno"
                           type="number"
@@ -118,7 +120,7 @@
             ></v-text-field>
           </v-flex>
           <v-flex xs6 md3 class="text-xs-center">
-            Tiempo libre entre turnos
+
             <v-text-field class="px-2"
                           label="Tiempo libre entre turnos"
                           type="number"
@@ -126,7 +128,6 @@
             ></v-text-field>
           </v-flex>
           <v-flex xs6 md3 class="text-xs-center">
-            Dias máximos para Turnos
             <v-text-field class="px-2"
                           label="Dias máximos para Turnos"
                           type="number"
@@ -134,19 +135,17 @@
             ></v-text-field>
           </v-flex>
           <v-flex xs6 md3 class="text-xs-center">
-            Tiempo minimo para turno
             <v-text-field class="px-2"
                           label="Tiempo minimo para turno"
                           type="number"
-                          v-model="form.appointmentConfig.minTimeInMinutes"
+                          v-model="form.appointmentConfig.minTimeInHours"
             ></v-text-field>
           </v-flex>
           <v-flex xs6 md3 class="text-xs-center">
-            Tiempo minimo para cancelar
             <v-text-field class="px-2"
                           label="Tiempo minimo para cancelar"
                           type="number"
-                          v-model="form.appointmentConfig.cancelTimeInMinutes"
+                          v-model="form.appointmentConfig.cancelTimeInHours"
             ></v-text-field>
           </v-flex>
         </v-layout>
@@ -157,7 +156,7 @@
 
       <v-card-actions>
         <v-btn
-          color="primary"
+          color="grey"
           flat
           @click="$emit('closeDialog')"
         >
@@ -165,11 +164,12 @@
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn
+
           color="primary"
-          flat
+
           @click="submitForm"
         >
-          Agregar
+          Guardar
         </v-btn>
 
       </v-card-actions>
@@ -188,7 +188,17 @@
     },
     props: {
       open: Boolean,
-      users: Array
+      users: Array,
+      calendarForm: Object
+    },
+    watch: {
+      calendarForm: function () {
+        if (this.calendarForm !== null) {
+
+          this.form = this.calendarForm;
+
+        }
+      }
     },
     data() {
       return {
@@ -220,21 +230,31 @@
           appointmentConfig: {
             duration: null,
             break: null,
-            minTimeInMinutes: null,
+            minTimeInHours: null,
             maxTimeInDays: null,
-            cancelTimeInMinutes: null
+            cancelTimeInHours: null
           }
         }
       }
     },
     methods: {
+      findScheduleValue(day,field){
+        let item = this.form.schedules.find(item => item.day == day)
+        return item[field]
+      },
       timeCalendars(object) {
         this.form.schedules.find(sc => sc.day === object.day)[object.field] = object.value;
       },
-      ...mapActions(['createCalendar']),
+      ...mapActions(['createCalendar', 'updateCalendar']),
 
       submitForm() {
-        this.createCalendar(this.form)
+
+        if (this.form.id) {
+          this.updateCalendar(this.form)
+        } else {
+          this.createCalendar(this.form)
+
+        }
         this.$emit('closeDialog')
       }
     }

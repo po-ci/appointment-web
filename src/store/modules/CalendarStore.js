@@ -16,7 +16,8 @@ import {
   SET_CALENDAR_DELETED,
   SET_USERS,
   SET_USERS_GENERAL_ERROR,
-  SET_NEW_CALENDAR
+  ADD_CALENDAR,
+  UPDATE_CALENDAR
 } from './calendar-mutation-types'
 
 export default {
@@ -178,8 +179,6 @@ export default {
 
     deleteCalendar({state, commit}, calendarId) {
       commit(SET_CALENDAR_LOADING, true);
-      console.log(calendarId)
-
       CalendarProvider.delete(calendarId).then((response) => {
         commit(SET_CALENDAR_DELETED_RESPONSE, response.data);
         commit(SET_CALENDAR_DELETED, calendarId);
@@ -209,13 +208,25 @@ export default {
       CalendarProvider.create(newCalendar).then((response) => {
         console.log(response.data)
         newCalendar.id = response.data.id
-        commit(SET_NEW_CALENDAR, newCalendar)
+        commit(ADD_CALENDAR, newCalendar)
         commit(SET_CALENDAR_LOADING, false);
       }).catch((error) => {
         console.log(error.response.data)
 
       })
-    }
+    },
+    updateCalendar({commit}, newCalendar) {
+      commit(SET_CALENDAR_LOADING, true);
+      CalendarProvider.update(newCalendar.id, newCalendar).then((response) => {
+        console.log(response.data)
+        newCalendar.id = response.data.id
+        commit(UPDATE_CALENDAR, newCalendar)
+        commit(SET_CALENDAR_LOADING, false);
+      }).catch((error) => {
+        console.log(error.response.data)
+
+      })
+    },
   },
   mutations: {
     [SET_CALENDAR_LOADING](state, value) {
@@ -265,8 +276,12 @@ export default {
     [SET_USERS_GENERAL_ERROR](state, error) {
       state.usersGeneralErrors = error
     },
-    [SET_NEW_CALENDAR](state, data) {
+    [ADD_CALENDAR](state, data) {
       state.calendars.push(data)
+    },
+    [UPDATE_CALENDAR](state, data) {
+      let index = state.calendars.findIndex(calendar => calendar.id == data.id)
+      state.calendars[index] = data
     }
   },
 }

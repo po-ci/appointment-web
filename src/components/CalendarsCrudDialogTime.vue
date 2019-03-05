@@ -34,9 +34,11 @@
   export default {
     name: "CalendarsCrudDialogTime",
     props: {
+      value: String,
       day: Number,
       field: String,
     },
+
     data() {
       return {
         time: null,
@@ -46,6 +48,9 @@
     watch: {
       time: function (value) {
         this.$emit('time', {day: this.day, field: this.field, value: value})
+      },
+      value(newValue) {
+        this.time = newValue
       }
     }
   }
