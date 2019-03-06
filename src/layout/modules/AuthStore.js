@@ -1,5 +1,9 @@
 import {AuthService} from '../../resource/index'
 import router from './../../router'
+import {
+  SET_USERS,
+  SET_USERS_GENERAL_ERROR,
+} from "../../store/modules/calendar-mutation-types";
 
 export default {
   namespaced: false,
@@ -15,6 +19,8 @@ export default {
       img: null,
       roles: []
     },
+    users: [],
+    usersGeneralErrors: [],
     exp: null,
     //Define si hay errores en el login
     loginError: false,
@@ -29,7 +35,7 @@ export default {
     changePasswordDialog: false,
   },
   getters: {
-    hasRole: (state) => (role)  =>{
+    hasRole: (state) => (role) => {
       if (state.user && state.user.roles && state.user.roles.some(value => value.name == role)) {
         return true
       }
@@ -65,9 +71,11 @@ export default {
     getChangePasswordDialog: (state) => {
       return state.changePasswordDialog
     },
+    getUsers(state) {
+      return state.users
+    }
   },
   actions: {
-
 
 
     setChangePasswordDialog({commit}, value) {
@@ -182,6 +190,16 @@ export default {
         dispatch('logout')
       }
     },
+    allUsers({commit}) {
+      AuthService.users().then((response) => {
+        commit(SET_USERS, response.data)
+      }).catch((error) => {
+          if (error.response && error.response.data && response.data.errors) {
+            commit(SET_USERS_GENERAL_ERROR, response.data.errors);
+          }
+        }
+      )
+    },
   },
   mutations: {
     ['SET_AUTH_LOADING'](state, value) {
@@ -218,5 +236,11 @@ export default {
     ['SET_CHANGE_PASSWORD_DIALOG'](state, value) {
       state.changePasswordDialog = value;
     },
+    [SET_USERS](state, response) {
+      state.users = response
+    },
+    [SET_USERS_GENERAL_ERROR](state, error) {
+      state.usersGeneralErrors = error
+    }
   },
 }

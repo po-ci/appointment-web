@@ -1,18 +1,18 @@
 <template>
   <div>
     <div>
-      <users-table></users-table>
+      <users-crud></users-crud>
     </div>
   </div>
 </template>
 
 <script>
-  import UsersTable from '../components/UsersTable'
+  import UsersCrud from '../components/UsersCrud'
 
   export default {
     name: "users",
     components: {
-      UsersTable
+      UsersCrud
     }
   }
 </script>

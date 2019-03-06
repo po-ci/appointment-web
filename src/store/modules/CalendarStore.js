@@ -14,8 +14,6 @@ import {
   SET_CALENDAR_LOADING, ADD_APPOINTMENT, SET_APPOINTMENTS, SET_LAST_APPOINTMENT,
   SET_CALENDAR_DELETED_RESPONSE,
   SET_CALENDAR_DELETED,
-  SET_USERS,
-  SET_USERS_GENERAL_ERROR,
   ADD_CALENDAR,
   UPDATE_CALENDAR
 } from './calendar-mutation-types'
@@ -93,9 +91,6 @@ export default {
     findCalendarById: (state) => id => {
       let calendar = state.calendars.find(calendar => calendar.id === id);
       return calendar
-    },
-    getUsers(state) {
-      return state.users
     }
   },
   actions: {
@@ -192,17 +187,6 @@ export default {
         }
       );
     },
-
-    allUsers({commit}) {
-      AuthService.users().then((response) => {
-        commit(SET_USERS, response.data)
-      }).catch((error) => {
-          if (error.response && error.response.data && response.data.errors) {
-            commit(SET_USERS_GENERAL_ERROR, response.data.errors);
-          }
-        }
-      )
-    },
     createCalendar({commit}, newCalendar) {
       commit(SET_CALENDAR_LOADING, true);
       CalendarProvider.create(newCalendar).then((response) => {
@@ -269,12 +253,6 @@ export default {
     },
     [SET_CALENDAR_DELETED_RESPONSE](state, calendarId) {
       state.calendarDelete = calendarId;
-    },
-    [SET_USERS](state, response) {
-      state.users = response
-    },
-    [SET_USERS_GENERAL_ERROR](state, error) {
-      state.usersGeneralErrors = error
     },
     [ADD_CALENDAR](state, data) {
       state.calendars.push(data)
