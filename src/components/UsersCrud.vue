@@ -3,13 +3,13 @@
     <v-layout>
       <v-flex xs12>
         <v-card class="elevation-6">
-          <v-card-title primary-title class="title pb-0 pl-4">
+          <v-card-title primary-title class="title pb-0 px-4">
             Usuarios
           </v-card-title>
           <v-card-text>
-            <v-layout row>
-              <v-flex md6 xs12>
-                <v-btn color="info">
+            <v-layout row wrap>
+              <v-flex xs6>
+                <v-btn color="primary">
                   Nuevo Usuario
                 </v-btn>
               </v-flex>
@@ -20,7 +20,7 @@
                   label="Search"
                   single-line
                   hide-details
-                  class="pa-0"
+                  class="pa-0 px-2"
                 ></v-text-field>
               </v-flex>
             </v-layout>
@@ -30,6 +30,16 @@
               :items="getUsers"
               :search="search">
               <template slot="items" slot-scope="props">
+                <td>
+                  <v-avatar
+                    size="36px"
+                  >
+                    <img
+                      :src="getSrc(props.item.img)"
+                      alt="Avatar"
+                    >
+                  </v-avatar>
+                </td>
                 <td>{{ props.item.name }}</td>
                 <td>{{ props.item.username}}</td>
                 <td>{{ props.item.email }}</td>
@@ -82,10 +92,11 @@
     data() {
       return {
         headers: [
+          {text: '', value: 'img', sortable: false},
           {text: 'Nombre', value: 'name'},
           {text: 'Usuario', value: 'user'},
           {text: 'Email', value: 'email'},
-          {text: 'Active', value: 'active', sortable: false},
+          {text: 'Active', value: 'active'},
           {text: 'Phone', value: 'phone'},
           {text: 'Password', value: 'password', sortable: false},
           {text: 'Impersonar', value: 'impersonar', sortable: false},
@@ -98,7 +109,15 @@
       ...mapGetters(['getUsers'])
     },
     methods: {
-      ...mapActions(['allUsers'])
+      ...mapActions(['allUsers', 'imageProfile']),
+
+      getSrc(image) {
+        if (image != null) {
+          return process.env.VUE_APP_APIHOST + '/img/profile/' + image
+        } else {
+          return '/assets/user.jpg'
+        }
+      }
     },
     mounted() {
       this.allUsers()

@@ -1,9 +1,31 @@
 <template>
   <v-dialog :value="open"
             fullscreen
-            persistent>
+            hide-overlay
+            persistent
+            transition="dialog-bottom-transition"
+  >
+    <v-card>
 
-    <v-card tile>
+      <v-toolbar
+        absolute
+        dark color="primary">
+        <v-btn
+          icon
+          @click="$emit('closeDialog')"
+        >
+          <v-icon>close</v-icon>
+
+        </v-btn>
+        <v-spacer></v-spacer>
+        <v-btn
+          flat
+          @click="submitForm"
+        >
+          Guardar
+        </v-btn>
+      </v-toolbar>
+
       <v-card-title primary-title class="title">
         Configuración de Agenda
       </v-card-title>
@@ -152,27 +174,6 @@
 
 
       </v-card-text>
-
-
-      <v-card-actions>
-        <v-btn
-          color="grey"
-          flat
-          @click="$emit('closeDialog')"
-        >
-          Cerrar
-        </v-btn>
-        <v-spacer></v-spacer>
-        <v-btn
-
-          color="primary"
-
-          @click="submitForm"
-        >
-          Guardar
-        </v-btn>
-
-      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
