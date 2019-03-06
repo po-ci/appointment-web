@@ -27,7 +27,7 @@
     </v-content>
 
     <v-footer color="primary" app>
-      <span class="white--text">SON.RIU &copy; 2019</span>
+      <span class="white--text">SON.RIU &copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
 </template>
