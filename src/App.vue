@@ -67,6 +67,12 @@
             text: 'Acerca de Nosotros',
             link: {name: "about"}
           },
+          {
+            icon: 'person',
+            text: 'Usuarios',
+            link: {name: "users"},
+            role: 'admin'
+          },
         ]
       }
     }

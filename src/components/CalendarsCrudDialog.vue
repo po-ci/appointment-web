@@ -193,7 +193,32 @@
     },
     watch: {
       calendarForm: function () {
-        if (this.calendarForm !== null) {
+        if (this.calendarForm === null) {
+          this.form = {
+            name: null,
+            description: null,
+            user: null,
+            schedules: [
+              {day: 1, start: null, end: null, start2: null, end2: null},
+              {day: 2, start: null, end: null, start2: null, end2: null},
+              {day: 3, start: null, end: null, start2: null, end2: null},
+              {day: 4, start: null, end: null, start2: null, end2: null},
+              {day: 5, start: null, end: null, start2: null, end2: null},
+              {day: 6, start: null, end: null, start2: null, end2: null},
+              {day: 7, start: null, end: null, start2: null, end2: null},
+              {day: 8, start: null, end: null, start2: null, end2: null}
+
+            ],
+            appointmentConfig: {
+              duration: null,
+              break: null,
+              minTimeInHours: null,
+              maxTimeInDays: null,
+              cancelTimeInHours: null
+            }
+          }
+
+        } else {
 
           this.form = this.calendarForm;
 
@@ -238,7 +263,7 @@
       }
     },
     methods: {
-      findScheduleValue(day,field){
+      findScheduleValue(day, field) {
         let item = this.form.schedules.find(item => item.day == day)
         return item[field]
       },

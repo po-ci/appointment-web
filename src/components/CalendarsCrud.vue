@@ -2,12 +2,13 @@
   <v-container>
     <v-layout>
       <v-flex xs12>
-        <v-card>
+        <v-card class="elevation-6">
           <v-card-title primary-title class="title">
             Agendas
           </v-card-title>
 
           <calendars-crud-dialog
+
             :open="dialog"
             :calendar-form="calendarForm"
             :users="getUsers"
