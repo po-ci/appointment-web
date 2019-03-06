@@ -8,7 +8,12 @@
           </v-card-title>
           <v-card-text>
             <v-layout row>
-              <v-flex md6 xs12 offset-md6>
+              <v-flex md6 xs12>
+                <v-btn color="info">
+                  Nuevo Usuario
+                </v-btn>
+              </v-flex>
+              <v-flex md6 xs12>
                 <v-text-field
                   v-model="search"
                   append-icon="search"
@@ -28,10 +33,18 @@
                 <td>{{ props.item.name }}</td>
                 <td>{{ props.item.username}}</td>
                 <td>{{ props.item.email }}</td>
-                <td>{{ props.item.active }}</td>
+                <td v-if="props.item.active == 1">
+                  <v-icon
+                    color="primary">check_circle
+                  </v-icon>
+                </td>
+                <td v-else>
+                  <v-icon color="error">highlight_off</v-icon>
+                </td>
                 <td>{{ props.item.phone }}</td>
                 <td>
                   <v-icon
+                    small
                     @click="">lock
                   </v-icon>
                 </td>
