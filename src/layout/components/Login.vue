@@ -56,6 +56,7 @@
                                           type="password"
                                           v-model="password"
                                           placeholder="Contraseña"
+                                          @keyup.enter.native="login"
                             >
 
                             </v-text-field>
