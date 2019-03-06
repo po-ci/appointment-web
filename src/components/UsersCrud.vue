@@ -3,7 +3,7 @@
     <v-layout>
       <v-flex xs12>
         <v-card class="elevation-6">
-          <v-card-title primary-title class="title pb-0">
+          <v-card-title primary-title class="title pb-0 pl-4">
             Usuarios
           </v-card-title>
           <v-card-text>
@@ -48,6 +48,7 @@
                     @click="">lock
                   </v-icon>
                 </td>
+                <td>Impersonar</td>
                 <td>
                   <v-icon
                     small
@@ -77,7 +78,7 @@
   import {mapActions, mapGetters} from 'vuex'
 
   export default {
-    name: "UsersTable",
+    name: "UsersCrud",
     data() {
       return {
         headers: [
@@ -87,6 +88,7 @@
           {text: 'Active', value: 'active', sortable: false},
           {text: 'Phone', value: 'phone'},
           {text: 'Password', value: 'password', sortable: false},
+          {text: 'Impersonar', value: 'impersonar', sortable: false},
           {text: 'Aciones', value: 'acciones', sortable: false},
         ],
         search: '',
