@@ -3,23 +3,19 @@
     <v-layout>
       <v-flex xs12>
         <v-card class="elevation-6">
-          <v-card-title primary-title class="title">
-            Agendas
-          </v-card-title>
-
-          <calendars-crud-dialog
-
-            :open="dialog"
-            :calendar-form="calendarForm"
-            :users="getUsers"
-            @closeDialog="dialog = false"
-
-          >
-          </calendars-crud-dialog>
+          <v-layout row>
+            <v-flex xs6>
+              <v-card-title primary-title class="title">
+                Agendas
+              </v-card-title>
+            </v-flex>
+            <v-flex xs6 class="pt-2 pr-4 text-xs-right">
+              <v-btn color="primary" dark aling @click="dialogOpenCreate">Nueva Agenda
+              </v-btn>
+            </v-flex>
+          </v-layout>
 
           <v-card-text>
-            <v-btn color="primary" dark aling @click="dialogOpenCreate">Nueva Agenda
-            </v-btn>
             <v-data-table
               :headers="headers"
               :items="getCalendars"
@@ -54,6 +50,15 @@
       </v-flex>
     </v-layout>
 
+    <calendars-crud-dialog
+
+      :open="dialog"
+      :calendar-form="calendarForm"
+      :users="getUsers"
+      @closeDialog="dialog = false"
+
+    >
+    </calendars-crud-dialog>
 
     <CalendarsCrudDialogDelete :dialog-open="dialogDelete"
                                :calendar="calendarToDelete"
