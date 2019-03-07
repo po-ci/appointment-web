@@ -12,6 +12,6 @@ export const CalendarProvider = new CalendarProviderClass('/zfmc/api/calendars')
 
 export const AppointmentProvider = new AppointmentProviderClass('/zfmc/api/appointments')
 
-//export const RoleProvider = new RoleProviderClass('/security/api/roles')
+export const RoleProvider = new RoleProviderClass('/security/api/roles')
 
-//export const UserProvider = new UserProviderClass('/security/api/users')
+export const UserProvider = new UserProviderClass('/security/api/users')
