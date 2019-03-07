@@ -3,6 +3,7 @@ import router from './../../router'
 import {
   SET_USERS,
   SET_USERS_GENERAL_ERROR,
+  SET_USERS_LOADING
 } from "../../store/modules/calendar-mutation-types";
 
 export default {
@@ -21,6 +22,7 @@ export default {
     },
     users: [],
     usersGeneralErrors: [],
+    usersLoading: false,
     exp: null,
     //Define si hay errores en el login
     loginError: false,
@@ -73,6 +75,9 @@ export default {
     },
     getUsers(state) {
       return state.users
+    },
+    getUsersLoading(state) {
+      return state.usersLoading
     }
   },
   actions: {
@@ -191,8 +196,10 @@ export default {
       }
     },
     allUsers({commit}) {
+      commit('SET_USERS_LOADING', true)
       AuthService.users().then((response) => {
         commit(SET_USERS, response.data)
+        commit('SET_USERS_LOADING', false)
       }).catch((error) => {
           if (error.response && error.response.data && response.data.errors) {
             commit(SET_USERS_GENERAL_ERROR, response.data.errors);
@@ -241,6 +248,9 @@ export default {
     },
     [SET_USERS_GENERAL_ERROR](state, error) {
       state.usersGeneralErrors = error
+    },
+    [SET_USERS_LOADING](state, loading) {
+      state.usersLoading = loading
     }
   },
 }

@@ -28,7 +28,8 @@
               class="mt-3"
               :headers="headers"
               :items="getUsers"
-              :search="search">
+              :search="search"
+              :loading="getUsersLoading">
               <template slot="items" slot-scope="props">
                 <td>
                   <v-avatar
@@ -106,7 +107,7 @@
       }
     },
     computed: {
-      ...mapGetters(['getUsers'])
+      ...mapGetters(['getUsers', 'getUsersLoading'])
     },
     methods: {
       ...mapActions(['allUsers', 'imageProfile']),
