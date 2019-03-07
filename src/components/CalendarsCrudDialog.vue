@@ -6,10 +6,31 @@
   >
 
     <v-card>
-      <v-card-title primary-title class="title">
-        Configuración de Agenda
-      </v-card-title>
       <v-card-text>
+        <v-toolbar
+          fixed
+          dark
+          color="primary"
+          height="55px">
+          <v-btn
+            icon
+            dark
+            @click="$emit('closeDialog')"
+          >
+            <v-icon>close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Configuración de Agenda</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn
+            dark
+            flat
+            @click="submitForm"
+          >
+            Guardar
+          </v-btn>
+        </v-toolbar>
+      </v-card-text>
+      <v-card-text class="mt-4">
         <v-form>
           <v-layout row wrap>
             <v-text-field
@@ -154,27 +175,9 @@
 
 
       </v-card-text>
-
-
-      <v-card-actions>
-        <v-btn
-          color="grey"
-          flat
-          @click="$emit('closeDialog')"
-        >
-          Cerrar
-        </v-btn>
-        <v-spacer></v-spacer>
-        <v-btn
-
-          color="primary"
-
-          @click="submitForm"
-        >
-          Guardar
-        </v-btn>
-
-      </v-card-actions>
+      <v-footer class="pa-3"
+                color="primary">
+      </v-footer>
     </v-card>
   </v-dialog>
 </template>

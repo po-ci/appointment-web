@@ -9,7 +9,8 @@
           <v-card-text>
             <v-layout row wrap>
               <v-flex xs6>
-                <v-btn color="primary">
+                <v-btn color="primary"
+                       @click="createUsuario">
                   Nuevo Usuario
                 </v-btn>
               </v-flex>
@@ -82,14 +83,23 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <users-crud-dialog :open="dialog"
+                       :title="'Nuevo Usuario'"
+                       @closeDialog="dialog = false"
+    ></users-crud-dialog>
+
   </v-container>
 </template>
 
 <script>
   import {mapActions, mapGetters} from 'vuex'
+  import UsersCrudDialog from './UsersCrudDialog'
 
   export default {
     name: "UsersCrud",
+    components: {
+      UsersCrudDialog
+    },
     data() {
       return {
         headers: [
@@ -104,6 +114,7 @@
           {text: 'Aciones', value: 'acciones', sortable: false},
         ],
         search: '',
+        dialog: false,
       }
     },
     computed: {
@@ -118,6 +129,9 @@
         } else {
           return '/assets/user.jpg'
         }
+      },
+      createUsuario() {
+        this.dialog = true
       }
     },
     mounted() {
