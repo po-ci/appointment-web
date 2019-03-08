@@ -85,6 +85,7 @@
     </v-layout>
     <users-crud-dialog :open="dialog"
                        :title="'Nuevo Usuario'"
+                       :roles="getRoles"
                        @closeDialog="dialog = false"
     ></users-crud-dialog>
 
@@ -118,10 +119,10 @@
       }
     },
     computed: {
-      ...mapGetters(['getUsers', 'getUsersLoading'])
+      ...mapGetters(['getUsers', 'getUsersLoading', 'getRoles'])
     },
     methods: {
-      ...mapActions(['allUsers', 'imageProfile']),
+      ...mapActions(['allUsers', 'imageProfile', 'fetchRoles']),
 
       getSrc(image) {
         if (image != null) {
@@ -131,6 +132,7 @@
         }
       },
       createUsuario() {
+        this.fetchRoles()
         this.dialog = true
       }
     },

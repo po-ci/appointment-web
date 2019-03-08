@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="open" width="800">
+  <v-dialog :value="open" width="800" persistent>
     <v-card>
       <v-card-title class="title" primary-title>
         {{title}}
@@ -106,9 +106,19 @@
               <v-select
                 prepend-icon="account_box"
                 class="pa-3"
-                :items="rol"
+                :items="roles"
+                :item-text="'name'"
+                :item-value="'id'"
+                v-model="form.roles"
                 label="Rol"
+                attach
+                chips
+                multiple
               ></v-select>
+            </v-flex>
+            <v-flex xs12 md6 class="pl-4">
+              Activo
+              <v-switch value input-value="true" v-model="form.active"></v-switch>
             </v-flex>
           </v-layout>
 
@@ -129,7 +139,7 @@
         <v-spacer></v-spacer>
         <v-btn
           color="primary"
-          @click=""
+          @click="saveUser"
         >
           Guardar
         </v-btn>
@@ -139,11 +149,14 @@
 </template>
 
 <script>
+  import {mapGetters, mapActions} from 'vuex'
+
   export default {
     name: "UsersCrudDialog",
     props: {
       open: Boolean,
       title: String,
+      roles: Array
     },
     data() {
       return {
@@ -154,11 +167,21 @@
           password_verify: null,
           email: null,
           phone: null,
-        },
-        rol: [
-          'admin',
-          'usuario']
+          roles: [],
+          active: false
+        }
       }
+    },
+    methods: {
+      ...mapActions(['createUser']),
+
+      saveUser() {
+        this.createUser(this.form)
+        this.$emit('closeDialog')
+      }
+    },
+    computed: {
+      ...mapGetters(['getUsersLoading'])
     }
   }
 </script>

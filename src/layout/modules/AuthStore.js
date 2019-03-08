@@ -1,7 +1,6 @@
 import {AuthService} from '../../resource/index'
 import router from './../../router'
 import {
-  SET_USERS,
   SET_USERS_GENERAL_ERROR,
   SET_USERS_LOADING
 } from "../../store/modules/calendar-mutation-types";
@@ -20,7 +19,6 @@ export default {
       img: null,
       roles: []
     },
-    users: [],
     usersGeneralErrors: [],
     usersLoading: false,
     exp: null,
@@ -72,16 +70,9 @@ export default {
     },
     getChangePasswordDialog: (state) => {
       return state.changePasswordDialog
-    },
-    getUsers(state) {
-      return state.users
-    },
-    getUsersLoading(state) {
-      return state.usersLoading
     }
   },
   actions: {
-
 
     setChangePasswordDialog({commit}, value) {
       commit('SET_CHANGE_PASSWORD_DIALOG', value)
@@ -195,18 +186,6 @@ export default {
         dispatch('logout')
       }
     },
-    allUsers({commit}) {
-      commit('SET_USERS_LOADING', true)
-      AuthService.users().then((response) => {
-        commit(SET_USERS, response.data)
-        commit('SET_USERS_LOADING', false)
-      }).catch((error) => {
-          if (error.response && error.response.data && response.data.errors) {
-            commit(SET_USERS_GENERAL_ERROR, response.data.errors);
-          }
-        }
-      )
-    },
   },
   mutations: {
     ['SET_AUTH_LOADING'](state, value) {
@@ -242,9 +221,6 @@ export default {
     },
     ['SET_CHANGE_PASSWORD_DIALOG'](state, value) {
       state.changePasswordDialog = value;
-    },
-    [SET_USERS](state, response) {
-      state.users = response
     },
     [SET_USERS_GENERAL_ERROR](state, error) {
       state.usersGeneralErrors = error
