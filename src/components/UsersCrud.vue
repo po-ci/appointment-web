@@ -54,14 +54,14 @@
                   <v-icon color="error">highlight_off</v-icon>
                 </td>
                 <td>{{ props.item.phone }}</td>
-                <td>
+                <td class="text-xs-center">
                   <v-icon
                     small
                     @click="">lock
                   </v-icon>
                 </td>
                 <td>Impersonar</td>
-                <td>
+                <td class="text-xs-center">
                   <v-icon
                     small
                     class="mr-2"
@@ -69,13 +69,6 @@
                   >
                     edit
                   </v-icon>
-                  <v-icon
-                    small
-                    @click=""
-                  >
-                    delete
-                  </v-icon>
-
                 </td>
               </template>
             </v-data-table>
