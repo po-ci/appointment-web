@@ -156,7 +156,28 @@
     props: {
       open: Boolean,
       title: String,
-      roles: Array
+      roles: Array,
+      user: Object
+    },
+
+    watch: {
+      user: function () {
+        if (this.user != null) {
+          this.form = this.user
+        } else {
+          this.form = {
+            name: null,
+            username: null,
+            password: null,
+            password_verify: null,
+            email: null,
+            phone: null,
+            roles: [],
+            active: false
+          }
+        }
+      }
+
     },
     data() {
       return {
@@ -173,11 +194,17 @@
       }
     },
     methods: {
-      ...mapActions(['createUser']),
+      ...mapActions(['createUser', 'updateUser']),
 
       saveUser() {
-        this.createUser(this.form)
-        this.$emit('closeDialog')
+        if (this.form.id) {
+          this.updateUser(this.form)
+          this.$emit('closeDialog')
+        } else {
+          this.createUser(this.form)
+          this.$emit('closeDialog')
+        }
+
       }
     },
     computed: {

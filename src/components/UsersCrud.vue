@@ -65,7 +65,7 @@
                   <v-icon
                     small
                     class="mr-2"
-                    @click=""
+                    @click="editUser(props.item)"
                   >
                     edit
                   </v-icon>
@@ -84,8 +84,9 @@
       </v-flex>
     </v-layout>
     <users-crud-dialog :open="dialog"
-                       :title="'Nuevo Usuario'"
+                       :title="title"
                        :roles="getRoles"
+                       :user="user"
                        @closeDialog="dialog = false"
     ></users-crud-dialog>
 
@@ -116,6 +117,8 @@
         ],
         search: '',
         dialog: false,
+        user: null,
+        title: null
       }
     },
     computed: {
@@ -132,7 +135,14 @@
         }
       },
       createUsuario() {
+        this.user = null
+        this.title = 'Nuevo Usuario'
         this.fetchRoles()
+        this.dialog = true
+      },
+      editUser(userObject) {
+        this.title = 'Edit Usuario'
+        this.user = userObject
         this.dialog = true
       }
     },
