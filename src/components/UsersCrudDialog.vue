@@ -162,7 +162,7 @@
 
     watch: {
       user: function () {
-        if (this.user != null) {
+        if (this.user.id) {
           this.form = this.user
         } else {
           this.form = {
@@ -199,6 +199,7 @@
       saveUser() {
         if (this.form.id) {
           this.updateUser(this.form)
+          console.log(this.form)
           this.$emit('closeDialog')
         } else {
           this.createUser(this.form)

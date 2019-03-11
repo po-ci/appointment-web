@@ -76,10 +76,10 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <users-crud-dialog :open="dialog"
+    <users-crud-dialog :user="user"
                        :title="title"
                        :roles="getRoles"
-                       :user="user"
+                       :open="dialog"
                        @closeDialog="dialog = false"
     ></users-crud-dialog>
 
@@ -111,7 +111,7 @@
         search: '',
         dialog: false,
         user: null,
-        title: null
+        title: null,
       }
     },
     computed: {
@@ -128,13 +128,14 @@
         }
       },
       createUsuario() {
-        this.user = null
+        this.user = {}
         this.title = 'Nuevo Usuario'
         this.fetchRoles()
         this.dialog = true
       },
       editUser(userObject) {
         this.title = 'Edit Usuario'
+        this.fetchRoles()
         this.user = userObject
         this.dialog = true
       }

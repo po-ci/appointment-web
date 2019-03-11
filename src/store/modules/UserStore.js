@@ -30,7 +30,7 @@ export default {
       UserProvider.create(newUser).then((response) => {
         console.log(response.data)
         newUser.id = response.data.id
-        console.log(newUser)
+        //console.log(newUser)
         commit(ADD_USER, newUser)
         commit(SET_USERS_LOADING, false)
       }).catch((error) => {
@@ -53,7 +53,7 @@ export default {
     allUsers({commit}) {
       commit(SET_USERS_LOADING, true)
       AuthService.users().then((response) => {
-        console.log(response.data)
+        //console.log(response.data)
         commit(SET_USERS_LOADING, false)
         commit(SET_USERS, response.data)
       }).catch((error) => {
