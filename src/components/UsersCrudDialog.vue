@@ -124,7 +124,7 @@
 
 
         </v-form>
-
+        {{form}}
       </v-card-text>
 
 
@@ -164,6 +164,10 @@
       user: function () {
         if (this.user.id) {
           this.form = this.user
+          for (var indice in this.form.roles) {
+            this.form.roles[indice] = (this.form.roles[indice].id);
+          }
+
         } else {
           this.form = {
             name: null,
