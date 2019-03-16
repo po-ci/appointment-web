@@ -165,7 +165,7 @@
         if (this.user.id) {
           this.form = this.user
           for (var indice in this.form.roles) {
-            this.form.roles[indice] = (this.form.roles[indice].id);
+            this.form.roles[indice] = this.form.roles[indice].id;
           }
 
         } else {
