@@ -118,7 +118,7 @@
             </v-flex>
             <v-flex xs12 md6 class="pl-4">
               Activo
-              <v-switch value input-value="true" v-model="form.active"></v-switch>
+              <v-switch :value="1" input-value="0" v-model="form.active"></v-switch>
             </v-flex>
           </v-layout>
 
@@ -196,7 +196,7 @@
           email: null,
           phone: null,
           roles: [],
-          active: false
+          active: null
         }
       }
     },
@@ -205,10 +205,16 @@
 
       saveUser() {
         if (this.form.id) {
+          if (this.form.active == null) {
+            this.form.active = 0
+          }
           this.updateUser(this.form)
           console.log(this.form)
           this.$emit('closeDialog')
         } else {
+          if (this.form.active == null) {
+            this.form.active = 0
+          }
           this.createUser(this.form)
           this.$emit('closeDialog')
         }
