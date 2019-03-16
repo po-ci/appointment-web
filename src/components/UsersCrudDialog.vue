@@ -68,7 +68,7 @@
 
               </v-text-field>
             </v-flex>
-            <v-flex xs12 md6>
+            <v-flex xs12 md6 v-if="pass">
               <v-text-field id="password"
                             prepend-icon="lock"
                             name="password"
@@ -85,7 +85,7 @@
               >
               </v-text-field>
             </v-flex>
-            <v-flex xs12 md6>
+            <v-flex xs12 md6 v-if="pass">
               <v-text-field id="password_verify"
                             prepend-icon="lock"
                             name="password_verify"
@@ -163,12 +163,14 @@
     watch: {
       user: function () {
         if (this.user.id) {
+          this.pass = false
           this.form = this.user
           for (var indice in this.form.roles) {
             this.form.roles[indice] = this.form.roles[indice].id;
           }
 
         } else {
+          this.pass = true
           this.form = {
             name: null,
             username: null,
@@ -185,6 +187,7 @@
     },
     data() {
       return {
+        pass: true,
         form: {
           name: null,
           username: null,
