@@ -7,7 +7,7 @@
 </template>
 
 <script>
-  import UsersCrud from '../components/UsersCrud'
+  import UsersCrud from '../layout/components/UsersCrud'
 
   export default {
     name: "users",

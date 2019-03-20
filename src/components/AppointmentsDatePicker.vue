@@ -2,8 +2,10 @@
     <v-date-picker
             v-model="datePick"
             locale="es-es"
-            full-width
+
             color="secondary"
+
+            class="text-xs-center"
             :allowed-dates="allowedDates"
 
     ></v-date-picker>

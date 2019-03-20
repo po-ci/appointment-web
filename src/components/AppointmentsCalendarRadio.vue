@@ -1,13 +1,17 @@
 <template>
-  <v-select
-    v-if="getCalendars.length > 0"
-    v-model="select"
-    :items="getCalendars"
-    item-text="name"
-    item-value="id"
-    label="Agenda"
-    v-on:change="onChange"
-  ></v-select>
+
+
+  <v-radio-group  v-if="getCalendars.length > 0" v-model="select" :mandatory="true" @change="onChange">
+
+    <v-radio
+      v-for="calendar in getCalendars"
+      :key="calendar.id"
+      :label="`${calendar.name}`"
+      :value="calendar.id"
+    ></v-radio>
+
+  </v-radio-group>
+
 
   <v-flex v-else>
     <span class="primary--text">Cargando Agendas</span>
@@ -23,7 +27,7 @@
 
 
   export default {
-    name: "AppointmentsCalendars",
+    name: "AppointmentsCalendarsRadio",
     data: () => ({
       select: null
     }),

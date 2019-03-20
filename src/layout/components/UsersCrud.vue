@@ -31,6 +31,24 @@
               :items="getUsers"
               :search="search"
               :loading="getUsersLoading">
+
+              <template slot="no-data">
+
+                <div  v-if="getUsersLoading"
+                         color="info"
+                         outline
+                         class="text-xs-center">
+                  Cargando usuarios
+                </div>
+
+                <div v-if="!getUsersLoading"
+                         outline
+                         color="info">
+                  Sin datos
+                </div>
+
+              </template>
+
               <template slot="items" slot-scope="props">
                 <td>
                   <v-avatar
@@ -54,13 +72,15 @@
                   <v-icon color="error">highlight_off</v-icon>
                 </td>
                 <td>{{ props.item.phone }}</td>
-                <td class="text-xs-center">
-                  <v-icon
-                    small
-                    @click="">lock
-                  </v-icon>
-                </td>
-                <td>Impersonar</td>
+
+                <!--
+                        <td class="text-xs-center">
+                          <v-icon
+                            small
+                            @click="">lock
+                          </v-icon>
+                        </td>
+                -->
                 <td class="text-xs-center">
                   <v-icon
                     small
@@ -102,10 +122,9 @@
           {text: 'Nombre', value: 'name'},
           {text: 'Usuario', value: 'user'},
           {text: 'Email', value: 'email'},
-          {text: 'Active', value: 'active'},
-          {text: 'Phone', value: 'phone'},
-          {text: 'Password', value: 'password', sortable: false},
-          {text: 'Impersonar', value: 'impersonar', sortable: false},
+          {text: 'Activo', value: 'active'},
+          {text: 'Telefono', value: 'phone'},
+          //    {text: 'Password', value: 'password', sortable: false},
           {text: 'Aciones', value: 'acciones', sortable: false},
         ],
         search: '',
