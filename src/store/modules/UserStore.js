@@ -1,6 +1,6 @@
 import {UserProvider, AuthService} from '../../resource/index'
 
-import {UPDATE_USERS, SET_USERS, SET_USERS_LOADING, ADD_USER} from './user-mutation-type'
+import {UPDATE_USERS, SET_USERS, SET_USERS_LOADING, ADD_USER, SET_RESPONSE_USER} from './user-mutation-type'
 
 
 export default {
@@ -33,8 +33,10 @@ export default {
         //console.log(newUser)
         commit(ADD_USER, newUser)
         commit(SET_USERS_LOADING, false)
+        commit(SET_RESPONSE_USER, response.data)
       }).catch((error) => {
-        console.log(error.data)
+        console.log(error)
+        commit(SET_RESPONSE_USER, error.data)
       })
     },
 
@@ -57,9 +59,7 @@ export default {
         commit(SET_USERS_LOADING, false)
         commit(SET_USERS, response.data)
       }).catch((error) => {
-          if (error.response && error.response.data && response.data.errors) {
-            //commit(SET_USERS_GENERAL_ERROR, response.data.errors);
-          }
+
         }
       )
     },
@@ -78,6 +78,9 @@ export default {
     [UPDATE_USERS](state, data) {
       let index = state.users.findIndex(user => user.id == data.id)
       state.users[index] = data
+    },
+    [SET_RESPONSE_USER](state, data) {
+      state.response = data
     }
   }
 }
