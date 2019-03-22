@@ -16,7 +16,8 @@
           :items="[]"></v-data-table>
       </v-card-text>
     </v-card>
-    <v-btn color="#D81B60"
+    <v-btn class="elevation-8"
+           color="#D81B60"
            fixed
            dark
            fab
