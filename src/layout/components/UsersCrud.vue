@@ -6,15 +6,9 @@
           <v-card-title primary-title class="title pb-0 px-4">
             Usuarios
           </v-card-title>
-          <v-card-text>
+          <v-card-text class="pt-0">
             <v-layout row wrap>
-              <v-flex xs6>
-                <v-btn color="primary"
-                       @click="createUsuario">
-                  Nuevo Usuario
-                </v-btn>
-              </v-flex>
-              <v-flex md6 xs12>
+              <v-flex md6 xs12 class="offset-md6">
                 <v-text-field
                   v-model="search"
                   append-icon="search"
@@ -34,16 +28,16 @@
 
               <template slot="no-data">
 
-                <div  v-if="getUsersLoading"
-                         color="info"
-                         outline
-                         class="text-xs-center">
+                <div v-if="getUsersLoading"
+                     color="info"
+                     outline
+                     class="text-xs-center">
                   Cargando usuarios
                 </div>
 
                 <div v-if="!getUsersLoading"
-                         outline
-                         color="info">
+                     outline
+                     color="info">
                   Sin datos
                 </div>
 
@@ -102,7 +96,14 @@
                        :open="dialog"
                        @closeDialog="dialog = false"
     ></users-crud-dialog>
-
+    <v-btn color="#D81B60"
+           fab
+           fixed
+           bottom
+           right
+           @click="createUsuario">
+      <v-icon>add</v-icon>
+    </v-btn>
   </v-container>
 </template>
 
