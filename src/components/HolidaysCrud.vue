@@ -8,9 +8,6 @@
           </v-card-title>
         </v-flex>
         <v-flex xs6 class="pt-2 pr-4 text-xs-right">
-          <v-btn color="primary" dark fab small @click="">
-            <v-icon>add</v-icon>
-          </v-btn>
         </v-flex>
       </v-layout>
       <v-card-text>
@@ -19,6 +16,15 @@
           :items="[]"></v-data-table>
       </v-card-text>
     </v-card>
+    <v-btn color="#D81B60"
+           fixed
+           dark
+           fab
+           bottom
+           right
+           @click="">
+      <v-icon>add</v-icon>
+    </v-btn>
   </v-container>
 </template>
 
