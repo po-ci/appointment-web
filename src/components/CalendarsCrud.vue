@@ -10,8 +10,6 @@
               </v-card-title>
             </v-flex>
             <v-flex xs6 class="pt-2 pr-4 text-xs-right">
-              <v-btn color="primary" dark aling @click="dialogOpenCreate">Nueva Agenda
-              </v-btn>
             </v-flex>
           </v-layout>
 
@@ -65,7 +63,15 @@
                                @closeDialogDelete="dialogDelete = false"
                                @acceptDelete="deleteCalendars">
     </CalendarsCrudDialogDelete>
-
+    <v-btn color="#D81B60"
+           fixed
+           dark
+           fab
+           bottom
+           right
+           @click="dialogOpenCreate">
+      <v-icon>add</v-icon>
+    </v-btn>
   </v-container>
 
 </template>

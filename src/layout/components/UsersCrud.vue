@@ -101,6 +101,7 @@
            fixed
            bottom
            right
+           dark
            @click="createUsuario">
       <v-icon>add</v-icon>
     </v-btn>
