@@ -63,6 +63,12 @@
             role: 'admin'
           },
           {
+            icon: 'local_cafe',
+            text: 'Feriados',
+            link: {name: "holidays"},
+            role: 'admin'
+          },
+          {
             icon: 'contact_mail',
             text: 'Acerca de Nosotros',
             link: {name: "about"}

@@ -100,6 +100,18 @@ const router = new Router({
         requiresAuth: true,
         role: 'admin'
       }
+    },
+    {
+      path: '/holidays',
+      name: 'holidays',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "holidays" */ './views/Holidays.vue'),
+      meta: {
+        requiresAuth: true,
+        role: 'admin'
+      }
     }
   ]
 })
