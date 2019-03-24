@@ -4,7 +4,7 @@
             locale="es-es"
             no-title
             color="secondary"
-
+            :show-current="false"
             class="text-xs-center"
             :allowed-dates="allowedDates"
 

@@ -18,7 +18,7 @@
         <v-card class="appointment-step-card">
           <v-card-title class="pa-1">
             <h3 class="pa-0">
-              <v-btn fab dark small color="indigo">
+              <v-btn fab dark small color="primary">
                 1
               </v-btn>
               Elegir Agenda
@@ -37,7 +37,7 @@
         <v-card class="appointment-step-card">
           <v-card-title class="pa-1">
             <h3 class="pa-0">
-              <v-btn fab dark small color="indigo">
+              <v-btn fab dark small color="primary">
                 2
               </v-btn>
               Selecionar Dia
@@ -70,7 +70,7 @@
         <v-card class="appointment-step-card">
           <v-card-title class="pa-1">
             <h3 class="pa-0">
-              <v-btn fab dark small color="indigo">
+              <v-btn fab dark small color="primary">
                 3
               </v-btn>
               Confirmar Horario
