@@ -1,5 +1,5 @@
 import {CalendarProvider, AppointmentProvider, AuthService} from '../../../resource'
-
+import Vue from 'vue'
 import moment from 'moment'
 import tz from 'moment-timezone'
 import 'moment/locale/es';
@@ -15,7 +15,8 @@ import {
   SET_CALENDAR_DELETED_RESPONSE,
   SET_CALENDAR_DELETED,
   ADD_CALENDAR,
-  UPDATE_CALENDAR
+  UPDATE_CALENDAR,
+  UPDATE_APPOINTMENT
 } from './calendar-mutation-types'
 
 export default {
@@ -43,7 +44,21 @@ export default {
     getAppointments: (state) => {
       return state.appointments
     },
+    pendingAppointment: (state) => {
+      return state.appointments.filter(appointment => appointment.status === 1);
+    },
+    cancelledAppointment: (state) => {
+      return state.appointments.filter(appointment => appointment.status === 2);
+    },
+    expiredAppointment:  (state) => {
+      return state.appointments.filter(appointment => appointment.status === 0);
+    },
+    orderAppointments: (state) => {
+      return state.appointments.sort(function compareNumbers(a, b) {
+        return b.id - a.id;
+      });
 
+    },
     getAppointmentByCalendarAndDate: (state) => ({calendar, date}) => {
       return state.appointments.find(appointment => appointment.id === calendar && appointment.date === date);
     },
@@ -143,6 +158,20 @@ export default {
 
     },
 
+    cancelAppointment({commit, getters}, appointmentId) {
+      commit(SET_CALENDAR_LOADING, true);
+
+      AppointmentProvider.cancel(appointmentId).then((response) => {
+        if (response.data.status) {
+          commit(UPDATE_APPOINTMENT, response.data.item);
+        }
+        commit(SET_CALENDAR_LOADING, false);
+      }).catch((error) => {
+        commit(SET_CALENDAR_LOADING, false);
+      })
+
+    },
+
     clearLastAppointment: ({commit}) => {
       commit(SET_LAST_APPOINTMENT, null)
     },
@@ -217,9 +246,9 @@ export default {
       state.calendarLoading = value;
     },
     [SET_DATE](state, value) {
-      if(value) {
+      if (value) {
         state.date = moment(value).tz('America/Argentina/Buenos_Aires').locale('es');
-      }else{
+      } else {
         state.date = null
       }
     },
@@ -248,6 +277,10 @@ export default {
     },
     [ADD_APPOINTMENT](state, appointment) {
       state.appointments.push(appointment);
+    },
+    [UPDATE_APPOINTMENT](state, appointment) {
+      let index = state.appointments.findIndex(a => a.id == appointment.id)
+      Vue.set(state.appointments, index, appointment)
     },
     [SET_APPOINTMENTS](state, appointments) {
       state.appointments = appointments;

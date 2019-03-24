@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import {AuthService} from '../../../resource'
 import router from '../../../router'
 import {
@@ -199,7 +200,7 @@ export default {
       state.user = user;
     },
     ['SET_USER_IMG'](state, img) {
-      state.user.img = img;
+      Vue.set(state.user,'img',img)
     },
     ['SET_EXP'](state, exp) {
       state.exp = exp;

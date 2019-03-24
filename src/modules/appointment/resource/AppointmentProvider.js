@@ -20,6 +20,21 @@ class AppointmentProvider extends HttpRequest {
       })
   }
 
+  cancel(appointmentId) {
+
+    let data = new FormData()
+
+    return this.axiosInstance.post(this.entity + '/cancel/'+appointmentId,
+      data,
+      {
+        headers: {
+          'authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+      }
+    )
+
+  }
+
   take(calendar, start, duration) {
 
     let data = new FormData()
