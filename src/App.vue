@@ -15,8 +15,8 @@
 
 <script>
   import {mapActions} from 'vuex'
-  import Layout from './layout/components/Layout'
-  import AppointmentsToolbar from './components/AppointmentsToolbar'
+  import Layout from './modules/layout/components/Layout'
+  import AppointmentsToolbar from './modules/appointment/components/AppointmentsToolbar'
 
   export default {
     name: 'App',
@@ -63,9 +63,21 @@
             role: 'admin'
           },
           {
+            icon: 'local_cafe',
+            text: 'Feriados',
+            link: {name: "holidays"},
+            role: 'admin'
+          },
+          {
             icon: 'contact_mail',
             text: 'Acerca de Nosotros',
             link: {name: "about"}
+          },
+          {
+            icon: 'person',
+            text: 'Usuarios',
+            link: {name: "users"},
+            role: 'admin'
           },
         ]
       }
