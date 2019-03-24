@@ -9,7 +9,7 @@
         <!--Number-->
         <v-list-tile v-if="appointment.id">
           <v-list-tile-action>
-            <v-icon color="indigo">assignment_late</v-icon>
+            <v-icon color="primary">assignment_late</v-icon>
           </v-list-tile-action>
 
           <v-list-tile-content>
@@ -22,7 +22,7 @@
         <!--Agenda-->
         <v-list-tile>
           <v-list-tile-action>
-            <v-icon color="indigo">assignment_ind</v-icon>
+            <v-icon color="primary">assignment_ind</v-icon>
           </v-list-tile-action>
 
           <v-list-tile-content>
@@ -36,7 +36,7 @@
         <!--Fecha-->
         <v-list-tile>
           <v-list-tile-action>
-            <v-icon color="indigo">event</v-icon>
+            <v-icon color="primary">event</v-icon>
           </v-list-tile-action>
 
           <v-list-tile-content class="text-no-wrap">
@@ -53,7 +53,7 @@
         <!--Hora-->
         <v-list-tile>
           <v-list-tile-action>
-            <v-icon color="indigo">alarm</v-icon>
+            <v-icon color="primary">alarm</v-icon>
           </v-list-tile-action>
 
           <v-list-tile-content>

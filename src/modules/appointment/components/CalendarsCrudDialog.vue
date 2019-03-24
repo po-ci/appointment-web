@@ -30,46 +30,95 @@
           </v-btn>
         </v-toolbar>
       </v-card-text>
+
       <v-card-text class="mt-4">
-        <v-form>
-          <v-layout row wrap>
-            <v-text-field
-              md4 xs12
-              class="px-2"
-              name="name"
-              label="Nombre de la agenda"
-              type="text"
-              v-model="form.name">
-            </v-text-field>
+        <v-card-title primary-title class="title py-0">Agenda</v-card-title>
 
-            <v-select
-              md4 xs12
-              class="px-2"
-              :items="users"
-              :item-text="'name'"
-              :item-value="'id'"
-              label="Usuario"
-              v-model="form.user"
-              required
-            ></v-select>
+          <v-form>
+            <v-layout row wrap class="pa-3">
+              <v-text-field
+                md4 xs12
+                class="px-2"
+                name="name"
+                label="Nombre de la agenda"
+                type="text"
+                v-model="form.name">
+              </v-text-field>
 
-            <v-text-field
-              md4 xs12
-              class="px-2"
-              name="description"
-              label="Descripcion"
-              type="text"
-              v-model="form.description">
-            </v-text-field>
-          </v-layout>
-        </v-form>
+              <v-select
+                md4 xs12
+                class="px-2"
+                :items="users"
+                :item-text="'name'"
+                :item-value="'id'"
+                label="Usuario"
+                v-model="form.user"
+                required
+              ></v-select>
+
+              <v-text-field
+                md4 xs12
+                class="px-2"
+                name="description"
+                label="Descripcion"
+                type="text"
+                v-model="form.description">
+              </v-text-field>
+            </v-layout>
+          </v-form>
       </v-card-text>
 
 
-      <v-spacer></v-spacer>
+      <v-divider></v-divider>
 
-      <v-card-title primary-title class="title py-0">Programación horaria</v-card-title>
       <v-card-text>
+        <v-card-title primary-title class="title py-0">Configuración de turnos</v-card-title>
+        <v-layout row wrap class="pa-3">
+          <v-flex xs6 md3 class="text-xs-center">
+
+            <v-text-field class="px-2"
+                          label="Tiempo de turno"
+                          type="number"
+                          v-model="form.appointmentConfig.duration"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs6 md3 class="text-xs-center">
+
+            <v-text-field class="px-2"
+                          label="Tiempo libre entre turnos"
+                          type="number"
+                          v-model="form.appointmentConfig.break"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs6 md3 class="text-xs-center">
+            <v-text-field class="px-2"
+                          label="Dias máximos para Turnos"
+                          type="number"
+                          v-model="form.appointmentConfig.maxTimeInDays"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs6 md3 class="text-xs-center">
+            <v-text-field class="px-2"
+                          label="Tiempo minimo para turno"
+                          type="number"
+                          v-model="form.appointmentConfig.minTimeInHours"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs6 md3 class="text-xs-center">
+            <v-text-field class="px-2"
+                          label="Tiempo minimo para cancelar"
+                          type="number"
+                          v-model="form.appointmentConfig.cancelTimeInHours"
+            ></v-text-field>
+          </v-flex>
+        </v-layout>
+      </v-card-text>
+
+      <v-divider></v-divider>
+
+
+      <v-card-text>
+        <v-card-title primary-title class="title py-0">Programación horaria</v-card-title>
         <v-spacer></v-spacer>
         <v-layout class="mt-2">
           <v-flex xs3 class="text-xs-center">
@@ -131,50 +180,7 @@
 
       </v-card-text>
 
-      <v-card-text>
-        <v-card-title primary-title class="title py-0">Configuración de turnos</v-card-title>
-        <v-layout row wrap class="pa-3">
-          <v-flex xs6 md3 class="text-xs-center">
 
-            <v-text-field class="px-2"
-                          label="Tiempo de turno"
-                          type="number"
-                          v-model="form.appointmentConfig.duration"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs6 md3 class="text-xs-center">
-
-            <v-text-field class="px-2"
-                          label="Tiempo libre entre turnos"
-                          type="number"
-                          v-model="form.appointmentConfig.break"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs6 md3 class="text-xs-center">
-            <v-text-field class="px-2"
-                          label="Dias máximos para Turnos"
-                          type="number"
-                          v-model="form.appointmentConfig.maxTimeInDays"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs6 md3 class="text-xs-center">
-            <v-text-field class="px-2"
-                          label="Tiempo minimo para turno"
-                          type="number"
-                          v-model="form.appointmentConfig.minTimeInHours"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs6 md3 class="text-xs-center">
-            <v-text-field class="px-2"
-                          label="Tiempo minimo para cancelar"
-                          type="number"
-                          v-model="form.appointmentConfig.cancelTimeInHours"
-            ></v-text-field>
-          </v-flex>
-        </v-layout>
-
-
-      </v-card-text>
       <v-footer class="pa-3"
                 color="primary">
       </v-footer>
