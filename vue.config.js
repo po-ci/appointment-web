@@ -3,8 +3,6 @@ const port = 8080
 
 module.exports = {
   assetsDir: 'assets',
-  baseUrl: `http://${host}:${port}/`,
-
   devServer: {
     port,
     host,
