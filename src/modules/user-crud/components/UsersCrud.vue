@@ -179,8 +179,6 @@
 
       },
       editUser(userObject) {
-        console.log("User")
-        console.log(userObject)
         this.title = 'Editando Usuario'
         this.fetchRoles()
         this.user = userObject

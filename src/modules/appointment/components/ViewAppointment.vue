@@ -2,7 +2,7 @@
 
   <v-layout row wrap>
 
-    <v-flex xs12 md6>
+    <v-flex xs12>
 
       <v-list two-line>
 
@@ -19,39 +19,18 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <!--Dia-->
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon color="indigo">today</v-icon>
-          </v-list-tile-action>
 
-          <v-list-tile-content>
-            <v-list-tile-sub-title>Dia</v-list-tile-sub-title>
-
-            <v-list-tile-title>
-              {{getDay}}
-
-
-            </v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-
-      </v-list>
-    </v-flex>
-
-    <v-flex xs12 md6>
-      <v-list two-line>
         <!--Fecha-->
         <v-list-tile>
           <v-list-tile-action>
             <v-icon color="indigo">calendar_today</v-icon>
           </v-list-tile-action>
 
-          <v-list-tile-content>
+          <v-list-tile-content class="text-no-wrap">
             <v-list-tile-sub-title>Fecha</v-list-tile-sub-title>
 
-            <v-list-tile-title>
-              {{getFriendlyDateTime}}
+            <v-list-tile-title class="text-capitalize">
+              {{getDay}} {{getFriendlyDateTime}}
 
 
             </v-list-tile-title>
@@ -119,13 +98,13 @@
       getFriendlyDateTime: function () {
         if (this.appointment && this.appointment.date && this.appointment.hour) {
           let m = moment(this.appointment.date + " " + this.appointment.hour)
-          return m.format("Do MMMM  YYYY")
+          return m.format('DD MMMM YYYY')
         }
 
 
         if (this.appointment.start) {
           let m = moment(this.appointment.start).tz('America/Argentina/Buenos_Aires').locale('es')
-          return m.format("Do MMMM  YYYY")
+          return m.format("DD MMMM YYYY")
         }
 
         return ""

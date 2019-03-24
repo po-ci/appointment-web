@@ -124,7 +124,6 @@ router.beforeEach((to, from, next) => {
     store.dispatch('checkAuth')
 
     if (!store.getters.isLogin) {
-      console.log("LGIN")
       next({
         path: '/login',
         query: {redirect: to.fullPath}

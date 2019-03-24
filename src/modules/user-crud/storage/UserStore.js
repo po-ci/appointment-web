@@ -60,8 +60,6 @@ export default {
       commit(SET_ERRORS, [])
       commit(SET_USERS_LOADING, true)
       UserProvider.update(saveUser.id, saveUser).then((response) => {
-        console.log("roles")
-        console.log(response.data.item.roles)
         saveUser.id = response.data.id
         commit(UPDATE_USER, response.data.item)
         commit(SET_USERS_LOADING, false)
