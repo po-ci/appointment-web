@@ -217,7 +217,11 @@ export default {
       state.calendarLoading = value;
     },
     [SET_DATE](state, value) {
-      state.date = moment(value).tz('America/Argentina/Buenos_Aires').locale('es');
+      if(value) {
+        state.date = moment(value).tz('America/Argentina/Buenos_Aires').locale('es');
+      }else{
+        state.date = null
+      }
     },
     [SET_CALENDARS](state, calendars) {
       state.calendars = calendars;

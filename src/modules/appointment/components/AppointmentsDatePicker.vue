@@ -2,7 +2,7 @@
     <v-date-picker
             v-model="datePick"
             locale="es-es"
-
+            no-title
             color="secondary"
 
             class="text-xs-center"

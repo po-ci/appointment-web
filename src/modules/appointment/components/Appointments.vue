@@ -1,194 +1,154 @@
 <template>
 
-  <v-container fluid fill-height class="grey lighten-3">
-    <v-layout justify-center>
+  <v-container fluid grid-list-md class="grey lighten-3">
+    <v-layout row wrap>
       <v-flex xs12 sm12 md12>
         <v-card class="elevation-12">
           <v-card-title class="pb-2">
-            <h2>Solicitud de Turnos</h2>
+            <h2>Solicitud de turno en 3 pasos</h2>
+          </v-card-title>
+        </v-card>
+      </v-flex>
+    </v-layout>
+
+    <v-layout row wrap>
+
+      <!-- STEP 1 -->
+      <v-flex xs12 sm12 md4>
+        <v-card class="appointment-step-card">
+          <v-card-title class="pa-1">
+            <h3 class="pa-0">
+              <v-btn fab dark small color="indigo">
+                1
+              </v-btn>
+              Elegir Agenda
+            </h3>
           </v-card-title>
 
-          <v-card-text class="pt-1">
+          <v-card-text class="text-xs-center pa-1">
+            <appointments-calendars></appointments-calendars>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+
+      <!-- STEP 2 -->
+
+      <v-flex xs12 sm12 md4>
+        <v-card class="appointment-step-card">
+          <v-card-title class="pa-1">
+            <h3 class="pa-0">
+              <v-btn fab dark small color="indigo">
+                2
+              </v-btn>
+              Selecionar Dia
+            </h3>
+          </v-card-title>
+
+          <v-card-text class="text-xs-center pa-1">
+
+            <div v-if="isAgendaSelected" class="text-xs-center">
+              <v-alert
+                class="ma-5 title"
+                :value="true"
+                color="info"
+                outline
+              >
+                Seleccionar agenda
+              </v-alert>
+
+            </div>
+
+            <appointments-date-picker v-else></appointments-date-picker>
+          </v-card-text>
+        </v-card>
+      </v-flex>
 
 
-            <v-stepper v-model="step">
-              <v-stepper-header>
-                <v-stepper-step :complete="step > 1" step="1">Agenda</v-stepper-step>
+      <!-- STEP 3 -->
 
-                <v-divider></v-divider>
+      <v-flex xs12 sm12 md4>
+        <v-card class="appointment-step-card">
+          <v-card-title class="pa-1">
+            <h3 class="pa-0">
+              <v-btn fab dark small color="indigo">
+                3
+              </v-btn>
+              Confirmar Horario
+            </h3>
+          </v-card-title>
 
-                <v-stepper-step :complete="step > 2" step="2">Día</v-stepper-step>
+          <v-card-text class="pa-1">
 
-                <v-divider></v-divider>
+            <div v-if="isAgendaAndDaySelected" class="text-xs-center">
+              <v-alert
+                class="ma-5 title"
+                :value="true"
+                color="info"
+                outline
+              >
+                Seleccionar agenda y dia
+              </v-alert>
 
-                <v-stepper-step step="3">Horario</v-stepper-step>
-              </v-stepper-header>
+            </div>
 
-              <v-stepper-items>
-                <v-stepper-content step="1">
-                  <v-card
-                  >
+            <div v-else-if="getCalendarLoading" class="text-xs-center mt-5">
+              <span class="primary--text headline">Buscando turnos disponibles</span><br>
+              <v-progress-circular
+                class="mt-3"
+                :size="100"
+                :width="6"
+                color="primary"
+                indeterminate
+              ></v-progress-circular>
+            </div>
 
+            <div v-else-if="getAvailableShifts.length > 0">
 
-                    <v-card-text class="text-xs-center pa-0">
+              <!--          <v-layout row wrap class="mb-1 mt-0">
+                          <v-flex class="text-xs-center">
+                            <h5 class="grey&#45;&#45;text text&#45;&#45;darken-1 title text-uppercase pa-0">
+                              <v-icon>calendar_today</v-icon>
+                              {{getCalendarSelected.name}}: {{getFriendlyDateFormated}}
+                            </h5>
+                          </v-flex>
+                        </v-layout>-->
 
-                      <h3 class="pa-0">
-                        <v-btn fab dark small color="indigo">
-                          1
-                        </v-btn>
-                        Seleccionar Agenda
-                      </h3>
-                    </v-card-text>
-
-                    <v-card-text class="text-xs-center pa-0">
-                      <v-flex>
-                        <appointments-calendars></appointments-calendars>
-                      </v-flex>
-                    </v-card-text>
-
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        color="primary"
-                        @click="step = 2"
-                      >
-                        Continuar
-                      </v-btn>
-                    </v-card-actions>
-
-                  </v-card>
-
-
-                </v-stepper-content>
-
-                <v-stepper-content step="2">
-                  <v-card
-                    class="mb-5"
-                  >
-
-
-                    <v-card-text class="text-xs-center">
-
-                      <appointments-date-picker></appointments-date-picker>
-                    </v-card-text>
-
-
-                    <v-card-actions>
-                      <v-btn flat @click="step = 1">
-                        <v-icon right dark>arrow_back</v-icon>Volver
-                      </v-btn>
-                      <v-spacer></v-spacer>
-                      <v-btn color="primary" @click="step = 3">
-                        Continuar
-                      </v-btn>
-                    </v-card-actions>
-
-                  </v-card>
+              <div style="height:330px; overflow-y: scroll; overflow-x: hidden;">
+                <appointments-available v-for="s in getAvailableShifts"
+                                        :date="getDateFormated"
+                                        :day="getDateDay"
+                                        :start="s.start"
+                                        :hour="s.hour"
+                                        :duration="s.duration"
+                                        :calendar="getCalendarSelected"
+                                        v-on:bookAppointment="bookAppointment"
+                ></appointments-available>
+              </div>
+            </div>
 
 
-                </v-stepper-content>
-
-                <v-stepper-content step="3">
-                  <v-card
-                    class="mb-5"
-                  >
-
-
-
-                    <v-card-text>
-                      <v-layout fluid row wrap>
-                        <v-flex xs12 md12 offset-md1 class="pa-1">
-                          <div v-if="isSelected" class="text-xs-center">
-                            <v-alert
-                              class="ma-5 headline"
-                              :value="true"
-                              color="info"
-                              icon="priority_high"
-                              outline
-                            >
-                              Seleccionar Agenda y Fecha.
-                            </v-alert>
-
-                          </div>
-
-                          <div v-else-if="getCalendarLoading" class="text-xs-center mt-5">
-                            <span class="primary--text headline">Buscando turnos disponibles</span><br>
-                            <v-progress-circular
-                              class="mt-3"
-                              :size="100"
-                              :width="6"
-                              color="primary"
-                              indeterminate
-                            ></v-progress-circular>
-                          </div>
-
-                          <div v-else-if="getAvailableShifts.length > 0">
-
-                            <v-layout row wrap class="mb-4">
-                              <v-flex class="text-xs-center">
-
-                                <h5 class="grey--text text--darken-1 title text-uppercase">
-                                  <v-icon>calendar_today</v-icon>
-                                  {{getCalendarSelected.name}}: {{getFriendlyDateFormated}}
-                                </h5>
-
-                              </v-flex>
-                            </v-layout>
-
-                            <appointments-available v-for="s in getAvailableShifts"
-                                                    :date="getDateFormated"
-                                                    :day="getDateDay"
-                                                    :start="s.start"
-                                                    :hour="s.hour"
-                                                    :duration="s.duration"
-                                                    :calendar="getCalendarSelected"
-                                                    v-on:bookAppointment="bookAppointment"
-                            ></appointments-available>
-                          </div>
-
-
-                          <div v-else>
-                            <v-alert
-                              class=" headline text-xs-center"
-                              :value="true"
-                              color="warning"
-                              icon="priority_high"
-                              outline
-                            >
-                              No hay turnos disponibles para la fecha seleccionada. <br>Intenta otra fecha por favor.
-                            </v-alert>
-                          </div>
-
-                        </v-flex>
-
-                      </v-layout>
-                    </v-card-text>
-
-                    <v-card-actions>
-                      <v-btn flat @click="step = 2">
-                        <v-icon right dark>arrow_back</v-icon>Volver
-                      </v-btn>
-                    </v-card-actions>
-
-                  </v-card>
-
-                </v-stepper-content>
-
-              </v-stepper-items>
-
-            </v-stepper>
+            <div v-else>
+              <v-alert
+                class=" headline text-xs-center"
+                :value="true"
+                color="warning"
+                icon="priority_high"
+                outline
+              >
+                No hay turnos disponibles para la fecha seleccionada. <br>Intenta otra fecha por favor.
+              </v-alert>
+            </div>
 
 
           </v-card-text>
-
         </v-card>
-
       </v-flex>
 
-      <appointments-confirm :dialog="dialog" :appointment="appointment"
-                            v-on:closeDialog="dialog = false"></appointments-confirm>
-
     </v-layout>
+
+
+    <appointments-confirm :dialog="dialog" :appointment="appointment"
+                          v-on:closeDialog="dialog = false"></appointments-confirm>
 
   </v-container>
 
@@ -208,11 +168,11 @@
     components: {AppointmentsCalendars, AppointmentsDatePicker, AppointmentsAvailable, AppointmentsConfirm},
     data: () => ({
         dialog: false,
-        step: 1,
         appointment: null
       }
     ),
     mounted: function () {
+      this.clearData()
       this.fetchCalendars()
     },
     watch: {
@@ -228,7 +188,10 @@
     },
     computed: {
 
-      isSelected() {
+      isAgendaSelected() {
+        return (this.getCalendarSelected) ? false : true
+      },
+      isAgendaAndDaySelected() {
         return (this.getDate && this.getCalendarSelected) ? false : true
       },
 
@@ -243,7 +206,10 @@
       ]),
     },
     methods: {
-
+      clearData: function () {
+        this.setCalendarSelected(null)
+        this.$store.commit('SET_DATE', null)
+      },
       bookAppointment: function (appointmentData) {
 
         this.clearLastAppointment()
@@ -254,12 +220,15 @@
       ...mapActions([
         'fetchCalendars',
         'fetchAvailableAppointments',
-        'clearLastAppointment'
+        'clearLastAppointment',
+        'setCalendarSelected'
       ])
     }
   }
 </script>
 
 <style scoped>
-
+  .appointment-step-card {
+    height: 400px;
+  }
 </style>
