@@ -50,7 +50,7 @@
           </v-tab-item>
 
           <v-tab-item :key="'all'">
-            <v-flex class="pa-0 mb-2"  v-for="appointment in getAppointments">
+            <v-flex class="pa-0 mb-2"  v-for="appointment in orderAppointments">
               <my-appointments-view :appointment="appointment"></my-appointments-view>
             </v-flex>
           </v-tab-item>
@@ -84,7 +84,8 @@
         'getCalendarLoading',
         'pendingAppointment',
         'cancelledAppointment',
-        'expiredAppointment'
+        'expiredAppointment',
+        'orderAppointments'
       ])
     },
     methods: {

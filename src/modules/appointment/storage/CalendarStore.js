@@ -53,6 +53,12 @@ export default {
     expiredAppointment:  (state) => {
       return state.appointments.filter(appointment => appointment.status === 0);
     },
+    orderAppointments: (state) => {
+      return state.appointments.sort(function compareNumbers(a, b) {
+        return b.id - a.id;
+      });
+
+    },
     getAppointmentByCalendarAndDate: (state) => ({calendar, date}) => {
       return state.appointments.find(appointment => appointment.id === calendar && appointment.date === date);
     },
