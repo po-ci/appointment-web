@@ -1,4 +1,4 @@
-import {CalendarProvider, AppointmentProvider, AuthService} from '../../resource/index'
+import {CalendarProvider, AppointmentProvider, AuthService} from '../../../resource'
 
 import moment from 'moment'
 import tz from 'moment-timezone'

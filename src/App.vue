@@ -15,8 +15,8 @@
 
 <script>
   import {mapActions} from 'vuex'
-  import Layout from './layout/components/Layout'
-  import AppointmentsToolbar from './components/AppointmentsToolbar'
+  import Layout from './modules/layout/components/Layout'
+  import AppointmentsToolbar from './modules/appointment/components/AppointmentsToolbar'
 
   export default {
     name: 'App',

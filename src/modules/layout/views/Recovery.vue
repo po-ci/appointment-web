@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import Recovery from '../components/Recovery.vue'
+    import Recovery from '../../user-auth/components/Recovery.vue'
 
     export default {
         components: {

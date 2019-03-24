@@ -1,4 +1,4 @@
-import HttpRequest from './../HttpRequest'
+import HttpRequest from '../../../resource/HttpRequest'
 import qs from 'querystring'
 
 class CalendarProvider extends HttpRequest {

@@ -1,9 +1,9 @@
-import {AuthService} from '../../resource/index'
-import router from './../../router'
+import {AuthService} from '../../../resource'
+import router from '../../../router'
 import {
   SET_USERS_GENERAL_ERROR,
   SET_USERS_LOADING
-} from "../../store/modules/calendar-mutation-types";
+} from "../../appointment/storage/calendar-mutation-types";
 
 export default {
   namespaced: false,

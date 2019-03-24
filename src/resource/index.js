@@ -1,8 +1,8 @@
-import AuthProvider from './providers/AuthProvider'
-import CalendarProviderClass from './providers/CalendarProvider'
-import AppointmentProviderClass from './providers/AppointmentProvider'
-import RoleProviderClass from './providers/RoleProvider'
-import UserProviderClass from './providers/UserProvider'
+import AuthProvider from '../modules/user-auth/resource/AuthProvider'
+import CalendarProviderClass from '../modules/appointment/resource/CalendarProvider'
+import AppointmentProviderClass from '../modules/appointment/resource/AppointmentProvider'
+import RoleProviderClass from '../modules/user-crud/resource/RoleProvider'
+import UserProviderClass from '../modules/user-crud/resource/UserProvider'
 
 // Give arg to provider to start endpoint with specific path for example = xxx.com/api/person
 export const AuthService = new AuthProvider('auth')

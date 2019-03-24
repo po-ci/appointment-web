@@ -1,4 +1,4 @@
-import HttpRequest from './../HttpRequest'
+import HttpRequest from '../../../resource/HttpRequest'
 
 class AppointmentProvider extends HttpRequest {
 

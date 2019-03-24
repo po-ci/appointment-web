@@ -1,15 +1,15 @@
 <template>
     <div>
-       <profile></profile>
+       <register></register>
     </div>
 </template>
 
 <script>
-    import Profile from '../components/Profile.vue'
+    import Register from '../../user-auth/components/Register.vue'
 
     export default {
         components: {
-            Profile
+            Register
         }
     }
 </script>

@@ -4,7 +4,7 @@
       <v-flex xs12>
         <v-card class="elevation-6">
           <v-card-title primary-title class="title pb-0 px-4">
-            Usuarios
+            <span>Usuarios</span>
           </v-card-title>
           <v-card-text class="pt-0">
             <v-layout row wrap>
@@ -67,14 +67,10 @@
                 </td>
                 <td>{{ props.item.phone }}</td>
 
-                <!--
-                        <td class="text-xs-center">
-                          <v-icon
-                            small
-                            @click="">lock
-                          </v-icon>
-                        </td>
-                -->
+         <!--       <td class="text-xs-center">
+                  {{props.item}}
+                </td>-->
+
                 <td class="text-xs-center">
                   <v-icon
                     small
@@ -90,12 +86,35 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <users-crud-dialog :user="user"
-                       :title="title"
-                       :roles="getRoles"
-                       :open="dialog"
-                       @closeDialog="dialog = false"
-    ></users-crud-dialog>
+
+    <users-crud-dialog
+      v-if="dialog"
+      :user="user"
+      :title="title"
+      :roles="getRoles"
+      :open="dialog"
+      :show-password="showPassword"
+      @closeDialog="dialog = false"
+    >
+    </users-crud-dialog>
+
+
+    <v-snackbar
+      v-model="snackbar"
+      :color="'success'"
+      :timeout="4000"
+      :vertical="true"
+    >
+      {{ getFlashMessage }}
+      <v-btn
+        dark
+        flat
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+
     <v-btn class="elevation-8"
            color="#D81B60"
            fab
@@ -127,17 +146,19 @@
           {text: 'Email', value: 'email'},
           {text: 'Activo', value: 'active'},
           {text: 'Telefono', value: 'phone'},
-          //    {text: 'Password', value: 'password', sortable: false},
+        //  {text: 'Log', value: 'log', sortable: false},
           {text: 'Aciones', value: 'acciones', sortable: false},
         ],
         search: '',
         dialog: false,
         user: null,
         title: null,
+        showPassword: false,
+        snackbar: false
       }
     },
     computed: {
-      ...mapGetters(['getUsers', 'getUsersLoading', 'getRoles'])
+      ...mapGetters(['getUsers', 'getUsersLoading', 'getRoles', 'getFlashMessage'])
     },
     methods: {
       ...mapActions(['allUsers', 'imageProfile', 'fetchRoles']),
@@ -153,17 +174,31 @@
         this.user = {}
         this.title = 'Nuevo Usuario'
         this.fetchRoles()
+        this.showPassword = true
         this.dialog = true
+
       },
       editUser(userObject) {
-        this.title = 'Edit Usuario'
+        console.log("User")
+        console.log(userObject)
+        this.title = 'Editando Usuario'
         this.fetchRoles()
         this.user = userObject
+        this.showPassword = false
         this.dialog = true
+
       }
     },
     mounted() {
       this.allUsers()
+    },
+    watch: {
+      getFlashMessage: function (value) {
+        if (value) {
+          this.snackbar = true
+        }
+
+      }
     }
   }
 </script>

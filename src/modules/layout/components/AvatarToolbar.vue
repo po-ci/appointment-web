@@ -49,7 +49,7 @@
 
 <script>
   import {mapGetters, mapActions} from 'vuex'
-  import ProfileImage from './ProfileImage'
+  import ProfileImage from '../../user-auth/components/ProfileImage'
 
   export default {
     name: "AvatarToolbar",

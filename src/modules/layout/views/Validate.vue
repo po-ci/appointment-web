@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import Validate from '../components/Validate.vue'
+    import Validate from '../../user-auth/components/Validate.vue'
 
     export default {
         components: {

@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import AuthStore from '../layout/modules/AuthStore'
-import CalendarStore from './modules/CalendarStore'
-import RoleStore from './modules/RoleStore'
-import UserStore from './modules/UserStore'
+import AuthStore from '../modules/user-auth/storage/AuthStore'
+import CalendarStore from '../modules/appointment/storage/CalendarStore'
+import RoleStore from '../modules/user-crud/storage/RoleStore'
+import UserStore from '../modules/user-crud/storage/UserStore'
 
 Vue.use(Vuex)
 

@@ -1,4 +1,4 @@
-import {RoleProvider, UserProvider, AuthService} from '../../resource/index'
+import {RoleProvider, UserProvider, AuthService} from '../../../resource'
 
 import {SET_ROLES, SET_ROLES_GENERAL_ERROR} from './role-mutation-types'
 
