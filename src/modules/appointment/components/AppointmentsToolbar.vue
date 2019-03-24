@@ -27,11 +27,12 @@
       },
       computed: {
           getQtyAppointments: function(){
-            return this.getAppointments.length
+            return this.pendingAppointment.length
           },
 
           ...mapGetters([
             'getAppointments',
+            'pendingAppointment',
             'isLogin'
           ])
       },
