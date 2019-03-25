@@ -47,11 +47,6 @@
         if (value) {
           this.$emit('closeDialogDelete')
         }
-      },
-      getResultHolidays: function (value) {
-        if (value) {
-          this.$emit('closeDialogDelete')
-        }
       }
     },
 
