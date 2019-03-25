@@ -16,14 +16,14 @@
       <v-flex class="pa-2" xs12 sm12 md12>
         <v-card class="elevation-4">
           <v-tabs fixed-tabs v-model="tabs">
-            <v-tab href="#appointments">Turnos</v-tab>
-            <v-tab href="#assing">Asignacion De Turnos</v-tab>
+            <v-tab :key="'appointments'" ripple>Turnos</v-tab>
+            <v-tab :key="'assing'" ripple>Asignacion De Turnos</v-tab>
           </v-tabs>
         </v-card>
       </v-flex>
     </v-layout>
     <v-tabs-items v-model="tabs">
-      <v-tab-item :key="'b'" :value="'appointments'">
+      <v-tab-item :key="'appointments'">
         <v-layout row wrap>
           <v-flex xs12 class="pa-2">
             <v-card>
@@ -34,7 +34,7 @@
       </v-tab-item>
 
 
-      <v-tab-item :key="'a'" :value="'assing'">
+      <v-tab-item :key="'assing'">
         <v-layout row wrap>
           <v-flex xs12 sm12 md4 class="pa-2">
             <v-card class="appointment-step-card">
