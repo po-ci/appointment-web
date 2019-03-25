@@ -22,12 +22,14 @@
         </v-card>
       </v-flex>
     </v-layout>
+
+
     <v-tabs-items v-model="tabs">
       <v-tab-item :key="'appointments'">
         <v-layout row wrap>
           <v-flex xs12 class="pa-2">
             <v-card>
-              <v-card-text>text1</v-card-text>
+              <v-card-text>Todos los turnos</v-card-text>
             </v-card>
           </v-flex>
         </v-layout>
