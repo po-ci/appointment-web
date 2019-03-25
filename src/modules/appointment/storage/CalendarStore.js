@@ -1,4 +1,4 @@
-import {CalendarProvider, AppointmentProvider, AuthService} from '../../../resource'
+import {CalendarProvider, AppointmentProvider, AuthService, HolidaysProvider} from '../../../resource'
 import Vue from 'vue'
 import moment from 'moment'
 import tz from 'moment-timezone'
@@ -16,8 +16,19 @@ import {
   SET_CALENDAR_DELETED,
   ADD_CALENDAR,
   UPDATE_CALENDAR,
-  UPDATE_APPOINTMENT
+  UPDATE_APPOINTMENT,
+  SET_HOLIDAYS,
+  SET_HOLIDAYS_GENERAL_ERRORS,
+  SET_HOLIDAYS_LOADING,
+  SET_ADD_HOLIDAYS,
+  SET_FLASH_MESSAGE,
+  SET_ERRORS,
+  SET_RESULT_HOLIDAYS,
+  UPDATE_HOLIDAYS,
+  SET_HOLIDAY_DELETED,
+  SET_HOLIDAY_DELETED_RESPONSE
 } from './calendar-mutation-types'
+import {SET_RESULT, SET_USERS_LOADING, UPDATE_USER} from "../../user-crud/storage/user-mutation-type";
 
 export default {
   namespaced: false,
@@ -33,7 +44,13 @@ export default {
     lastAppointment: null,
     calendarDelete: null,
     users: [],
-    usersGeneralErrors: []
+    usersGeneralErrors: [],
+    holidays: [],
+    holidaysErrors: null,
+    holidaysLoading: false,
+    flashMessage: null,
+    resultHolidays: false,
+    errorsHolidays: []
   },
   getters: {
 
@@ -50,7 +67,7 @@ export default {
     cancelledAppointment: (state) => {
       return state.appointments.filter(appointment => appointment.status === 2);
     },
-    expiredAppointment:  (state) => {
+    expiredAppointment: (state) => {
       return state.appointments.filter(appointment => appointment.status === 0);
     },
     orderAppointments: (state) => {
@@ -106,6 +123,21 @@ export default {
     findCalendarById: (state) => id => {
       let calendar = state.calendars.find(calendar => calendar.id === id);
       return calendar
+    },
+    getHolidays(state) {
+      return state.holidays
+    },
+    getHolidaysLoading(state) {
+      return state.holidaysLoading
+    },
+    getFlashMessageHolidays(state) {
+      return state.flashMessage
+    },
+    getResultHolidays(state) {
+      return state.resultHolidays
+    },
+    getHolidaysErrors(state) {
+      return state.holidaysErrors
     }
   },
   actions: {
@@ -240,63 +272,177 @@ export default {
 
       })
     },
+    fetchAllHolidays({commit}) {
+      commit(SET_HOLIDAYS_LOADING, true);
+      HolidaysProvider.fetchAll().then((response) => {
+        commit(SET_HOLIDAYS, response.data)
+        commit(SET_HOLIDAYS_LOADING, false);
+      }).catch((error) => {
+        //commit(SET_HOLIDAYS_GENERAL_ERRORS, error)
+      })
+    },
+    createHolidays({commit}, data) {
+      commit(SET_RESULT_HOLIDAYS, false);
+      commit(SET_FLASH_MESSAGE, null)
+      commit(SET_HOLIDAYS_GENERAL_ERRORS, [])
+      commit(SET_ERRORS, [])
+      commit(SET_HOLIDAYS_LOADING, true);
+      HolidaysProvider.create(data).then((response) => {
+        data.id = response.data.id
+        commit(SET_ADD_HOLIDAYS, data)
+        commit(SET_RESULT_HOLIDAYS, true)
+        commit(SET_HOLIDAYS_LOADING, false);
+        commit(SET_FLASH_MESSAGE, "El Feriado se creo con exito")
+      }).catch((error) => {
+        commit(SET_RESULT_HOLIDAYS, false)
+        if (error && error.response && error.response.data && error.response.data.errors) {
+          commit(SET_HOLIDAYS_GENERAL_ERRORS, error.response.data.errors)
+        }
+        commit(SET_HOLIDAYS_LOADING, false)
+      })
+    },
+    updateHolidays({commit}, data) {
+      commit(SET_RESULT_HOLIDAYS, false);
+      commit(SET_FLASH_MESSAGE, null)
+      commit(SET_ERRORS, [])
+      commit(SET_HOLIDAYS_LOADING, true);
+      HolidaysProvider.update(data.id, data).then((response) => {
+        data.id = response.data.id
+        commit(UPDATE_HOLIDAYS, response.data.item)
+        commit(SET_HOLIDAYS_LOADING, false)
+        commit(SET_RESULT_HOLIDAYS, true)
+        commit(SET_FLASH_MESSAGE, "El Feriado se edito con exito")
+      }).catch((error) => {
+        commit(SET_RESULT_HOLIDAYS, false)
+        if (error && error.response && error.response.data && error.response.data.errors) {
+          commit(SET_HOLIDAYS_GENERAL_ERRORS, error.response.data.errors)
+        }
+        commit(SET_HOLIDAYS_LOADING, false)
+      })
+    },
+    deleteHoliday({commit}, holidayID) {
+      commit(SET_RESULT_HOLIDAYS, false);
+      commit(SET_FLASH_MESSAGE, null)
+      commit(SET_ERRORS, [])
+      commit(SET_HOLIDAYS_LOADING, true);
+      HolidaysProvider.delete(holidayID).then((response) => {
+        commit(SET_HOLIDAY_DELETED, holidayID)
+        commit(SET_RESULT_HOLIDAYS, true)
+        commit(SET_FLASH_MESSAGE, "El Feriado se elimino con exito")
+        commit(SET_HOLIDAYS_LOADING, false)
+      }).catch((error) => {
+        commit(SET_RESULT_HOLIDAYS, false)
+        if (error && error.response && error.response.data && error.response.data.errors) {
+          commit(SET_HOLIDAYS_GENERAL_ERRORS, error.response.data.errors)
+        }
+        commit(SET_HOLIDAYS_LOADING, false)
+      })
+
+    }
   },
   mutations: {
     [SET_CALENDAR_LOADING](state, value) {
       state.calendarLoading = value;
-    },
+    }
+    ,
     [SET_DATE](state, value) {
       if (value) {
         state.date = moment(value).tz('America/Argentina/Buenos_Aires').locale('es');
       } else {
         state.date = null
       }
-    },
+    }
+    ,
     [SET_CALENDARS](state, calendars) {
       state.calendars = calendars;
-    },
+    }
+    ,
     [SET_CALENDAR_DELETED_RESPONSE](state, responseData) {
       state.calendarDelete = responseData;
-    },
+    }
+    ,
     [SET_CALENDAR_DELETED](state, id) {
       state.calendars = state.calendars.filter(doc => {
         return doc.id != id
       });
-    },
+    }
+    ,
     [SET_CALENDAR_SELECTED](state, calendar) {
       state.calendarSelected = calendar;
-    },
+    }
+    ,
     [SET_CALENDAR_GENERAL_ERRORS](state, errors) {
       state.calendarGeneralErrors = errors;
-    },
+    }
+    ,
     [SET_EVENTS](state, events) {
       state.events = events;
-    },
+    }
+    ,
     [SET_AVAILABLE_SHIFTS](state, shifts) {
       state.availableShifts = shifts;
-    },
+    }
+    ,
     [ADD_APPOINTMENT](state, appointment) {
       state.appointments.push(appointment);
-    },
+    }
+    ,
     [UPDATE_APPOINTMENT](state, appointment) {
       let index = state.appointments.findIndex(a => a.id == appointment.id)
       Vue.set(state.appointments, index, appointment)
-    },
+    }
+    ,
     [SET_APPOINTMENTS](state, appointments) {
       state.appointments = appointments;
-    },
+    }
+    ,
     [SET_LAST_APPOINTMENT](state, appointment) {
       state.lastAppointment = appointment;
-    },
+    }
+    ,
     [SET_CALENDAR_DELETED_RESPONSE](state, calendarId) {
       state.calendarDelete = calendarId;
-    },
+    }
+    ,
     [ADD_CALENDAR](state, data) {
       state.calendars.push(data)
-    },
+    }
+    ,
     [UPDATE_CALENDAR](state, data) {
       let index = state.calendars.findIndex(calendar => calendar.id == data.id)
       state.calendars[index] = data
+    }
+    ,
+    [SET_HOLIDAYS_LOADING](state, loading) {
+      state.holidaysLoading = loading
+    }
+    ,
+    [SET_HOLIDAYS](state, data) {
+      state.holidays = data
+    }
+    ,
+    [SET_ADD_HOLIDAYS](state, data) {
+      state.holidays.push(data)
+    }
+    ,
+    [SET_FLASH_MESSAGE](state, message) {
+      state.flashMessage = message
+    }
+    ,
+    [SET_RESULT_HOLIDAYS](state, data) {
+      state.resultHolidays = data
+    },
+    [UPDATE_HOLIDAYS](state, data) {
+      let index = state.holidays.findIndex(holiday => holiday.id == data.id)
+      Vue.set(state.holidays, index, data)
+    },
+    [SET_HOLIDAYS_GENERAL_ERRORS](state, data) {
+      state.holidaysErrors = data
+    },
+    [SET_HOLIDAY_DELETED](state, id) {
+      state.holidays = state.holidays.filter(doc => {
+        return doc.id != id
+      });
     }
   },
 }
