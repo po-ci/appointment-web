@@ -103,7 +103,6 @@
       v-model="snackbar"
       :color="'success'"
       :timeout="4000"
-      :vertical="true"
     >
       {{ getFlashMessage }}
       <v-btn
@@ -111,7 +110,7 @@
         flat
         @click="snackbar = false"
       >
-        Close
+        <v-icon>close</v-icon>
       </v-btn>
     </v-snackbar>
 
