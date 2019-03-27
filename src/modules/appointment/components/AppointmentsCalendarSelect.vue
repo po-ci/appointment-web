@@ -7,11 +7,12 @@
     item-value="id"
     label="Agenda"
     v-on:change="onChange"
+    prepend-icon="event_note"
   ></v-select>
 
   <v-flex v-else>
     <span class="primary--text">Cargando Agendas</span>
-    <v-progress-linear  indeterminate> </v-progress-linear>
+    <v-progress-linear indeterminate></v-progress-linear>
   </v-flex>
 
 
