@@ -1,5 +1,6 @@
 import AuthProvider from '../modules/user-auth/resource/AuthProvider'
 import CalendarProviderClass from '../modules/appointment/resource/CalendarProvider'
+import HolidaysProviderClass from '../modules/appointment/resource/HolidaysProvider'
 import AppointmentProviderClass from '../modules/appointment/resource/AppointmentProvider'
 import RoleProviderClass from '../modules/user-crud/resource/RoleProvider'
 import UserProviderClass from '../modules/user-crud/resource/UserProvider'
@@ -15,3 +16,5 @@ export const AppointmentProvider = new AppointmentProviderClass('/zfmc/api/appoi
 export const RoleProvider = new RoleProviderClass('/security/api/roles')
 
 export const UserProvider = new UserProviderClass('/security/api/users')
+
+export const HolidaysProvider = new HolidaysProviderClass('/zfmc/api/holidays')
