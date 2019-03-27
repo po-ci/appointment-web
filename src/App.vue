@@ -51,21 +51,33 @@
 
           },
           {
+            text: 'Configuraciones',
+            role: 'admin',
+            children: [
+              {
+                icon: 'person',
+                text: 'Usuarios',
+                link: {name: "users"},
+                role: 'admin'
+              },
+              {
+                icon: 'label_important',
+                text: 'Agendas',
+                link: {name: "crudCalendars"},
+                role: 'admin'
+              },
+              {
+                icon: 'local_cafe',
+                text: 'Feriados',
+                link: {name: "holidays"},
+                role: 'admin'
+              },
+            ]
+          },
+          {
             icon: 'assignment',
             text: 'Administrar Turnos',
             link: {name: "adminAppointments"},
-            role: 'admin'
-          },
-          {
-            icon: 'label_important',
-            text: 'Administrar Calendarios',
-            link: {name: "crudCalendars"},
-            role: 'admin'
-          },
-          {
-            icon: 'local_cafe',
-            text: 'Feriados',
-            link: {name: "holidays"},
             role: 'admin'
           },
           {
@@ -73,12 +85,7 @@
             text: 'Acerca de Nosotros',
             link: {name: "about"}
           },
-          {
-            icon: 'person',
-            text: 'Usuarios',
-            link: {name: "users"},
-            role: 'admin'
-          },
+
         ]
       }
     }
