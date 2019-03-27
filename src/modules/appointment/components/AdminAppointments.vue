@@ -98,9 +98,11 @@
 
       getDate: function () {
         this.fetchAvailableAppointments()
+        this.fetchAllAppointsments()
       },
 
       getCalendarSelected: function () {
+        this.fetchAllAppointsments()
         this.fetchAvailableAppointments()
       },
 
@@ -117,7 +119,8 @@
         'getCalendarSelected',
         'getAvailableShifts',
         'getCalendarLoading',
-        'getFriendlyDateFormated'
+        'getFriendlyDateFormated',
+        'getAllAppointments'
       ]),
     },
     methods: {
@@ -129,8 +132,24 @@
         'fetchCalendars',
         'fetchAvailableAppointments',
         'clearLastAppointment',
-        'setCalendarSelected'
-      ])
+        'setCalendarSelected',
+        'fetchAllAppointments'
+      ]),
+
+      fetchAllAppointsments() {
+        let data = [{
+          id: null,
+          start: null,
+          end: null
+        }]
+
+        data.id = this.getCalendarSelected()
+        data.start = this.getDate()
+        if (data.id && data.start) {
+          data.start = moment().format(data.start, 'yyyy-mm-dd')
+          console.log(data)
+        }
+      }
     }
   }
 
