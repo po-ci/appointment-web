@@ -26,7 +26,8 @@ import {
   SET_RESULT_HOLIDAYS,
   UPDATE_HOLIDAYS,
   SET_HOLIDAY_DELETED,
-  SET_HOLIDAY_DELETED_RESPONSE
+  SET_HOLIDAY_DELETED_RESPONSE,
+  SET_APPOINTMENTS_ALL
 } from './calendar-mutation-types'
 import {SET_RESULT, SET_USERS_LOADING, UPDATE_USER} from "../../user-crud/storage/user-mutation-type";
 
@@ -50,7 +51,8 @@ export default {
     holidaysLoading: false,
     flashMessage: null,
     resultHolidays: false,
-    errorsHolidays: []
+    errorsHolidays: [],
+    allAppointments: []
   },
   getters: {
 
@@ -138,6 +140,9 @@ export default {
     },
     getHolidaysErrors(state) {
       return state.holidaysErrors
+    },
+    getAllAppointments(state) {
+      return state.allAppointments
     }
   },
   actions: {
@@ -338,6 +343,15 @@ export default {
         commit(SET_HOLIDAYS_LOADING, false)
       })
 
+    },
+
+    fetchAllAppointments({commit}, data) {
+      commit(SET_CALENDAR_LOADING, true);
+      AppointmentProvider.findByCalendarAndDate(data.id, data.from, data.to).then((response) => {
+        commit(SET_APPOINTMENTS_ALL, response.data)
+      }).catch((error) => {
+
+      })
     }
   },
   mutations: {
@@ -443,6 +457,9 @@ export default {
       state.holidays = state.holidays.filter(doc => {
         return doc.id != id
       });
+    },
+    [SET_APPOINTMENTS_ALL](state, data) {
+      state.allAppointments = data
     }
   },
 }
