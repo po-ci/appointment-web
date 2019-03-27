@@ -5,7 +5,7 @@
         <view-appointment :appointment="appointment"></view-appointment>
         <v-btn v-if="appointment.status == 1"
                class="ml-3 mb-0 px-1"
-               :color="'warning'"
+               :color="'amber lighten-4'"
                @click="dialogCancel = true"
                small
 
