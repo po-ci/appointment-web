@@ -2,7 +2,7 @@
   <v-container class="grey lighten-3">
 
     <v-layout row wrap>
-      <v-flex class="pa-2" xs12 sm12 md12>
+      <v-flex class="pa-2" offset-md2 xs12 sm12 md8>
         <v-card class="elevation-12">
           <v-card-title primary-title="">
             <div>
@@ -55,11 +55,7 @@
       <v-tab-item :key="'assing'" class="pa-2">
         <v-layout row wrap>
           <v-flex xs12 md8 class="offset-md2">
-            <v-card>
-              <v-card-text>
-                <admin-appointments-hours></admin-appointments-hours>
-              </v-card-text>
-            </v-card>
+            <admin-appointments-hours></admin-appointments-hours>
           </v-flex>
         </v-layout>
 
@@ -87,7 +83,12 @@
     data: () => ({
         dialog: false,
         appointment: null,
-        tabs: null
+        tabs: null,
+        data: {
+          id: null,
+          start: null,
+          end: null
+        }
       }
     ),
     mounted: function () {
@@ -98,11 +99,11 @@
 
       getDate: function () {
         this.fetchAvailableAppointments()
-        this.fetchAllAppointsments()
+        //this.fetchAllAppointsments()
       },
 
       getCalendarSelected: function () {
-        this.fetchAllAppointsments()
+        //this.fetchAllAppointsments()
         this.fetchAvailableAppointments()
       },
 
@@ -137,15 +138,9 @@
       ]),
 
       fetchAllAppointsments() {
-        let data = [{
-          id: null,
-          start: null,
-          end: null
-        }]
-
-        data.id = this.getCalendarSelected()
-        data.start = this.getDate()
-        if (data.id && data.start) {
+        this.data.id = this.getCalendarSelected()
+        this.data.start = this.getDate()
+        if (this.data.id && this.data.start) {
           data.start = moment().format(data.start, 'yyyy-mm-dd')
           console.log(data)
         }
