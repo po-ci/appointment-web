@@ -1,29 +1,19 @@
 <template>
   <div>
-    <v-card class="elevation-12">
-      <v-card-text>
+    <v-card class="elevation-12" :class="getClass">
+      <v-card-text class="pa-2">
         <view-appointment :appointment="appointment"></view-appointment>
-      </v-card-text>
-      <v-card-actions class="pa-0">
-        <v-spacer></v-spacer>
-        <v-alert
-          v-if="appointment.status == 2 || appointment.status == 3"
-          :value="appointment.status == 2 || appointment.status == 3"
-          color="error"
-          icon="check_circle"
-          outline
-        >
-          Cita Cancelada
-        </v-alert>
-
         <v-btn v-if="appointment.status == 1"
-               flat
+               class="ml-3 mb-0 px-1"
                :color="'warning'"
                @click="dialogCancel = true"
+               small
+
         >
-          Cancelar Turno
+         Cancelar
         </v-btn>
-      </v-card-actions>
+      </v-card-text>
+
     </v-card>
     <v-dialog
       v-model="dialogCancel"
@@ -77,7 +67,16 @@
     computed: {
       ...mapGetters([
         'getCalendarLoading'
-      ])
+      ]),
+      getClass: function(){
+        if(this.appointment.status == 2 || this.appointment.status == 3){
+          return 'border-error'
+        }
+        if(this.appointment.status == 1){
+          return 'border-green'
+        }
+        return ''
+      }
     },
     methods: {
       ...mapActions([
@@ -93,5 +92,10 @@
 </script>
 
 <style scoped>
-
+.border-error{
+  border:1px solid red;
+}
+.border-green{
+  border:1px solid green;
+}
 </style>
