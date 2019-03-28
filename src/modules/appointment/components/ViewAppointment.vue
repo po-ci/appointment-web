@@ -76,7 +76,7 @@
               :item-text="'name'"
               :item-value="'id'"
               label="Usuario"
-              v-model="form.user"
+              v-model="user"
               required
             ></v-select>
           </v-list-tile-action>
@@ -110,14 +110,13 @@
     },
     data() {
       return {
-        form: {
-          user: null
-        }
+        user: null
+
       }
     },
     watch: {
       user: function () {
-        this.$emit('users', this.form.user)
+        this.$emit('users', this.user)
       }
     },
     computed: {

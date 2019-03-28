@@ -59,21 +59,21 @@
         No hay turnos disponibles para la fecha seleccionada. <br>Intenta otra fecha por favor.
       </v-alert>
     </div>
-    <admi-appointments-confirm :dialog="dialog" :appointment="appointment"
-                               v-on:closeDialog="dialog = false"></admi-appointments-confirm>
+    <admin-appointments-confirm :dialog="dialog" :appointment="appointment"
+                               v-on:closeDialog="dialog = false"></admin-appointments-confirm>
   </div>
 </template>
 
 <script>
   import AdminAppointmentsAvalive from './AdminAppointmentsAvalive'
-  import AdmiAppointmentsConfirm from './AdmiAppointmentsConfirm'
+  import AdminAppointmentsConfirm from './AdminAppointmentsConfirm'
   import {mapActions, mapGetters} from 'vuex'
 
   export default {
     name: "AdminAppointmentsHours",
     components: {
       AdminAppointmentsAvalive,
-      AdmiAppointmentsConfirm
+      AdminAppointmentsConfirm
     },
     data() {
       return {

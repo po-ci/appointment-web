@@ -58,7 +58,7 @@
           flat="flat"
           @click="goToMyAppointments"
         >
-          Mis Turnos
+          Cerrar
         </v-btn>
 
       </v-card-actions>
@@ -117,9 +117,6 @@
       appointment: function () {
         this.appointments = this.appointment
       },
-      userID: function (value) {
-        this.appointments = value
-      }
 
     },
     data: () => ({
@@ -158,7 +155,7 @@
         });
       },
       userID(value) {
-        this.appointments = value
+        this.appointments.user = value
       },
 
       ...mapActions([

@@ -199,9 +199,6 @@ export default {
 
       AppointmentProvider.takeAdmin(calendar, start, duration, user).then((response) => {
         commit(SET_LAST_APPOINTMENT, response.data)
-        if (response.data.status) {
-          commit(ADD_APPOINTMENT, response.data.item);
-        }
         commit(SET_CALENDAR_LOADING, false);
       }).catch((error) => {
         commit(SET_CALENDAR_LOADING, false);
