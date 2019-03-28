@@ -1,61 +1,63 @@
 <template>
   <v-container>
-    <v-card class="elevation-8">
-      <v-layout row>
-        <v-flex xs6>
+    <v-layout row wrap>
+      <v-flex xs12 class="pa-3">
+        <v-card class="elevation-8">
           <v-card-title primary-title class="title">
             Feriados
           </v-card-title>
-        </v-flex>
-        <v-flex xs6 class="pt-2 pr-4 text-xs-right">
-        </v-flex>
-      </v-layout>
-      <v-card-text>
-        <v-data-table
-          :loading="getHolidaysLoading"
-          :headers="headers"
-          :items="getHolidays">
-          <template slot="no-data">
+        </v-card>
+      </v-flex>
+      <v-flex xs12 class="pa-3">
+        <v-card>
+          <v-card-text>
+            <v-data-table
+              :loading="getHolidaysLoading"
+              :headers="headers"
+              :items="getHolidays">
+              <template slot="no-data">
 
-            <div v-if="getHolidaysLoading"
-                 color="info"
-                 outline
-                 class="text-xs-center">
-              Cargando Feriados
-            </div>
+                <div v-if="getHolidaysLoading"
+                     color="info"
+                     outline
+                     class="text-xs-center">
+                  Cargando Feriados
+                </div>
 
-            <div v-if="!getHolidaysLoading"
-                 outline
-                 color="info">
-              Sin datos
-            </div>
+                <div v-if="!getHolidaysLoading"
+                     outline
+                     color="info">
+                  Sin datos
+                </div>
 
-          </template>
+              </template>
 
 
-          <template slot="items" slot-scope="props">
-            <td>{{props.item.id}}</td>
-            <td>{{ props.item.title}}</td>
-            <td>{{ props.item.date}}</td>
-            <td>
-              <v-icon
-                small
-                class="mr-2"
-                @click="editHolidays(props.item)"
-              >
-                edit
-              </v-icon>
-              <v-icon
-                small
-                @click="dialodDeletes(props.item.id)"
-              >
-                delete
-              </v-icon>
-            </td>
-          </template>
-        </v-data-table>
-      </v-card-text>
-    </v-card>
+              <template slot="items" slot-scope="props">
+                <td>{{props.item.id}}</td>
+                <td>{{ props.item.title}}</td>
+                <td>{{ props.item.date}}</td>
+                <td>
+                  <v-icon
+                    small
+                    class="mr-2"
+                    @click="editHolidays(props.item)"
+                  >
+                    edit
+                  </v-icon>
+                  <v-icon
+                    small
+                    @click="dialodDeletes(props.item.id)"
+                  >
+                    delete
+                  </v-icon>
+                </td>
+              </template>
+            </v-data-table>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
     <v-btn class="elevation-8"
            color="#D81B60"
            fixed

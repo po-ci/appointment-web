@@ -4,7 +4,7 @@
       <v-flex xs12 class="pa-3">
         <v-card class="elevation-6">
           <v-card-title primary-title class="title">
-            <span>Usuarios</span>
+            Usuarios
           </v-card-title>
         </v-card>
       </v-flex>
