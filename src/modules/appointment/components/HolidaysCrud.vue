@@ -9,7 +9,7 @@
         </v-card>
       </v-flex>
       <v-flex xs12 class="pa-3">
-        <v-card>
+        <v-card class="elevation-8">
           <v-card-text>
             <v-data-table
               :loading="getHolidaysLoading"
