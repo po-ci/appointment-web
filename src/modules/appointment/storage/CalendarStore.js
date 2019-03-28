@@ -37,7 +37,9 @@ import {
   SET_OUT_OF_SERVICE_GENERAL_ERRORS,
   SET_OUT_OF_SERVICE_LOADING,
   SET_ADD_OUT_OF_SERVICE,
-  UPDATE_OUT_OF_SERVICE
+  UPDATE_OUT_OF_SERVICE,
+  SET_RESULT_OUT_OF_SERVICE,
+  SET_OUT_OF_SERVICE_DELETED
 } from './calendar-mutation-types'
 import {SET_RESULT, SET_USERS_LOADING, UPDATE_USER} from "../../user-crud/storage/user-mutation-type";
 
@@ -62,7 +64,12 @@ export default {
     flashMessage: null,
     resultHolidays: false,
     errorsHolidays: [],
-    allAppointments: []
+    allAppointments: [],
+    outOfService: [],
+    loadingOutOfService: false,
+    errorOfservice: [],
+    resultOutOfService: false
+
   },
   getters: {
 
@@ -153,7 +160,23 @@ export default {
     },
     getAllAppointments(state) {
       return state.allAppointments
+    },
+    getAllOutOfService(state) {
+      return state.outOfService
+    },
+    getOutOfServiceLoading(state) {
+      return state.loadingOutOfService
+    },
+    getResultOutOfService(state) {
+      return state.resultOutOfService
+    },
+    getOutOfServiceErrors(state) {
+      return state.errorOfservice
+    },
+    getFlashMessageOutOfService(state) {
+      return state.flashMessage
     }
+
   },
   actions: {
 
@@ -384,7 +407,66 @@ export default {
       }).catch((error) => {
         commit(SET_OUT_OF_SERVICE_GENERAL_ERRORS, error.data)
       })
-    }
+    },
+    addOutOfService({commit}, data) {
+      commit(SET_RESULT_OUT_OF_SERVICE, false);
+      commit(SET_FLASH_MESSAGE, null)
+      commit(SET_OUT_OF_SERVICE_GENERAL_ERRORS, [])
+      commit(SET_ERRORS, [])
+      commit(SET_OUT_OF_SERVICE_LOADING, true)
+      OutOfServiceProvider.create(data).then((response) => {
+        if (response.data.id) {
+          commit(SET_ADD_OUT_OF_SERVICE, response.data.item)
+        }
+        commit(SET_RESULT_OUT_OF_SERVICE, true)
+        commit(SET_OUT_OF_SERVICE_LOADING, false);
+        commit(SET_FLASH_MESSAGE, "La Licencia se creo con exito")
+      }).catch((error) => {
+        commit(SET_RESULT_OUT_OF_SERVICE, false)
+        if (error && error.response && error.response.data && error.response.data.errors) {
+          commit(SET_OUT_OF_SERVICE_GENERAL_ERRORS, error.response.data.errors)
+        }
+        commit(SET_OUT_OF_SERVICE_LOADING, false)
+      })
+    },
+    updateOutOfService({commit}, data) {
+      commit(SET_RESULT_OUT_OF_SERVICE, false);
+      commit(SET_FLASH_MESSAGE, null)
+      commit(SET_ERRORS, [])
+      commit(SET_OUT_OF_SERVICE_LOADING, true);
+      OutOfServiceProvider.update(data.id, data).then((response) => {
+        data.id = response.data.id
+        commit(UPDATE_OUT_OF_SERVICE, response.data.item)
+        commit(SET_OUT_OF_SERVICE_LOADING, false)
+        commit(SET_RESULT_OUT_OF_SERVICE, true)
+        commit(SET_FLASH_MESSAGE, "La Licencia se edito con exito")
+      }).catch((error) => {
+        commit(SET_RESULT_OUT_OF_SERVICE, false)
+        if (error && error.response && error.response.data && error.response.data.errors) {
+          commit(SET_OUT_OF_SERVICE_GENERAL_ERRORS, error.response.data.errors)
+        }
+        commit(SET_OUT_OF_SERVICE_LOADING, false)
+      })
+    },
+    deleteOutOfService({commit}, outOfServiceID) {
+      commit(SET_RESULT_OUT_OF_SERVICE, false);
+      commit(SET_FLASH_MESSAGE, null)
+      commit(SET_ERRORS, [])
+      commit(SET_OUT_OF_SERVICE_LOADING, true);
+      OutOfServiceProvider.delete(outOfServiceID).then((response) => {
+        commit(SET_OUT_OF_SERVICE_DELETED, outOfServiceID)
+        commit(SET_RESULT_OUT_OF_SERVICE, true)
+        commit(SET_FLASH_MESSAGE, "La licencia se elimino con exito")
+        commit(SET_OUT_OF_SERVICE_LOADING, false)
+      }).catch((error) => {
+        commit(SET_OUT_OF_SERVICE_LOADING, false)
+        if (error && error.response && error.response.data && error.response.data.errors) {
+          commit(SET_OUT_OF_SERVICE_GENERAL_ERRORS, error.response.data.errors)
+        }
+        commit(SET_OUT_OF_SERVICE_LOADING, false)
+      })
+
+    },
   },
   mutations: {
     [SET_CALENDAR_LOADING](state, value) {
@@ -492,6 +574,31 @@ export default {
     },
     [SET_APPOINTMENTS_ALL](state, data) {
       state.allAppointments = data
+    },
+    [SET_OUT_OF_SERVICE_LOADING](state, data) {
+      state.loadingOutOfService = data
+    },
+    [SET_OUT_OF_SERVICE](state, data) {
+      state.outOfService = data
+    },
+    [SET_OUT_OF_SERVICE_GENERAL_ERRORS](state, data) {
+      state.errorOfservice = data
+    },
+    [SET_ADD_OUT_OF_SERVICE](state, data) {
+      state.outOfService.push(data)
+    },
+    [SET_RESULT_OUT_OF_SERVICE](state, data) {
+      state.resultOutOfService = data
+    },
+    [UPDATE_OUT_OF_SERVICE](state) {
+      let index = state.outOfService.findIndex(outOfService => outOfService.id == data.id)
+      Vue.set(state.outOfService, index, data)
+    },
+    [SET_OUT_OF_SERVICE_DELETED](state, id) {
+      state.outOfService = state.outOfService.filter(doc => {
+        return doc.id != id
+      })
     }
+
   },
 }
