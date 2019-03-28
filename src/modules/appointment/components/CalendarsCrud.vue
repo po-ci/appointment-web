@@ -52,7 +52,7 @@
 
       :open="dialog"
       :calendar-form="calendarForm"
-      :users="getUsers"
+      :users="getUsersForCalendar"
       @closeDialog="dialog = false"
 
     >
@@ -107,7 +107,7 @@
       }
     },
     computed: {
-      ...mapGetters(['getCalendars', 'getCalendarLoading', 'getUsers']),
+      ...mapGetters(['getCalendars', 'getCalendarLoading', 'getUsersForCalendar']),
     },
     methods: {
       ...mapActions(['fetchCalendars', 'deleteCalendar', 'allUsers']),
