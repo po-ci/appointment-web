@@ -175,11 +175,16 @@ export default {
     },
     getFlashMessageOutOfService(state) {
       return state.flashMessage
-    }
+    },
+    checkCalendarAppointment: (state) => {
+      if(state.appointments.find(appointment => appointment.calendar.id == state.calendarSelected.id &&  appointment.status == 1) !== undefined){
+        return true
+      }
+      return false
+    },
 
   },
   actions: {
-
 
     fetchAvailableAppointments({commit, getters}) {
       commit(SET_CALENDAR_LOADING, true);
