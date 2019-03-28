@@ -1,4 +1,10 @@
-import {CalendarProvider, AppointmentProvider, AuthService, HolidaysProvider} from '../../../resource'
+import {
+  CalendarProvider,
+  AppointmentProvider,
+  AuthService,
+  HolidaysProvider,
+  OutOfServiceProvider
+} from '../../../resource'
 import Vue from 'vue'
 import moment from 'moment'
 import tz from 'moment-timezone'
@@ -26,8 +32,12 @@ import {
   SET_RESULT_HOLIDAYS,
   UPDATE_HOLIDAYS,
   SET_HOLIDAY_DELETED,
-  SET_HOLIDAY_DELETED_RESPONSE,
-  SET_APPOINTMENTS_ALL
+  SET_APPOINTMENTS_ALL,
+  SET_OUT_OF_SERVICE,
+  SET_OUT_OF_SERVICE_GENERAL_ERRORS,
+  SET_OUT_OF_SERVICE_LOADING,
+  SET_ADD_OUT_OF_SERVICE,
+  UPDATE_OUT_OF_SERVICE
 } from './calendar-mutation-types'
 import {SET_RESULT, SET_USERS_LOADING, UPDATE_USER} from "../../user-crud/storage/user-mutation-type";
 
@@ -363,6 +373,16 @@ export default {
         commit(SET_APPOINTMENTS_ALL, response.data)
       }).catch((error) => {
 
+      })
+    },
+
+    fetchAllOutOfService({commit},) {
+      commit(SET_OUT_OF_SERVICE_LOADING, true)
+      OutOfServiceProvider.fetchAll().then((response) => {
+        commit(SET_OUT_OF_SERVICE, response.data)
+        commit(SET_OUT_OF_SERVICE_LOADING, false)
+      }).catch((error) => {
+        commit(SET_OUT_OF_SERVICE_GENERAL_ERRORS, error.data)
       })
     }
   },
