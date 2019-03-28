@@ -72,6 +72,12 @@
                 link: {name: "holidays"},
                 role: 'admin'
               },
+              {
+                icon: 'work_off',
+                text: 'Licencias',
+                link: {name: "out-of-service"},
+                role: 'admin'
+              }
             ]
           },
           {
