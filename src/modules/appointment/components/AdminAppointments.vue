@@ -62,6 +62,8 @@
 
       </v-tab-item>
     </v-tabs-items>
+
+
   </v-container>
 </template>
 
@@ -92,6 +94,7 @@
       }
     ),
     mounted: function () {
+      this.allUsers()
       this.clearData()
       this.fetchCalendars()
     },
@@ -121,7 +124,8 @@
         'getAvailableShifts',
         'getCalendarLoading',
         'getFriendlyDateFormated',
-        'getAllAppointments'
+        'getAllAppointments',
+        'getUsers'
       ]),
     },
     methods: {
@@ -130,6 +134,7 @@
         this.$store.commit('SET_DATE', null)
       },
       ...mapActions([
+        'allUsers',
         'fetchCalendars',
         'fetchAvailableAppointments',
         'clearLastAppointment',

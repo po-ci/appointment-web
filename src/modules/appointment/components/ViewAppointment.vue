@@ -4,24 +4,24 @@
 
     <v-flex xs12>
 
-      <v-flex  v-if="appointment.id" right top absolute class="grey--text text-xs-right ">
+      <v-flex v-if="appointment.id" right top absolute class="grey--text text-xs-right ">
         #{{appointment.id}}
       </v-flex>
 
       <v-list>
 
         <!--Number-->
-       <!-- <v-list-tile v-if="appointment.id">
-          <v-list-tile-action>
-            <v-icon color="primary">assignment_late</v-icon>
-          </v-list-tile-action>
+        <!-- <v-list-tile v-if="appointment.id">
+           <v-list-tile-action>
+             <v-icon color="primary">assignment_late</v-icon>
+           </v-list-tile-action>
 
-          <v-list-tile-content>
-            <v-list-tile-sub-title>Número</v-list-tile-sub-title>
+           <v-list-tile-content>
+             <v-list-tile-sub-title>Número</v-list-tile-sub-title>
 
-            <v-list-tile-title> {{appointment.id}}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>-->
+             <v-list-tile-title> {{appointment.id}}</v-list-tile-title>
+           </v-list-tile-content>
+         </v-list-tile>-->
 
         <!--Agenda-->
         <v-list-tile>
@@ -66,16 +66,29 @@
             <v-list-tile-title> {{getAppointmentHour}}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-
-
+        <v-list-tile v-if="admin">
+          <v-list-tile-action>
+            <v-select
+              prepend-icon="person"
+              md4 xs12
+              class="pt-2"
+              :items="getUsers"
+              :item-text="'name'"
+              :item-value="'id'"
+              label="Usuario"
+              v-model="form.user"
+              required
+            ></v-select>
+          </v-list-tile-action>
+        </v-list-tile>
       </v-list>
 
       <v-flex
         style="position: absolute; right: -5px; bottom: -5px"
       >
 
-        <v-chip   v-if="appointment.status == 2 || appointment.status == 3" label dark color="red">Cancelada</v-chip>
-        <v-chip   v-if="appointment.status == 1" label dark color="success">Pendiente</v-chip>
+        <v-chip v-if="appointment.status == 2 || appointment.status == 3" label dark color="red">Cancelada</v-chip>
+        <v-chip v-if="appointment.status == 1" label dark color="success">Pendiente</v-chip>
 
       </v-flex>
 
@@ -92,7 +105,20 @@
   export default {
     name: "ViewAppointment",
     props: {
-      appointment: {type: Object}
+      appointment: {type: Object},
+      admin: {type: Boolean}
+    },
+    data() {
+      return {
+        form: {
+          user: null
+        }
+      }
+    },
+    watch: {
+      user: function () {
+        this.$emit('users', this.form.user)
+      }
     },
     computed: {
       getAppointmentHour() {
@@ -137,7 +163,8 @@
       },
       ...mapGetters([
         'getCalendarLoading',
-        'getLastAppointment'
+        'getLastAppointment',
+        'getUsers'
       ]),
     },
   }
