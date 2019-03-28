@@ -68,17 +68,24 @@
         </v-list-tile>
         <v-list-tile v-if="admin">
           <v-list-tile-action>
-            <v-select
-              prepend-icon="person"
-              md4 xs12
-              class="pt-2"
-              :items="getUsers"
-              :item-text="'name'"
-              :item-value="'id'"
-              label="Usuario"
-              v-model="user"
-              required
-            ></v-select>
+            <v-layout row>
+              <v-flex xs1 class="text-xs-left" mt-4 mr-2>
+                <v-icon color="primary">person</v-icon>
+              </v-flex>
+              <v-flex>
+                <v-select
+                  md4 xs12
+                  class="pt-3 ml-4"
+                  :items="getUsers"
+                  :item-text="'name'"
+                  :item-value="'id'"
+                  label="Usuario"
+                  v-model="user"
+                  required
+                ></v-select>
+              </v-flex>
+            </v-layout>
+
           </v-list-tile-action>
         </v-list-tile>
       </v-list>
