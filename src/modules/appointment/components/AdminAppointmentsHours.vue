@@ -25,15 +25,6 @@
 
     <div v-else-if="getAvailableShifts.length > 0">
 
-      <!--          <v-layout row wrap class="mb-1 mt-0">
-                  <v-flex class="text-xs-center">
-                    <h5 class="grey&#45;&#45;text text&#45;&#45;darken-1 title text-uppercase pa-0">
-                      <v-icon>calendar_today</v-icon>
-                      {{getCalendarSelected.name}}: {{getFriendlyDateFormated}}
-                    </h5>
-                  </v-flex>
-                </v-layout>-->
-
       <div style="height:330px; overflow-y: scroll; overflow-x: hidden;">
         <admin-appointments-avalive v-for="s in getAvailableShifts"
                                     :date="getDateFormated"
