@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card>
-      <v-card-title>Hola</v-card-title>
+      <v-card-title>En construcción...</v-card-title>
     </v-card>
   </v-container>
 </template>
