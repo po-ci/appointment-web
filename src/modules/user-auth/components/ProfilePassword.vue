@@ -81,14 +81,14 @@
 
 
                 <v-btn
-                        color="orange darken-1"
+                        color="grey darken-1"
                         flat="flat"
                         @click="closeDialog"
                 >
                     Cancelar
                 </v-btn>
 
-                <v-btn :loading="getAuthLoading" color="success" dark @click="submit">Cambiar Contraseña</v-btn>
+                <v-btn :loading="getAuthLoading" color="primary" dark @click="submit">Cambiar Contraseña</v-btn>
 
             </v-card-actions>
         </v-card>

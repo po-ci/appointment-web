@@ -5,6 +5,7 @@
 
     <v-list
       subheader
+      two-line
     >
       <v-list-tile @click="" v-for="calendar in getCalendars" class="pa-0">
         <v-list-tile-action>
@@ -16,7 +17,8 @@
 
         <v-list-tile-content @click="select = calendar.id">
           <v-list-tile-title>{{calendar.name}}</v-list-tile-title>
-          <v-list-tile-sub-title>{{calendar.description}}</v-list-tile-sub-title>
+          <v-list-tile-action-text style="white-space: normal">{{calendar.description}}</v-list-tile-action-text>
+
         </v-list-tile-content>
       </v-list-tile>
 

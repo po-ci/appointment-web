@@ -2,7 +2,7 @@
   <v-app>
     <layout :nav="nav">
       <template slot="toolbar">
-        <appointments-toolbar></appointments-toolbar>
+        <my-appointments-toolbar></my-appointments-toolbar>
       </template>
 
       <router-view/>
@@ -16,11 +16,11 @@
 <script>
   import {mapActions} from 'vuex'
   import Layout from './modules/layout/components/Layout'
-  import AppointmentsToolbar from './modules/appointment/components/AppointmentsToolbar'
+  import MyAppointmentsToolbar from './modules/appointment/components/MyAppointmentsToolbar'
 
   export default {
     name: 'App',
-    components: {Layout, AppointmentsToolbar},
+    components: {Layout, MyAppointmentsToolbar},
     mounted: function () {
       this.checkAuth()
     },
