@@ -162,7 +162,10 @@ export default {
       return state.adminAppointments
     },
     getActiveAdminAppointments(state) {
-      return state.adminAppointments.filter(appointment => appointment.status === 1);
+      return state.adminAppointments.filter(appointment => appointment.status === 1).sort(function compareHours(a, b) {
+        return ('' + a.start).localeCompare(b.start)
+      })
+
     },
     getAllOutOfService(state) {
       return state.outOfService
@@ -180,7 +183,7 @@ export default {
       return state.flashMessage
     },
     checkCalendarAppointment: (state) => {
-      if(state.appointments.find(appointment => appointment.calendar.id == state.calendarSelected.id &&  appointment.status == 1) !== undefined){
+      if(state.calendarSelected && state.appointments.find(appointment => appointment.calendar.id == state.calendarSelected.id &&  appointment.status == 1) !== undefined){
         return true
       }
       return false
