@@ -21,7 +21,7 @@
         </v-text-field>
 
         <v-menu
-          ref="menu"
+          ref="menu1"
           :close-on-content-click="false"
           :nudge-right="40"
           lazy
@@ -47,12 +47,12 @@
             no-title
             color="secondary"
             :show-current="false"
-            @input="$refs.menu.save(form.start)"
+            @input="$refs.menu1.save(form.start)"
           ></v-date-picker>
         </v-menu>
 
         <v-menu
-          ref="menu"
+          ref="menu2"
           :close-on-content-click="false"
           :nudge-right="40"
           lazy
@@ -78,7 +78,7 @@
             no-title
             color="secondary"
             :show-current="false"
-            @input="$refs.menu.save(form.end)"
+            @input="$refs.menu2.save(form.end)"
           ></v-date-picker>
         </v-menu>
 

@@ -3,8 +3,8 @@
     <v-layout row wrap>
       <v-flex xs12 class="pa-3">
         <v-card class="elevation-8">
-          <v-card-title class="title" primary-title>
-            Licencias
+          <v-card-title>
+            <h2>Licencias</h2>
           </v-card-title>
         </v-card>
 
