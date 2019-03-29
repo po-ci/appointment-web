@@ -2,25 +2,27 @@
   <v-container class="grey lighten-3">
 
     <v-layout row wrap>
-      <v-flex class="pa-2" xs12 sm12 md12>
+
+      <v-flex class="pa-2" offset-md2 xs12 sm12 md8>
         <v-card class="elevation-12">
           <v-card-title primary-title="">
             <div>
-              <h3 class="headline">Administración de Turnos</h3>
-              <div> A continuación se muestra los turnos reservados</div>
+              <h3 class="headline">Asignación de Turnos</h3>
             </div>
           </v-card-title>
-
         </v-card>
+
       </v-flex>
+
+
       <v-flex class="pa-2 offset-md2" xs12 md8>
         <v-card class="elevation-4">
           <v-card-text>
             <v-layout row wrap>
-              <v-flex xs12 sm12 md12 class="px-4 py-1">
+              <v-flex xs12 sm12 md6 class="px-4 py-1">
                 <appointments-calendar-selected></appointments-calendar-selected>
               </v-flex>
-              <v-flex xs12 sm12 md12 class="px-4 py-1">
+              <v-flex xs12 sm12 md6 class="px-4 py-1">
                 <admin-appointments-date-picker></admin-appointments-date-picker>
               </v-flex>
             </v-layout>
@@ -32,8 +34,8 @@
       <v-flex class="pa-2 offset-md2" xs12 md8>
         <v-card class="elevation-4">
           <v-tabs fixed-tabs v-model="tabs">
-            <v-tab :key="'appointments'" ripple>Turnos</v-tab>
             <v-tab :key="'assing'" ripple>Asignacion De Turnos</v-tab>
+            <v-tab :key="'appointments'" ripple>Turnos Activos</v-tab>
           </v-tabs>
         </v-card>
       </v-flex>
@@ -41,31 +43,51 @@
 
 
     <v-tabs-items v-model="tabs">
-      <v-tab-item :key="'appointments'">
-        <v-layout row wrap>
-          <v-flex xs12 md8 class="pa-2 offset-md2">
-            <v-card>
-              <v-card-text>Todos los turnos</v-card-text>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-tab-item>
-
 
       <v-tab-item :key="'assing'" class="pa-2">
         <v-layout row wrap>
           <v-flex xs12 md8 class="offset-md2">
+            <admin-appointments-hours></admin-appointments-hours>
+          </v-flex>
+        </v-layout>
+      </v-tab-item>
+
+      <v-tab-item :key="'appointments'">
+        <v-layout row wrap>
+          <v-flex xs12 md8 class="pa-2 offset-md2">
             <v-card>
+
               <v-card-text>
-                <admin-appointments-hours></admin-appointments-hours>
+                <span v-if="getCalendarSelected && getDate">Turnos vigentes Agenda <strong>{{getCalendarSelected.name}}</strong> Fecha <strong>{{getDate.format("YYYY-MM-DD")}}</strong></span>
+
+                <v-data-table
+                  :headers="[
+                     {text: 'Numero', value: 'Numero'},
+                   {text: 'Hora', value: 'Hora'},
+                    {text: 'Nombre', value: 'Nombre'},
+                  ]"
+                  :items="getActiveAdminAppointments"
+                  :loading="getCalendarLoading"
+                  class="elevation-1">
+                  <template slot="items" slot-scope="props">
+                    <td>{{ props.item.id }}</td>
+                    <td>{{ props.item.start.substr(11, 5) }}</td>
+                    <td>{{ props.item.user.name }}</td>
+                  </template>
+
+                </v-data-table>
+
               </v-card-text>
+
+
             </v-card>
           </v-flex>
         </v-layout>
-
-
       </v-tab-item>
+
     </v-tabs-items>
+
+
   </v-container>
 </template>
 
@@ -87,22 +109,23 @@
     data: () => ({
         dialog: false,
         appointment: null,
-        tabs: null
+        tabs: null,
       }
     ),
     mounted: function () {
+      this.allUsers()
       this.clearData()
       this.fetchCalendars()
     },
     watch: {
 
       getDate: function () {
+        this.doFetchAdminAppointments()
         this.fetchAvailableAppointments()
-        this.fetchAllAppointsments()
       },
 
       getCalendarSelected: function () {
-        this.fetchAllAppointsments()
+        this.doFetchAdminAppointments()
         this.fetchAvailableAppointments()
       },
 
@@ -120,7 +143,8 @@
         'getAvailableShifts',
         'getCalendarLoading',
         'getFriendlyDateFormated',
-        'getAllAppointments'
+        'getActiveAdminAppointments',
+        'getUsers'
       ]),
     },
     methods: {
@@ -129,25 +153,24 @@
         this.$store.commit('SET_DATE', null)
       },
       ...mapActions([
+        'allUsers',
         'fetchCalendars',
         'fetchAvailableAppointments',
         'clearLastAppointment',
         'setCalendarSelected',
-        'fetchAllAppointments'
+        'fetchAdminAppointments'
       ]),
 
-      fetchAllAppointsments() {
-        let data = [{
-          id: null,
-          start: null,
-          end: null
-        }]
-
-        data.id = this.getCalendarSelected()
-        data.start = this.getDate()
-        if (data.id && data.start) {
-          data.start = moment().format(data.start, 'yyyy-mm-dd')
-          console.log(data)
+      doFetchAdminAppointments() {
+        if (this.getCalendarSelected && this.getCalendarSelected.id && this.getDate) {
+          let to = this.getDate.clone()
+          to.add(1, 'days')
+          this.fetchAdminAppointments({
+              calendar: this.getCalendarSelected.id,
+              from: this.getDate.format("YYYY-MM-DD"),
+              to: to.format("YYYY-MM-DD")
+            }
+          )
         }
       }
     }

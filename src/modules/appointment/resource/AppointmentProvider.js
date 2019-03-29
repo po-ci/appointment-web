@@ -14,7 +14,7 @@ class AppointmentProvider extends HttpRequest {
   }
 
   findByCalendarAndDate(calendarId, from, to) {
-    return this.axiosInstance.get(this.entity + '/appointments?calendar=' + calendarId + '&start=' + from + '<>' + to,
+    return this.axiosInstance.get(this.entity + '?calendar=' + calendarId + '&start=' + from + '<>' + to,
       {headers: {'authorization': 'Bearer ' + localStorage.getItem('access_token')}}
     )
   }
@@ -47,6 +47,25 @@ class AppointmentProvider extends HttpRequest {
     data.append('calendar', calendar)
     data.append('start', start)
     data.append('duration', duration)
+
+    return this.axiosInstance.post(this.entity + '/take',
+      data,
+      {
+        headers: {
+          'authorization': 'Bearer ' + localStorage.getItem('access_token'),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }
+    )
+  }
+
+  takeAdmin(calendar, start, duration, user) {
+
+    let data = new FormData()
+    data.append('calendar', calendar)
+    data.append('start', start)
+    data.append('duration', duration)
+    data.append('user', user)
 
     return this.axiosInstance.post(this.entity + '/take',
       data,

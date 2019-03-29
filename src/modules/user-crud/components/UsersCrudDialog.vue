@@ -223,7 +223,7 @@
           password_verify: null,
           email: null,
           phone: null,
-          roles: [],
+          roles: [2],
           active: null
         }
       }

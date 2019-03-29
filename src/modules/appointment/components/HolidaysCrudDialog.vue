@@ -35,6 +35,7 @@
 
           <v-date-picker
             full-width
+            locale="es-es"
             v-model="form.date"
             @input="$refs.menu.save(form.date)"
           ></v-date-picker>

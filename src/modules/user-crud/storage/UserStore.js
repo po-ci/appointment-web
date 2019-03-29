@@ -26,6 +26,14 @@ export default {
     getUsers(state) {
       return state.users
     },
+    getUsersForCalendar(state) {
+      return state.users.filter(function(user){
+        if(user.roles && user.roles.find(role => role.name == "admin" || role.name == "agendador" )){
+          return true
+        }
+        return false
+      })
+    },
     getUsersLoading(state) {
       return state.usersLoading
     }
