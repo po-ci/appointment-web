@@ -1,8 +1,8 @@
 <template>
   <v-container class="grey lighten-3" fluid grid-list-md>
-    <v-layout row wrap >
+    <v-layout row wrap>
 
-      <v-flex  offset-md2 xs12 sm12 md8>
+      <v-flex offset-md2 xs12 sm12 md8>
         <v-card class="elevation-12">
           <v-card-title primary-title="">
             <div>
@@ -13,10 +13,10 @@
       </v-flex>
 
 
-      <v-flex  xs12 md8 offset-md2>
+      <v-flex xs12 md8 offset-md2>
         <v-card class="elevation-4">
           <v-card-text class="pb-1">
-                <admin-appointments-date-picker></admin-appointments-date-picker>
+            <admin-appointments-date-picker></admin-appointments-date-picker>
           </v-card-text>
           <v-card-text class="pt-0">
             <v-tabs fixed-tabs v-model="tabs" color="primary" dark slider-color="cyan" show-arrows>
@@ -34,9 +34,9 @@
 
                     <v-data-table
                       :headers="[
-                     {text: 'Numero', value: 'Numero'},
-                   {text: 'Hora', value: 'Hora'},
-                    {text: 'Nombre', value: 'Nombre'},
+                     {text: '#', value: 'Numero', sortable: false},
+                   {text: 'Hora', value: 'Hora', sortable: false},
+                    {text: 'Nombre', value: 'Nombre', sortable: false},
                   ]"
                       :items="getShowAppointmentsByCalendar(calendar.id)"
                       :loading="getCalendarLoading"
