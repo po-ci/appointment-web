@@ -104,7 +104,6 @@
 
             <div v-else-if="getAvailableShifts.length > 0">
 
-
               <div :style="$vuetify.breakpoint.mdAndUp?'height:330px; overflow-y: scroll; overflow-x: hidden;':''">
 
                 <v-alert v-if="checkCalendarAppointment"

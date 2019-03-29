@@ -33,10 +33,12 @@
 
       <v-flex class="pa-2 offset-md2" xs12 md8>
         <v-card class="elevation-4">
-          <v-tabs fixed-tabs v-model="tabs">
+          <v-card-text>
+          <v-tabs fixed-tabs v-model="tabs" color="primary" dark slider-color="white">
             <v-tab :key="'assing'" ripple>Asignacion De Turnos</v-tab>
             <v-tab :key="'appointments'" ripple>Turnos Activos</v-tab>
           </v-tabs>
+          </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>

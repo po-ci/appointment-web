@@ -8,7 +8,7 @@
     import AdminAppointments from '../components/AdminAppointments'
 
     export default {
-        name: 'Home',
+        name: 'AdminAppointmentsView',
         components: {
           AdminAppointments
         }
