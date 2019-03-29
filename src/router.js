@@ -9,6 +9,7 @@ import Profile from './modules/layout/views/Profile.vue'
 import Appointments from './modules/appointment/views/Appointments.vue'
 import MyAppointmentsView from './modules/appointment/views/MyAppointmentsView.vue'
 import AdminAppointments from './modules/appointment/views/AdminAppointments.vue'
+import ShowAppointmentsView from './modules/appointment/views/ShowAppointmentsView.vue'
 import CrudCalendars from './modules/appointment/views/CrudCalendars.vue'
 
 import store from './store/store'
@@ -82,19 +83,22 @@ const router = new Router({
       }
     },
     {
+      path: '/show-appointments',
+      name: 'showAppointments',
+      component: ShowAppointmentsView,
+      meta: {
+        requiresAuth: true,
+        role: 'admin'
+      }
+    },
+    {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './modules/appointment/views/About.vue')
     },
     {
       path: '/users',
       name: 'users',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "users" */ './modules/appointment/views/Users.vue'),
       meta: {
         requiresAuth: true,
@@ -104,9 +108,6 @@ const router = new Router({
     {
       path: '/holidays',
       name: 'holidays',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "holidays" */ './modules/appointment/views/Holidays.vue'),
       meta: {
         requiresAuth: true,
@@ -116,9 +117,6 @@ const router = new Router({
     {
       path: '/out-of-service',
       name: 'out-of-service',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "OutOfService" */ './modules/appointment/views/OutOfService.vue'),
       meta: {
         requiresAuth: true,
@@ -128,9 +126,6 @@ const router = new Router({
     {
       path: '/specificts-schedule',
       name: 'specificts-schedule',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "SpecificsSchedule" */ './modules/appointment/views/SpecificsSchedule.vue'),
       meta: {
         requiresAuth: true,

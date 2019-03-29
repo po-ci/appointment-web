@@ -39,13 +39,15 @@ import {
   SET_ADD_OUT_OF_SERVICE,
   UPDATE_OUT_OF_SERVICE,
   SET_RESULT_OUT_OF_SERVICE,
-  SET_OUT_OF_SERVICE_DELETED, ADD_ADMIN_APPOINTMENT, REMOVE_AVAILABLE_SHIFT
+  SET_OUT_OF_SERVICE_DELETED, ADD_ADMIN_APPOINTMENT, REMOVE_AVAILABLE_SHIFT, SET_SHOW_APPOINTMENTS, SET_DATA_LOADING
 } from './calendar-mutation-types'
 import {SET_RESULT, SET_USERS_LOADING, UPDATE_USER} from "../../user-crud/storage/user-mutation-type";
 
 export default {
   namespaced: false,
   state: {
+    dataLoading: false,
+    showAppointments: [],
     adminAppointments: [],
     appointments: [],
     date: null,
@@ -73,6 +75,16 @@ export default {
   },
   getters: {
 
+    getShowAppointments(state) {
+      return state.showAppointments
+    },
+
+    getShowAppointmentsByCalendar: (state) => (calendar) => {
+      return state.showAppointments.filter(appointment => appointment.calendar.id === calendar && appointment.status == 1).sort(function compareHours(a, b) {
+        return ('' + a.start).localeCompare(b.start)
+      });
+    },
+
     getLastAppointment: (state) => {
       return state.lastAppointment
     },
@@ -98,7 +110,9 @@ export default {
     getAppointmentByCalendarAndDate: (state) => ({calendar, date}) => {
       return state.appointments.find(appointment => appointment.id === calendar && appointment.date === date);
     },
-
+    getDataLoading: (state) => {
+      return state.dataLoading
+    },
     getCalendarLoading: (state) => {
       return state.calendarLoading
     },
@@ -194,7 +208,9 @@ export default {
 
   },
   actions: {
-
+    setNowToDate({commit, getters}) {
+      commit(SET_DATE, moment().format("YYYY-MM-DD"))
+    },
     fetchAvailableAppointments({commit, getters}) {
       commit(SET_CALENDAR_LOADING, true)
       if (getters.getDate && getters.getCalendarSelected) {
@@ -245,7 +261,7 @@ export default {
       AppointmentProvider.takeAdmin(calendar, start, duration, user).then((response) => {
         commit(SET_LAST_APPOINTMENT, response.data)
         commit(ADD_ADMIN_APPOINTMENT, response.data.item)
-        commit(REMOVE_AVAILABLE_SHIFT,response.data.item)
+        commit(REMOVE_AVAILABLE_SHIFT, response.data.item)
         commit(SET_CALENDAR_LOADING, false)
       }).catch((error) => {
         commit(SET_CALENDAR_LOADING, false)
@@ -405,9 +421,20 @@ export default {
     },
 
     fetchAdminAppointments({commit}, {calendar, from, to}) {
-      commit(SET_CALENDAR_LOADING, true);
+      commit(SET_DATA_LOADING, true);
       AppointmentProvider.findByCalendarAndDate(calendar, from, to).then((response) => {
         commit(SET_ADMIN_APPOINTMENTS, response.data)
+        commit(SET_DATA_LOADING, false);
+      }).catch((error) => {
+
+      })
+    },
+
+    fetchShowAppointments({commit}, {from, to}) {
+      commit(SET_CALENDAR_LOADING, true);
+      AppointmentProvider.findByDate(from, to).then((response) => {
+        commit(SET_SHOW_APPOINTMENTS, response.data)
+        commit(SET_CALENDAR_LOADING, false);
       }).catch((error) => {
 
       })
@@ -485,8 +512,10 @@ export default {
   mutations: {
     [SET_CALENDAR_LOADING](state, value) {
       state.calendarLoading = value;
-    }
-    ,
+    },
+    [SET_DATA_LOADING](state, value) {
+      state.dataLoading = value;
+    },
     [SET_DATE](state, value) {
       if (value) {
         state.date = moment(value).tz('America/Argentina/Buenos_Aires').locale('es');
@@ -527,7 +556,7 @@ export default {
     ,
     [REMOVE_AVAILABLE_SHIFT](state, appointment) {
       let index = state.availableShifts.findIndex(a => a.start == appointment.start)
-      Vue.delete(state.availableShifts,index)
+      Vue.delete(state.availableShifts, index)
     }
     ,
     [ADD_APPOINTMENT](state, appointment) {
@@ -593,6 +622,9 @@ export default {
       state.holidays = state.holidays.filter(doc => {
         return doc.id != id
       });
+    },
+    [SET_SHOW_APPOINTMENTS](state, data) {
+      state.showAppointments = data
     },
     [SET_ADMIN_APPOINTMENTS](state, data) {
       state.adminAppointments = data

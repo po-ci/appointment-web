@@ -7,7 +7,7 @@
         color="info"
         outline
       >
-        Seleccionar agenda y dia
+        Seleccionar agenda y fecha
       </v-alert>
 
     </div>
@@ -41,15 +41,15 @@
 
     <div v-else>
       <v-alert
-        class=" headline text-xs-center"
+        class=" title text-xs-center"
         :value="true"
         color="warning"
-        icon="priority_high"
         outline
       >
         No hay turnos disponibles para la fecha seleccionada. <br>Intenta otra fecha por favor.
       </v-alert>
     </div>
+
     <admin-appointments-confirm :dialog="dialog" :appointment="appointment"
                                v-on:closeDialog="dialog = false"></admin-appointments-confirm>
   </div>
