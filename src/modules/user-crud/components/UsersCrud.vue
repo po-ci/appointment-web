@@ -63,7 +63,7 @@
                 <td>{{ props.item.email }}</td>
                 <td v-if="props.item.active == 1">
                   <v-icon
-                    color="primary">check_circle
+                    color="success">check_circle
                   </v-icon>
                 </td>
                 <td v-else>

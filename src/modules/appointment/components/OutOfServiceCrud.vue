@@ -36,7 +36,7 @@
                          color="info"
                          outline
                          class="text-xs-center">
-                      Cargando Feriados
+                      Cargando Licencias
                     </div>
 
                     <div v-if="!getOutOfServiceLoading"
