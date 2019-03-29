@@ -39,7 +39,7 @@ import {
   SET_ADD_OUT_OF_SERVICE,
   UPDATE_OUT_OF_SERVICE,
   SET_RESULT_OUT_OF_SERVICE,
-  SET_OUT_OF_SERVICE_DELETED
+  SET_OUT_OF_SERVICE_DELETED, ADD_ADMIN_APPOINTMENT, REMOVE_AVAILABLE_SHIFT
 } from './calendar-mutation-types'
 import {SET_RESULT, SET_USERS_LOADING, UPDATE_USER} from "../../user-crud/storage/user-mutation-type";
 
@@ -183,7 +183,7 @@ export default {
       return state.flashMessage
     },
     checkCalendarAppointment: (state) => {
-      if(state.calendarSelected && state.appointments.find(appointment => appointment.calendar.id == state.calendarSelected.id &&  appointment.status == 1) !== undefined){
+      if (state.calendarSelected && state.appointments.find(appointment => appointment.calendar.id == state.calendarSelected.id && appointment.status == 1) !== undefined) {
         return true
       }
       return false
@@ -193,12 +193,12 @@ export default {
   actions: {
 
     fetchAvailableAppointments({commit, getters}) {
-      commit(SET_CALENDAR_LOADING, true);
+      commit(SET_CALENDAR_LOADING, true)
       if (getters.getDate && getters.getCalendarSelected) {
         commit(SET_AVAILABLE_SHIFTS, [])
         AppointmentProvider.availables(getters.getCalendarSelected.id, getters.getDateFormated).then((response) => {
           commit(SET_AVAILABLE_SHIFTS, response.data)
-          commit(SET_CALENDAR_LOADING, false);
+          commit(SET_CALENDAR_LOADING, false)
         }).catch(
           (error) => {
             //@TODO Show errors
@@ -209,13 +209,13 @@ export default {
 
 
     fetchMyAppointments({commit, getters}) {
-      commit(SET_CALENDAR_LOADING, true);
+      commit(SET_CALENDAR_LOADING, true)
 
       if (getters.isLogin) {
 
         AppointmentProvider.myAppointments().then((response) => {
           commit(SET_APPOINTMENTS, response.data)
-          commit(SET_CALENDAR_LOADING, false);
+          commit(SET_CALENDAR_LOADING, false)
         }).catch(
           (error) => {
             //@TODO Show errors
@@ -225,27 +225,29 @@ export default {
     },
 
     takeAppointment({commit, getters}, {calendar, start, duration}) {
-      commit(SET_CALENDAR_LOADING, true);
+      commit(SET_CALENDAR_LOADING, true)
 
       AppointmentProvider.take(calendar, start, duration).then((response) => {
         commit(SET_LAST_APPOINTMENT, response.data)
         if (response.data.status) {
-          commit(ADD_APPOINTMENT, response.data.item);
+          commit(ADD_APPOINTMENT, response.data.item)
         }
-        commit(SET_CALENDAR_LOADING, false);
+        commit(SET_CALENDAR_LOADING, false)
       }).catch((error) => {
-        commit(SET_CALENDAR_LOADING, false);
+        commit(SET_CALENDAR_LOADING, false)
       })
 
     },
     takeAdminAppointment({commit, getters}, {calendar, start, duration, user}) {
-      commit(SET_CALENDAR_LOADING, true);
+      commit(SET_CALENDAR_LOADING, true)
 
       AppointmentProvider.takeAdmin(calendar, start, duration, user).then((response) => {
         commit(SET_LAST_APPOINTMENT, response.data)
-        commit(SET_CALENDAR_LOADING, false);
+        commit(ADD_ADMIN_APPOINTMENT, response.data.item)
+        commit(REMOVE_AVAILABLE_SHIFT,response.data.item)
+        commit(SET_CALENDAR_LOADING, false)
       }).catch((error) => {
-        commit(SET_CALENDAR_LOADING, false);
+        commit(SET_CALENDAR_LOADING, false)
       })
 
     },
@@ -401,7 +403,7 @@ export default {
 
     },
 
-    fetchAdminAppointments({commit}, {calendar,from,to}) {
+    fetchAdminAppointments({commit}, {calendar, from, to}) {
       commit(SET_CALENDAR_LOADING, true);
       AppointmentProvider.findByCalendarAndDate(calendar, from, to).then((response) => {
         commit(SET_ADMIN_APPOINTMENTS, response.data)
@@ -518,14 +520,22 @@ export default {
       state.events = events;
     }
     ,
-    [SET_AVAILABLE_SHIFTS](state, shifts) {
-      state.availableShifts = shifts;
+    [SET_AVAILABLE_SHIFTS](state, appointments) {
+      state.availableShifts = appointments;
+    }
+    ,
+    [REMOVE_AVAILABLE_SHIFT](state, appointment) {
+      let index = state.availableShifts.findIndex(a => a.start == appointment.start)
+      Vue.delete(state.availableShifts,index)
     }
     ,
     [ADD_APPOINTMENT](state, appointment) {
       state.appointments.push(appointment);
     }
     ,
+    [ADD_ADMIN_APPOINTMENT](state, appointment) {
+      state.adminAppointments.push(appointment);
+    },
     [UPDATE_APPOINTMENT](state, appointment) {
       let index = state.appointments.findIndex(a => a.id == appointment.id)
       Vue.set(state.appointments, index, appointment)
