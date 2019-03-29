@@ -1,9 +1,9 @@
 import {
   CalendarProvider,
   AppointmentProvider,
-  AuthService,
   HolidaysProvider,
-  OutOfServiceProvider
+  OutOfServiceProvider,
+  SpecificsScheduleProvider
 } from '../../../resource'
 import Vue from 'vue'
 import moment from 'moment'

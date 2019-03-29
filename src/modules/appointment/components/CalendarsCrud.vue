@@ -1,24 +1,20 @@
 <template>
   <v-container>
-    <v-layout>
-      <v-flex xs12>
-        <v-card class="elevation-6">
-          <v-layout row>
-            <v-flex xs6>
-              <v-card-title primary-title class="title">
-                Agendas
-              </v-card-title>
-            </v-flex>
-            <v-flex xs6 class="pt-2 pr-4 text-xs-right">
-            </v-flex>
-          </v-layout>
-
+    <v-layout row wrap>
+      <v-flex xs12 pa-3>
+        <v-card class="elevation-8">
+          <v-card-title>
+            <h2>Agendas</h2>
+          </v-card-title>
+        </v-card>
+      </v-flex>
+      <v-flex xs12 pa-3>
+        <v-card class="elevation-8">
           <v-card-text>
             <v-data-table
               :headers="headers"
               :items="getCalendars"
-              :loading="getCalendarLoading"
-              class="elevation-1">
+              :loading="getCalendarLoading">
               <template slot="items" slot-scope="props">
                 <td>{{ props.item.id }}</td>
                 <td>{{ props.item.name }}</td>
