@@ -83,14 +83,20 @@
                 text: 'Licencias',
                 link: {name: "out-of-service"},
                 role: 'admin'
+              },
+              {
+                icon: 'timelapse',
+                text: 'Programacion Especifica',
+                link: {name: "specificts-schedule"},
+                role: 'admin'
               }
             ]
           }
-/*         {
-            icon: 'contact_mail',
-            text: 'Acerca de Nosotros',
-            link: {name: "about"}
-          },*/
+          /*         {
+                      icon: 'contact_mail',
+                      text: 'Acerca de Nosotros',
+                      link: {name: "about"}
+                    },*/
 
         ]
       }

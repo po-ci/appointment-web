@@ -119,7 +119,19 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "holidays" */ './modules/appointment/views/OutOfService.vue'),
+      component: () => import(/* webpackChunkName: "OutOfService" */ './modules/appointment/views/OutOfService.vue'),
+      meta: {
+        requiresAuth: true,
+        role: 'admin'
+      }
+    },
+    {
+      path: '/specificts-schedule',
+      name: 'specificts-schedule',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "SpecificsSchedule" */ './modules/appointment/views/SpecificsSchedule.vue'),
       meta: {
         requiresAuth: true,
         role: 'admin'
