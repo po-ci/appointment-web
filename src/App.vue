@@ -51,6 +51,12 @@
 
           },
           {
+            icon: 'assignment',
+            text: 'Asignar Turnos',
+            link: {name: "adminAppointments"},
+            role: 'admin'
+          },
+          {
             text: 'Configuraciones',
             role: 'admin',
             children: [
@@ -79,18 +85,12 @@
                 role: 'admin'
               }
             ]
-          },
-          {
-            icon: 'assignment',
-            text: 'Administrar Turnos',
-            link: {name: "adminAppointments"},
-            role: 'admin'
-          },
-          {
+          }
+/*         {
             icon: 'contact_mail',
             text: 'Acerca de Nosotros',
             link: {name: "about"}
-          },
+          },*/
 
         ]
       }

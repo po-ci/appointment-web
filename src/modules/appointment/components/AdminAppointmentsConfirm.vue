@@ -75,9 +75,35 @@
       <v-card-text v-if="dialog" class="pt-0">
 
 
-        <view-appointment :appointment="appointment"
-                          :admin="true"
-                          @users="userID"></view-appointment>
+        <view-appointment
+          :appointment="appointment"
+          :admin="true">
+
+          <template v-slot:morelist>
+            <v-list-tile class="pt-2">
+
+              <v-list-tile-action>
+                <v-icon color="primary">person</v-icon>
+              </v-list-tile-action>
+
+              <v-list-tile-content style="height: 55px">
+
+                <v-autocomplete
+                  md4 xs12
+                  :items="getUsers"
+                  item-text="name"
+                  item-value="id"
+                  color="white"
+                  label="Usuario"
+                  v-model="appointments.user"
+                  required
+                ></v-autocomplete>
+
+              </v-list-tile-content>
+            </v-list-tile>
+          </template>
+        </view-appointment>
+
 
       </v-card-text>
 
@@ -138,7 +164,8 @@
       },
       ...mapGetters([
         'getCalendarLoading',
-        'getLastAppointment'
+        'getLastAppointment',
+        'getUsers'
       ]),
     },
     methods: {
@@ -154,10 +181,6 @@
           user: this.appointments.user
         });
       },
-      userID(value) {
-        this.appointments.user = value
-      },
-
       ...mapActions([
         'takeAdminAppointment'
       ]),

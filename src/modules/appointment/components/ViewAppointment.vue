@@ -56,37 +56,16 @@
             <v-list-tile-title> {{getAppointmentHour}}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile v-if="admin">
-          <v-list-tile-action>
-            <v-layout row>
-              <v-flex xs1 class="text-xs-left" mt-4 mr-2>
-                <v-icon color="primary">person</v-icon>
-              </v-flex>
-              <v-flex>
-                <v-select
-                  md4 xs12
-                  class="pt-3 ml-4"
-                  :items="getUsers"
-                  :item-text="'name'"
-                  :item-value="'id'"
-                  label="Usuario"
-                  v-model="user"
-                  required
-                ></v-select>
-              </v-flex>
-            </v-layout>
 
-          </v-list-tile-action>
-        </v-list-tile>
+        <slot name="morelist"></slot>
+
       </v-list>
 
       <v-flex
         style="position: absolute; right: -5px; bottom: -5px"
       >
-
         <v-chip v-if="appointment.status == 2 || appointment.status == 3" label dark color="red">Cancelada</v-chip>
         <v-chip v-if="appointment.status == 1" label dark color="success">Pendiente</v-chip>
-
       </v-flex>
 
     </v-flex>
@@ -109,11 +88,6 @@
       return {
         user: null
 
-      }
-    },
-    watch: {
-      user: function () {
-        this.$emit('users', this.user)
       }
     },
     computed: {
@@ -160,7 +134,6 @@
       ...mapGetters([
         'getCalendarLoading',
         'getLastAppointment',
-        'getUsers'
       ]),
     },
   }

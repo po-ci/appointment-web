@@ -14,7 +14,7 @@ class AppointmentProvider extends HttpRequest {
   }
 
   findByCalendarAndDate(calendarId, from, to) {
-    return this.axiosInstance.get(this.entity + '/appointments?calendar=' + calendarId + '&start=' + from + '<>' + to,
+    return this.axiosInstance.get(this.entity + '?calendar=' + calendarId + '&start=' + from + '<>' + to,
       {headers: {'authorization': 'Bearer ' + localStorage.getItem('access_token')}}
     )
   }

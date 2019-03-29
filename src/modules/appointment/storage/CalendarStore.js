@@ -32,7 +32,7 @@ import {
   SET_RESULT_HOLIDAYS,
   UPDATE_HOLIDAYS,
   SET_HOLIDAY_DELETED,
-  SET_APPOINTMENTS_ALL,
+  SET_ADMIN_APPOINTMENTS,
   SET_OUT_OF_SERVICE,
   SET_OUT_OF_SERVICE_GENERAL_ERRORS,
   SET_OUT_OF_SERVICE_LOADING,
@@ -46,6 +46,8 @@ import {SET_RESULT, SET_USERS_LOADING, UPDATE_USER} from "../../user-crud/storag
 export default {
   namespaced: false,
   state: {
+    adminAppointments: [],
+    appointments: [],
     date: null,
     calendarSelected: null,
     calendars: [],
@@ -53,7 +55,6 @@ export default {
     events: [],
     availableShifts: [],
     calendarLoading: false,
-    appointments: [],
     lastAppointment: null,
     calendarDelete: null,
     users: [],
@@ -64,7 +65,6 @@ export default {
     flashMessage: null,
     resultHolidays: false,
     errorsHolidays: [],
-    allAppointments: [],
     outOfService: [],
     loadingOutOfService: false,
     errorOfservice: [],
@@ -158,8 +158,11 @@ export default {
     getHolidaysErrors(state) {
       return state.holidaysErrors
     },
-    getAllAppointments(state) {
-      return state.allAppointments
+    getAdminAppointments(state) {
+      return state.adminAppointments
+    },
+    getActiveAdminAppointments(state) {
+      return state.adminAppointments.filter(appointment => appointment.status === 1);
     },
     getAllOutOfService(state) {
       return state.outOfService
@@ -395,10 +398,10 @@ export default {
 
     },
 
-    fetchAllAppointments({commit}, data) {
+    fetchAdminAppointments({commit}, {calendar,from,to}) {
       commit(SET_CALENDAR_LOADING, true);
-      AppointmentProvider.findByCalendarAndDate(data.id, data.from, data.to).then((response) => {
-        commit(SET_APPOINTMENTS_ALL, response.data)
+      AppointmentProvider.findByCalendarAndDate(calendar, from, to).then((response) => {
+        commit(SET_ADMIN_APPOINTMENTS, response.data)
       }).catch((error) => {
 
       })
@@ -577,8 +580,8 @@ export default {
         return doc.id != id
       });
     },
-    [SET_APPOINTMENTS_ALL](state, data) {
-      state.allAppointments = data
+    [SET_ADMIN_APPOINTMENTS](state, data) {
+      state.adminAppointments = data
     },
     [SET_OUT_OF_SERVICE_LOADING](state, data) {
       state.loadingOutOfService = data
