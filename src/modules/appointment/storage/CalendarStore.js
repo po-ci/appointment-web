@@ -1,4 +1,10 @@
-import {CalendarProvider, AppointmentProvider, AuthService, HolidaysProvider} from '../../../resource'
+import {
+  CalendarProvider,
+  AppointmentProvider,
+  AuthService,
+  HolidaysProvider,
+  OutOfServiceProvider
+} from '../../../resource'
 import Vue from 'vue'
 import moment from 'moment'
 import tz from 'moment-timezone'
@@ -26,14 +32,22 @@ import {
   SET_RESULT_HOLIDAYS,
   UPDATE_HOLIDAYS,
   SET_HOLIDAY_DELETED,
-  SET_HOLIDAY_DELETED_RESPONSE,
-  SET_APPOINTMENTS_ALL
+  SET_ADMIN_APPOINTMENTS,
+  SET_OUT_OF_SERVICE,
+  SET_OUT_OF_SERVICE_GENERAL_ERRORS,
+  SET_OUT_OF_SERVICE_LOADING,
+  SET_ADD_OUT_OF_SERVICE,
+  UPDATE_OUT_OF_SERVICE,
+  SET_RESULT_OUT_OF_SERVICE,
+  SET_OUT_OF_SERVICE_DELETED, ADD_ADMIN_APPOINTMENT, REMOVE_AVAILABLE_SHIFT
 } from './calendar-mutation-types'
 import {SET_RESULT, SET_USERS_LOADING, UPDATE_USER} from "../../user-crud/storage/user-mutation-type";
 
 export default {
   namespaced: false,
   state: {
+    adminAppointments: [],
+    appointments: [],
     date: null,
     calendarSelected: null,
     calendars: [],
@@ -41,7 +55,6 @@ export default {
     events: [],
     availableShifts: [],
     calendarLoading: false,
-    appointments: [],
     lastAppointment: null,
     calendarDelete: null,
     users: [],
@@ -52,7 +65,11 @@ export default {
     flashMessage: null,
     resultHolidays: false,
     errorsHolidays: [],
-    allAppointments: []
+    outOfService: [],
+    loadingOutOfService: false,
+    errorOfservice: [],
+    resultOutOfService: false
+
   },
   getters: {
 
@@ -141,20 +158,47 @@ export default {
     getHolidaysErrors(state) {
       return state.holidaysErrors
     },
-    getAllAppointments(state) {
-      return state.allAppointments
-    }
+    getAdminAppointments(state) {
+      return state.adminAppointments
+    },
+    getActiveAdminAppointments(state) {
+      return state.adminAppointments.filter(appointment => appointment.status === 1).sort(function compareHours(a, b) {
+        return ('' + a.start).localeCompare(b.start)
+      })
+
+    },
+    getAllOutOfService(state) {
+      return state.outOfService
+    },
+    getOutOfServiceLoading(state) {
+      return state.loadingOutOfService
+    },
+    getResultOutOfService(state) {
+      return state.resultOutOfService
+    },
+    getOutOfServiceErrors(state) {
+      return state.errorOfservice
+    },
+    getFlashMessageOutOfService(state) {
+      return state.flashMessage
+    },
+    checkCalendarAppointment: (state) => {
+      if (state.calendarSelected && state.appointments.find(appointment => appointment.calendar.id == state.calendarSelected.id && appointment.status == 1) !== undefined) {
+        return true
+      }
+      return false
+    },
+
   },
   actions: {
 
-
     fetchAvailableAppointments({commit, getters}) {
-      commit(SET_CALENDAR_LOADING, true);
+      commit(SET_CALENDAR_LOADING, true)
       if (getters.getDate && getters.getCalendarSelected) {
         commit(SET_AVAILABLE_SHIFTS, [])
         AppointmentProvider.availables(getters.getCalendarSelected.id, getters.getDateFormated).then((response) => {
           commit(SET_AVAILABLE_SHIFTS, response.data)
-          commit(SET_CALENDAR_LOADING, false);
+          commit(SET_CALENDAR_LOADING, false)
         }).catch(
           (error) => {
             //@TODO Show errors
@@ -165,13 +209,13 @@ export default {
 
 
     fetchMyAppointments({commit, getters}) {
-      commit(SET_CALENDAR_LOADING, true);
+      commit(SET_CALENDAR_LOADING, true)
 
       if (getters.isLogin) {
 
         AppointmentProvider.myAppointments().then((response) => {
           commit(SET_APPOINTMENTS, response.data)
-          commit(SET_CALENDAR_LOADING, false);
+          commit(SET_CALENDAR_LOADING, false)
         }).catch(
           (error) => {
             //@TODO Show errors
@@ -181,19 +225,33 @@ export default {
     },
 
     takeAppointment({commit, getters}, {calendar, start, duration}) {
-      commit(SET_CALENDAR_LOADING, true);
+      commit(SET_CALENDAR_LOADING, true)
 
       AppointmentProvider.take(calendar, start, duration).then((response) => {
         commit(SET_LAST_APPOINTMENT, response.data)
         if (response.data.status) {
-          commit(ADD_APPOINTMENT, response.data.item);
+          commit(ADD_APPOINTMENT, response.data.item)
         }
-        commit(SET_CALENDAR_LOADING, false);
+        commit(SET_CALENDAR_LOADING, false)
       }).catch((error) => {
-        commit(SET_CALENDAR_LOADING, false);
+        commit(SET_CALENDAR_LOADING, false)
       })
 
     },
+    takeAdminAppointment({commit, getters}, {calendar, start, duration, user}) {
+      commit(SET_CALENDAR_LOADING, true)
+
+      AppointmentProvider.takeAdmin(calendar, start, duration, user).then((response) => {
+        commit(SET_LAST_APPOINTMENT, response.data)
+        commit(ADD_ADMIN_APPOINTMENT, response.data.item)
+        commit(REMOVE_AVAILABLE_SHIFT,response.data.item)
+        commit(SET_CALENDAR_LOADING, false)
+      }).catch((error) => {
+        commit(SET_CALENDAR_LOADING, false)
+      })
+
+    },
+
 
     cancelAppointment({commit, getters}, appointmentId) {
       commit(SET_CALENDAR_LOADING, true);
@@ -345,14 +403,83 @@ export default {
 
     },
 
-    fetchAllAppointments({commit}, data) {
+    fetchAdminAppointments({commit}, {calendar, from, to}) {
       commit(SET_CALENDAR_LOADING, true);
-      AppointmentProvider.findByCalendarAndDate(data.id, data.from, data.to).then((response) => {
-        commit(SET_APPOINTMENTS_ALL, response.data)
+      AppointmentProvider.findByCalendarAndDate(calendar, from, to).then((response) => {
+        commit(SET_ADMIN_APPOINTMENTS, response.data)
       }).catch((error) => {
 
       })
-    }
+    },
+
+    fetchAllOutOfService({commit},) {
+      commit(SET_OUT_OF_SERVICE_LOADING, true)
+      OutOfServiceProvider.fetchAll().then((response) => {
+        commit(SET_OUT_OF_SERVICE, response.data)
+        commit(SET_OUT_OF_SERVICE_LOADING, false)
+      }).catch((error) => {
+        commit(SET_OUT_OF_SERVICE_GENERAL_ERRORS, error.data)
+      })
+    },
+    addOutOfService({commit}, data) {
+      commit(SET_RESULT_OUT_OF_SERVICE, false);
+      commit(SET_FLASH_MESSAGE, null)
+      commit(SET_OUT_OF_SERVICE_GENERAL_ERRORS, [])
+      commit(SET_ERRORS, [])
+      commit(SET_OUT_OF_SERVICE_LOADING, true)
+      OutOfServiceProvider.create(data).then((response) => {
+        if (response.data.id) {
+          commit(SET_ADD_OUT_OF_SERVICE, response.data.item)
+        }
+        commit(SET_RESULT_OUT_OF_SERVICE, true)
+        commit(SET_OUT_OF_SERVICE_LOADING, false);
+        commit(SET_FLASH_MESSAGE, "La Licencia se creo con exito")
+      }).catch((error) => {
+        commit(SET_RESULT_OUT_OF_SERVICE, false)
+        if (error && error.response && error.response.data && error.response.data.errors) {
+          commit(SET_OUT_OF_SERVICE_GENERAL_ERRORS, error.response.data.errors)
+        }
+        commit(SET_OUT_OF_SERVICE_LOADING, false)
+      })
+    },
+    updateOutOfService({commit}, data) {
+      commit(SET_RESULT_OUT_OF_SERVICE, false);
+      commit(SET_FLASH_MESSAGE, null)
+      commit(SET_ERRORS, [])
+      commit(SET_OUT_OF_SERVICE_LOADING, true);
+      OutOfServiceProvider.update(data.id, data).then((response) => {
+        data.id = response.data.id
+        commit(UPDATE_OUT_OF_SERVICE, response.data.item)
+        commit(SET_OUT_OF_SERVICE_LOADING, false)
+        commit(SET_RESULT_OUT_OF_SERVICE, true)
+        commit(SET_FLASH_MESSAGE, "La Licencia se edito con exito")
+      }).catch((error) => {
+        commit(SET_RESULT_OUT_OF_SERVICE, false)
+        if (error && error.response && error.response.data && error.response.data.errors) {
+          commit(SET_OUT_OF_SERVICE_GENERAL_ERRORS, error.response.data.errors)
+        }
+        commit(SET_OUT_OF_SERVICE_LOADING, false)
+      })
+    },
+    deleteOutOfService({commit}, outOfServiceID) {
+      commit(SET_RESULT_OUT_OF_SERVICE, false);
+      commit(SET_FLASH_MESSAGE, null)
+      commit(SET_ERRORS, [])
+      commit(SET_OUT_OF_SERVICE_LOADING, true);
+      OutOfServiceProvider.delete(outOfServiceID).then((response) => {
+        commit(SET_OUT_OF_SERVICE_DELETED, outOfServiceID)
+        commit(SET_RESULT_OUT_OF_SERVICE, true)
+        commit(SET_FLASH_MESSAGE, "La licencia se elimino con exito")
+        commit(SET_OUT_OF_SERVICE_LOADING, false)
+      }).catch((error) => {
+        commit(SET_OUT_OF_SERVICE_LOADING, false)
+        if (error && error.response && error.response.data && error.response.data.errors) {
+          commit(SET_OUT_OF_SERVICE_GENERAL_ERRORS, error.response.data.errors)
+        }
+        commit(SET_OUT_OF_SERVICE_LOADING, false)
+      })
+
+    },
   },
   mutations: {
     [SET_CALENDAR_LOADING](state, value) {
@@ -393,14 +520,22 @@ export default {
       state.events = events;
     }
     ,
-    [SET_AVAILABLE_SHIFTS](state, shifts) {
-      state.availableShifts = shifts;
+    [SET_AVAILABLE_SHIFTS](state, appointments) {
+      state.availableShifts = appointments;
+    }
+    ,
+    [REMOVE_AVAILABLE_SHIFT](state, appointment) {
+      let index = state.availableShifts.findIndex(a => a.start == appointment.start)
+      Vue.delete(state.availableShifts,index)
     }
     ,
     [ADD_APPOINTMENT](state, appointment) {
       state.appointments.push(appointment);
     }
     ,
+    [ADD_ADMIN_APPOINTMENT](state, appointment) {
+      state.adminAppointments.push(appointment);
+    },
     [UPDATE_APPOINTMENT](state, appointment) {
       let index = state.appointments.findIndex(a => a.id == appointment.id)
       Vue.set(state.appointments, index, appointment)
@@ -458,8 +593,33 @@ export default {
         return doc.id != id
       });
     },
-    [SET_APPOINTMENTS_ALL](state, data) {
-      state.allAppointments = data
+    [SET_ADMIN_APPOINTMENTS](state, data) {
+      state.adminAppointments = data
+    },
+    [SET_OUT_OF_SERVICE_LOADING](state, data) {
+      state.loadingOutOfService = data
+    },
+    [SET_OUT_OF_SERVICE](state, data) {
+      state.outOfService = data
+    },
+    [SET_OUT_OF_SERVICE_GENERAL_ERRORS](state, data) {
+      state.errorOfservice = data
+    },
+    [SET_ADD_OUT_OF_SERVICE](state, data) {
+      state.outOfService.push(data)
+    },
+    [SET_RESULT_OUT_OF_SERVICE](state, data) {
+      state.resultOutOfService = data
+    },
+    [UPDATE_OUT_OF_SERVICE](state) {
+      let index = state.outOfService.findIndex(outOfService => outOfService.id == data.id)
+      Vue.set(state.outOfService, index, data)
+    },
+    [SET_OUT_OF_SERVICE_DELETED](state, id) {
+      state.outOfService = state.outOfService.filter(doc => {
+        return doc.id != id
+      })
     }
+
   },
 }

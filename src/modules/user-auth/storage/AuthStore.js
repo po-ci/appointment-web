@@ -3,8 +3,9 @@ import {AuthService} from '../../../resource'
 import router from '../../../router'
 import {
   SET_USERS_GENERAL_ERROR,
-  SET_USERS_LOADING
-} from "../../appointment/storage/calendar-mutation-types";
+  SET_USERS_LOADING,
+  SET_USER, SET_USER_IMG
+} from "./auth-mutation-types";
 
 export default {
   namespaced: false,
@@ -143,6 +144,13 @@ export default {
 
     extractTokenPayload({state, commit}) {
       let payload = JSON.parse(atob(state.access_token.split('.')[1]))
+
+      let user_img = localStorage.getItem('user_img')
+
+      if(user_img && payload.data.img){
+        payload.data.img = user_img
+      }
+
       commit('SET_USER', payload.data)
       commit('SET_EXP', payload.exp)
     },
@@ -196,11 +204,13 @@ export default {
       state.access_token = access_token;
       localStorage.setItem('access_token', access_token)
     },
-    ['SET_USER'](state, user) {
+    [SET_USER](state, user) {
       state.user = user;
+     // localStorage.setItem('user_img', state.user.img)
     },
-    ['SET_USER_IMG'](state, img) {
+    [SET_USER_IMG](state, img) {
       Vue.set(state.user,'img',img)
+      localStorage.setItem('user_img', img)
     },
     ['SET_EXP'](state, exp) {
       state.exp = exp;

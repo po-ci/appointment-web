@@ -104,25 +104,35 @@
 
             <div v-else-if="getAvailableShifts.length > 0">
 
-              <!--          <v-layout row wrap class="mb-1 mt-0">
-                          <v-flex class="text-xs-center">
-                            <h5 class="grey&#45;&#45;text text&#45;&#45;darken-1 title text-uppercase pa-0">
-                              <v-icon>calendar_today</v-icon>
-                              {{getCalendarSelected.name}}: {{getFriendlyDateFormated}}
-                            </h5>
-                          </v-flex>
-                        </v-layout>-->
 
               <div style="height:330px; overflow-y: scroll; overflow-x: hidden;">
-                <appointments-available v-for="s in getAvailableShifts"
-                                        :date="getDateFormated"
-                                        :day="getDateDay"
-                                        :start="s.start"
-                                        :hour="s.hour"
-                                        :duration="s.duration"
-                                        :calendar="getCalendarSelected"
-                                        v-on:bookAppointment="bookAppointment"
-                ></appointments-available>
+
+                <v-alert v-if="checkCalendarAppointment"
+                         class="ma-5 title text-xs-center"
+                         :value="true"
+                         color="warning"
+                         outline
+                >
+                  Ya tiene registrado un turno para esta agenda.<br>
+                  <v-btn
+                    color="secundary darken-1"
+                    flat="flat"
+                    @click="$router.push('/my-appointments')"
+                  >
+                    Ver mis Turnos
+                  </v-btn>
+                </v-alert>
+                <template v-else>
+                  <appointments-available v-for="s in getAvailableShifts"
+                                          :date="getDateFormated"
+                                          :day="getDateDay"
+                                          :start="s.start"
+                                          :hour="s.hour"
+                                          :duration="s.duration"
+                                          :calendar="getCalendarSelected"
+                                          v-on:bookAppointment="bookAppointment"
+                  ></appointments-available>
+                </template>
               </div>
             </div>
 
@@ -196,6 +206,7 @@
       },
 
       ...mapGetters([
+        'checkCalendarAppointment',
         'getDateFormated',
         'getDateDay',
         'getDate',

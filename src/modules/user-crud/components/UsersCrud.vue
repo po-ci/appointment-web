@@ -1,12 +1,16 @@
 <template>
   <v-container>
-    <v-layout>
-      <v-flex xs12>
+    <v-layout row wrap>
+      <v-flex xs12 class="pa-3">
         <v-card class="elevation-6">
-          <v-card-title primary-title class="title pb-0 px-4">
-            <span>Usuarios</span>
+          <v-card-title primary-title class="title">
+            Usuarios
           </v-card-title>
-          <v-card-text class="pt-0">
+        </v-card>
+      </v-flex>
+      <v-flex xs12 class="pa-3">
+        <v-card class="elevation-6">
+          <v-card-text>
             <v-layout row wrap>
               <v-flex md6 xs12 class="offset-md6">
                 <v-text-field
@@ -59,7 +63,7 @@
                 <td>{{ props.item.email }}</td>
                 <td v-if="props.item.active == 1">
                   <v-icon
-                    color="primary">check_circle
+                    color="success">check_circle
                   </v-icon>
                 </td>
                 <td v-else>
@@ -67,9 +71,9 @@
                 </td>
                 <td>{{ props.item.phone }}</td>
 
-         <!--       <td class="text-xs-center">
-                  {{props.item}}
-                </td>-->
+                <!--       <td class="text-xs-center">
+                         {{props.item}}
+                       </td>-->
 
                 <td class="text-xs-center">
                   <v-icon
@@ -86,7 +90,6 @@
         </v-card>
       </v-flex>
     </v-layout>
-
     <users-crud-dialog
       v-if="dialog"
       :user="user"
@@ -145,7 +148,7 @@
           {text: 'Email', value: 'email'},
           {text: 'Activo', value: 'active'},
           {text: 'Telefono', value: 'phone'},
-        //  {text: 'Log', value: 'log', sortable: false},
+          //  {text: 'Log', value: 'log', sortable: false},
           {text: 'Aciones', value: 'acciones', sortable: false},
         ],
         search: '',
