@@ -15,7 +15,7 @@
       <v-text-field
         slot="activator"
         v-model="time"
-        label="Hora"
+        :label="label"
         prepend-icon="access_time"
         readonly
         class="pt-0"
@@ -37,6 +37,7 @@
       value: String,
       day: Number,
       field: String,
+      label: String
     },
 
     data() {
