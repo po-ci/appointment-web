@@ -16,7 +16,7 @@
   import {mapActions,mapGetters} from 'vuex'
 
     export default {
-        name: "AppointmentsToolbar",
+        name: "MyAppointmentsToolbar",
       mounted: function(){
         this.fetchMyAppointments()
       },

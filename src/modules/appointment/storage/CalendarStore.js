@@ -183,7 +183,10 @@ export default {
       return state.flashMessage
     },
     checkCalendarAppointment: (state) => {
-      if (state.calendarSelected && state.appointments.find(appointment => appointment.calendar.id == state.calendarSelected.id && appointment.status == 1) !== undefined) {
+      let now = moment()
+      if (state.calendarSelected
+        &&
+        state.appointments.find(appointment => appointment.calendar.id == state.calendarSelected.id && appointment.status == 1 && appointment.start >= now.format("YYYY-MM-DD HH:mm")) !== undefined) {
         return true
       }
       return false
@@ -210,9 +213,7 @@ export default {
 
     fetchMyAppointments({commit, getters}) {
       commit(SET_CALENDAR_LOADING, true)
-
       if (getters.isLogin) {
-
         AppointmentProvider.myAppointments().then((response) => {
           commit(SET_APPOINTMENTS, response.data)
           commit(SET_CALENDAR_LOADING, false)

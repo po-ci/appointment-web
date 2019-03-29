@@ -16,9 +16,6 @@
               :items="getCalendars"
               :loading="getCalendarLoading">
               <template slot="items" slot-scope="props">
-                <td>{{ props.item.id }}</td>
-                <td>{{ props.item.name }}</td>
-                <td>{{ props.item.user }}</td>
                 <td>
                   <v-icon
                     small
@@ -35,6 +32,10 @@
                   </v-icon>
 
                 </td>
+                <td>{{ props.item.id }}</td>
+                <td>{{ props.item.name }}</td>
+                <td>{{ props.item.user }}</td>
+
               </template>
 
             </v-data-table>
@@ -94,10 +95,10 @@
         calendarToDelete: null,
         users: [],
         headers: [
+          {text: 'Aciones', value: 'acciones', sortable: false},
           {text: 'ID', value: 'id'},
           {text: 'Nombre', value: 'name'},
           {text: 'Usuario', value: 'user'},
-          {text: 'Aciones', value: 'acciones', sortable: false},
         ],
         desserts: [],
       }
