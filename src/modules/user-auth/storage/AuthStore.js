@@ -206,6 +206,7 @@ export default {
     },
     [SET_USER](state, user) {
       state.user = user;
+     // localStorage.setItem('user_img', state.user.img)
     },
     [SET_USER_IMG](state, img) {
       Vue.set(state.user,'img',img)
