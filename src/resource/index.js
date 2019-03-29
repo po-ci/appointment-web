@@ -5,6 +5,7 @@ import AppointmentProviderClass from '../modules/appointment/resource/Appointmen
 import RoleProviderClass from '../modules/user-crud/resource/RoleProvider'
 import UserProviderClass from '../modules/user-crud/resource/UserProvider'
 import OutOfServiceProviderClass from '../modules/appointment/resource/OutOfServiceProvider'
+import SpecificsScheduleProviderClass from '../modules/appointment/resource/SpecificsScheduleProvider'
 
 // Give arg to provider to start endpoint with specific path for example = xxx.com/api/person
 export const AuthService = new AuthProvider('auth')
@@ -21,3 +22,5 @@ export const UserProvider = new UserProviderClass('/security/api/users')
 export const HolidaysProvider = new HolidaysProviderClass('/zfmc/api/holidays')
 
 export const OutOfServiceProvider = new OutOfServiceProviderClass('/zfmc/api/out-of-service')
+
+export const SpecificsScheduleProvider = new SpecificsScheduleProviderClass('/zfmc/api/specifics-schedule')
