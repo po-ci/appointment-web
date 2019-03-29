@@ -1,0 +1,5 @@
+export const SET_USER = 'SET_USER'
+export const SET_USERS_GENERAL_ERROR = 'SET_USERS_GENERAL_ERROR'
+export const SET_USERS_LOADING = 'SET_USERS_LOADING'
+
+export const SET_USER_IMG = 'SET_USER_IMG'
