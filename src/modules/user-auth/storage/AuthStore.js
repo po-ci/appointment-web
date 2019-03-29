@@ -166,7 +166,7 @@ export default {
         img: null,
       })
       commit('SET_EXP', null)
-      router.push('login')
+      router.push('/')
     },
 
     loadTokenFromLocalStorage({state, commit, dispatch}) {
