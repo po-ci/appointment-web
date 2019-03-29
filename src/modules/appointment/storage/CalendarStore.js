@@ -39,13 +39,14 @@ import {
   SET_ADD_OUT_OF_SERVICE,
   UPDATE_OUT_OF_SERVICE,
   SET_RESULT_OUT_OF_SERVICE,
-  SET_OUT_OF_SERVICE_DELETED, ADD_ADMIN_APPOINTMENT, REMOVE_AVAILABLE_SHIFT, SET_SHOW_APPOINTMENTS
+  SET_OUT_OF_SERVICE_DELETED, ADD_ADMIN_APPOINTMENT, REMOVE_AVAILABLE_SHIFT, SET_SHOW_APPOINTMENTS, SET_DATA_LOADING
 } from './calendar-mutation-types'
 import {SET_RESULT, SET_USERS_LOADING, UPDATE_USER} from "../../user-crud/storage/user-mutation-type";
 
 export default {
   namespaced: false,
   state: {
+    dataLoading: false,
     showAppointments: [],
     adminAppointments: [],
     appointments: [],
@@ -109,7 +110,9 @@ export default {
     getAppointmentByCalendarAndDate: (state) => ({calendar, date}) => {
       return state.appointments.find(appointment => appointment.id === calendar && appointment.date === date);
     },
-
+    getDataLoading: (state) => {
+      return state.dataLoading
+    },
     getCalendarLoading: (state) => {
       return state.calendarLoading
     },
@@ -418,10 +421,10 @@ export default {
     },
 
     fetchAdminAppointments({commit}, {calendar, from, to}) {
-      commit(SET_CALENDAR_LOADING, true);
+      commit(SET_DATA_LOADING, true);
       AppointmentProvider.findByCalendarAndDate(calendar, from, to).then((response) => {
         commit(SET_ADMIN_APPOINTMENTS, response.data)
-        commit(SET_CALENDAR_LOADING, false);
+        commit(SET_DATA_LOADING, false);
       }).catch((error) => {
 
       })
@@ -509,8 +512,10 @@ export default {
   mutations: {
     [SET_CALENDAR_LOADING](state, value) {
       state.calendarLoading = value;
-    }
-    ,
+    },
+    [SET_DATA_LOADING](state, value) {
+      state.dataLoading = value;
+    },
     [SET_DATE](state, value) {
       if (value) {
         state.date = moment(value).tz('America/Argentina/Buenos_Aires').locale('es');

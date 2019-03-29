@@ -69,7 +69,7 @@
                     {text: 'Nombre', value: 'Nombre'},
                   ]"
                   :items="getActiveAdminAppointments"
-                  :loading="getCalendarLoading"
+                  :loading="getDataLoading"
                   class="elevation-1">
                   <template slot="items" slot-scope="props">
                     <td>{{ props.item.id }}</td>
@@ -122,13 +122,14 @@
     watch: {
 
       getDate: function () {
-        this.doFetchAdminAppointments()
         this.fetchAvailableAppointments()
+        this.doFetchAdminAppointments()
+
       },
 
       getCalendarSelected: function () {
-        this.doFetchAdminAppointments()
         this.fetchAvailableAppointments()
+        this.doFetchAdminAppointments()
       },
 
     },
@@ -144,6 +145,7 @@
         'getCalendarSelected',
         'getAvailableShifts',
         'getCalendarLoading',
+        'getDataLoading',
         'getFriendlyDateFormated',
         'getActiveAdminAppointments',
         'getUsers'
