@@ -114,6 +114,9 @@ export default {
 
     validate({commit}, {id, token}) {
       commit('SET_AUTH_LOADING', true)
+
+      console.log("PASE VALIDATE")
+
       return AuthService.validate(id, token).then((response) => {
         if (response.data.status) {
           commit('SET_VALIDATE', true)
@@ -191,8 +194,6 @@ export default {
           dispatch('logout')
         }
 
-      } else {
-        dispatch('logout')
       }
     },
   },
