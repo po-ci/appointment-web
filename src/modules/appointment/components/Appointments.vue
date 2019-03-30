@@ -15,7 +15,7 @@
 
       <!-- STEP 1 -->
       <v-flex xs12 sm12 md4>
-        <v-card class="appointment-step-card">
+        <v-card :class="$vuetify.breakpoint.mdAndUp?'appointment-step-card':''">
           <v-card-title class="pa-1">
             <h3 class="pa-0">
               <v-btn fab dark small color="primary">
@@ -34,7 +34,7 @@
       <!-- STEP 2 -->
 
       <v-flex xs12 sm12 md4>
-        <v-card class="appointment-step-card">
+        <v-card :class="$vuetify.breakpoint.mdAndUp?'appointment-step-card':''">
           <v-card-title class="pa-1">
             <h3 class="pa-0">
               <v-btn fab dark small color="primary">
@@ -44,7 +44,7 @@
             </h3>
           </v-card-title>
 
-          <v-card-text class="text-xs-center pa-1">
+          <v-card-text class="text-xs-center pa-2">
 
             <div v-if="isAgendaSelected" class="text-xs-center">
               <v-alert
@@ -67,7 +67,7 @@
       <!-- STEP 3 -->
 
       <v-flex xs12 sm12 md4>
-        <v-card class="appointment-step-card">
+        <v-card :class="$vuetify.breakpoint.mdAndUp?'appointment-step-card':''">
           <v-card-title class="pa-1">
             <h3 class="pa-0">
               <v-btn fab dark small color="primary">
@@ -104,13 +104,12 @@
 
             <div v-else-if="getAvailableShifts.length > 0">
 
-
-              <div style="height:330px; overflow-y: scroll; overflow-x: hidden;">
+              <div :style="$vuetify.breakpoint.mdAndUp?'height:330px; overflow-y: scroll; overflow-x: hidden;':''">
 
                 <v-alert v-if="checkCalendarAppointment"
                          class="ma-5 title text-xs-center"
                          :value="true"
-                         color="warning"
+                         color="error"
                          outline
                 >
                   Ya tiene registrado un turno para esta agenda.<br>
@@ -139,10 +138,9 @@
 
             <div v-else>
               <v-alert
-                class=" headline text-xs-center"
+                class=" title font-weight-light text-xs-center"
                 :value="true"
                 color="warning"
-                icon="priority_high"
                 outline
               >
                 No hay turnos disponibles para la fecha seleccionada. <br>Intenta otra fecha por favor.

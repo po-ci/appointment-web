@@ -19,6 +19,12 @@ class AppointmentProvider extends HttpRequest {
     )
   }
 
+  findByDate(from, to) {
+    return this.axiosInstance.get(this.entity + '?start=' + from + '<>' + to,
+      {headers: {'authorization': 'Bearer ' + localStorage.getItem('access_token')}}
+    )
+  }
+
   myAppointments() {
     return this.axiosInstance.get(this.entity + '/my-appointments',
       {

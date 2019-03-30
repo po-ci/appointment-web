@@ -7,6 +7,7 @@
             Sesión Iniciada como:
             <strong>{{getUser.username}}</strong>
           </v-card-text>
+          <v-card-text>Redireccionando a la pagina principal en: <strong>{{countdown}}</strong></v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
@@ -82,7 +83,7 @@
         <v-card class="elevation-12 mt-3">
           <v-card-text class="text-xs-center">
             Aun no tienes cuenta?
-            <router-link to="register">Crear Cuenta</router-link>
+            <router-link to="register" class="font-weight-black">CREAR CUENTA</router-link>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -96,12 +97,25 @@
 
   export default {
     name: "Login",
+    mounted: function(){
+      if(this.isLogin){
+        this.goToHome()
+      }
+    },
+    watch: {
+      isLogin: function(value){
+        if(value){
+          this.goToHome()
+        }
+      }
+    },
     data: () => ({
         username: null,
         password: null,
         lo: false,
         error: false,
-        errorMessage: ""
+        errorMessage: "",
+        countdown: 3
       }
     ),
     computed: {
@@ -114,6 +128,15 @@
       ]),
     },
     methods: {
+      goToHome: function(){
+        let self = this
+        setInterval(function(){
+          self.countdown--;
+          if(self.countdown == 0){
+            self.$router.push("/")
+          }
+        },1000)
+      },
       login: function () {
         this.auth({username: this.username, password: this.password})
       },

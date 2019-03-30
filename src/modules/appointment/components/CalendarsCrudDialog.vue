@@ -31,82 +31,82 @@
         </v-toolbar>
       </v-card-text>
 
-      <v-card-text class="mt-4">
-        <v-card-title primary-title class="title py-0">Agenda</v-card-title>
+      <v-card-title primary-title class="title">Agenda</v-card-title>
 
-          <v-form>
-            <v-layout row wrap class="pa-3">
-              <v-text-field
-                md4 xs12
-                class="px-2"
-                name="name"
-                label="Nombre de la agenda"
-                type="text"
-                v-model="form.name">
-              </v-text-field>
+      <v-card-text>
+        <v-form>
+          <v-layout row wrap >
+            <v-text-field
+              md4 xs12
+              class="pr-2"
+              name="name"
+              label="Nombre de la agenda"
+              type="text"
+              v-model="form.name">
+            </v-text-field>
 
-              <v-select
-                md4 xs12
-                class="px-2"
-                :items="users"
-                :item-text="'name'"
-                :item-value="'id'"
-                label="Usuario"
-                v-model="form.user"
-                required
-              ></v-select>
+            <v-select
+              md4 xs12
+              class="pr-2"
+              :items="users"
+              :item-text="'name'"
+              :item-value="'id'"
+              label="Usuario"
+              v-model="form.user"
+              required
+            ></v-select>
 
-              <v-text-field
-                md4 xs12
-                class="px-2"
-                name="description"
-                label="Descripcion"
-                type="text"
-                v-model="form.description">
-              </v-text-field>
-            </v-layout>
-          </v-form>
+            <v-text-field
+              md4 xs12
+              class="pr-2"
+              name="description"
+              label="Descripcion"
+              type="text"
+              v-model="form.description">
+            </v-text-field>
+          </v-layout>
+        </v-form>
       </v-card-text>
 
 
       <v-divider></v-divider>
-
+      <v-card-title primary-title class="title">Configuración de turnos</v-card-title>
       <v-card-text>
-        <v-card-title primary-title class="title py-0">Configuración de turnos</v-card-title>
-        <v-layout row wrap class="pa-3">
-          <v-flex xs6 md3 class="text-xs-center">
 
-            <v-text-field class="px-2"
-                          label="Tiempo de turno"
+        <v-layout row wrap>
+          <v-flex xs12 md4 class="text-xs-center">
+
+            <v-text-field class="pr-2"
+                          label="Tiempo de turno en minutos"
                           type="number"
                           v-model="form.appointmentConfig.duration"
             ></v-text-field>
           </v-flex>
-          <v-flex xs6 md3 class="text-xs-center">
+          <v-flex xs12 md4 class="text-xs-center">
 
-            <v-text-field class="px-2"
-                          label="Tiempo libre entre turnos"
+            <v-text-field class="pr-2"
+                          label="Tiempo libre entre turnos en minutos"
                           type="number"
                           v-model="form.appointmentConfig.break"
             ></v-text-field>
           </v-flex>
-          <v-flex xs6 md3 class="text-xs-center">
-            <v-text-field class="px-2"
-                          label="Dias máximos para Turnos"
+          <v-flex xs12 md4 class="text-xs-center">
+            <v-text-field class="pr-2"
+                          label="Cantidad de Dias máximos para Turnos"
                           type="number"
                           v-model="form.appointmentConfig.maxTimeInDays"
             ></v-text-field>
           </v-flex>
-          <v-flex xs6 md3 class="text-xs-center">
-            <v-text-field class="px-2"
-                          label="Tiempo minimo para turno"
+          <v-flex xs12 md4 class="text-xs-center">
+            <v-text-field class="pr-2"
+                          label="Tiempo minimo para turno en horas"
                           type="number"
                           v-model="form.appointmentConfig.minTimeInHours"
             ></v-text-field>
           </v-flex>
-          <v-flex xs6 md3 class="text-xs-center">
-            <v-text-field class="px-2"
-                          label="Tiempo minimo para cancelar"
+          <v-flex xs12 md4 class="text-xs-center">
+            <v-text-field class="pr-2"
+                          label="Tiempo minimo para cancelar en horas"
                           type="number"
                           v-model="form.appointmentConfig.cancelTimeInHours"
             ></v-text-field>
@@ -116,64 +116,58 @@
 
       <v-divider></v-divider>
 
-
+      <v-card-title primary-title class="title">Programación horaria</v-card-title>
       <v-card-text>
-        <v-card-title primary-title class="title py-0">Programación horaria</v-card-title>
+
         <v-spacer></v-spacer>
-        <v-layout class="mt-2">
-          <v-flex xs3 class="text-xs-center">
-            Dia
-          </v-flex>
-          <v-flex xs3 class="text-xs-center">
-            Desde
-          </v-flex>
 
-          <v-flex xs3 class="text-xs-center">
-            Hasta
-          </v-flex>
-
-          <v-flex xs3 class="text-xs-center">
-            Desde 2
-          </v-flex>
-
-          <v-flex xs3 class="text-xs-center">
-            Hasta 2
-          </v-flex>
-          <br>
-        </v-layout>
         <template v-for="day in days">
-          <v-layout row>
-            <v-flex xs3 class="text-xs-center pa-3">
+          <v-layout row wrap>
+            <v-flex xs4 md2 class="text-xs-center py-3 px-0 ">
+              <v-layout row wrap fill-height align-center justify-center>
               {{day.name}}
+              </v-layout>
             </v-flex>
-            <v-flex xs3>
-              <calendars-crud-dialog-time
-                :day="day.number"
-                :field="'start'"
-                :value="findScheduleValue(day.number, 'start')"
-                @time="timeCalendars"></calendars-crud-dialog-time>
+
+            <v-flex xs8 md10 class="text-xs-center py-3 px-0">
+              <v-layout row wrap>
+                <v-flex xs6 md3 class="pr-2">
+                  <calendars-crud-dialog-time
+                    :day="day.number"
+                    :field="'start'"
+                    label="Desde"
+                    :value="findScheduleValue(day.number, 'start')"
+                    @time="timeCalendars"></calendars-crud-dialog-time>
+                </v-flex>
+                <v-flex xs6 md3 class="pr-2">
+                  <calendars-crud-dialog-time
+                    :day="day.number"
+                    :field="'end'"
+                    label="Hasta"
+                    :value="findScheduleValue(day.number, 'end')"
+                    @time="timeCalendars"></calendars-crud-dialog-time>
+                </v-flex>
+                <v-flex xs6 md3 class="pr-2">
+                  <calendars-crud-dialog-time
+                    :day="day.number"
+                    :field="'start2'"
+                    label="Desde2"
+                    :value="findScheduleValue(day.number, 'start2')"
+                    @time="timeCalendars"></calendars-crud-dialog-time>
+                </v-flex>
+                <v-flex xs6 md3 class="pr-2">
+                  <calendars-crud-dialog-time
+                    :day="day.number"
+                    :field="'end2'"
+                    label="Hasta 2"
+                    :value="findScheduleValue(day.number, 'end2')"
+                    @time="timeCalendars"></calendars-crud-dialog-time>
+                </v-flex>
+              </v-layout>
             </v-flex>
-            <v-flex xs3>
-              <calendars-crud-dialog-time
-                :day="day.number"
-                :field="'end'"
-                :value="findScheduleValue(day.number, 'end')"
-                @time="timeCalendars"></calendars-crud-dialog-time>
-            </v-flex>
-            <v-flex xs3>
-              <calendars-crud-dialog-time
-                :day="day.number"
-                :field="'start2'"
-                :value="findScheduleValue(day.number, 'start2')"
-                @time="timeCalendars"></calendars-crud-dialog-time>
-            </v-flex>
-            <v-flex xs3>
-              <calendars-crud-dialog-time
-                :day="day.number"
-                :field="'end2'"
-                :value="findScheduleValue(day.number, 'end2')"
-                @time="timeCalendars"></calendars-crud-dialog-time>
-            </v-flex>
+
+
+
 
           </v-layout>
         </template>

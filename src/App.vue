@@ -2,7 +2,7 @@
   <v-app>
     <layout :nav="nav">
       <template slot="toolbar">
-        <appointments-toolbar></appointments-toolbar>
+        <my-appointments-toolbar v-if="isLogin"></my-appointments-toolbar>
       </template>
 
       <router-view/>
@@ -14,19 +14,24 @@
 </template>
 
 <script>
-  import {mapActions} from 'vuex'
+  import {mapActions, mapGetters} from 'vuex'
   import Layout from './modules/layout/components/Layout'
-  import AppointmentsToolbar from './modules/appointment/components/AppointmentsToolbar'
+  import MyAppointmentsToolbar from './modules/appointment/components/MyAppointmentsToolbar'
 
   export default {
     name: 'App',
-    components: {Layout, AppointmentsToolbar},
+    components: {Layout, MyAppointmentsToolbar},
     mounted: function () {
       this.checkAuth()
     },
     methods: {
       ...mapActions([
         'checkAuth'
+      ])
+    },
+    computed: {
+      ...mapGetters([
+        'isLogin'
       ])
     },
     data() {
@@ -45,15 +50,21 @@
 
           },
           {
-            icon: 'event',
+            icon: 'add_to_photos',
             text: 'Solicitar Turno',
             link: {name: "appointments"}
 
           },
           {
-            icon: 'assignment',
+            icon: 'play_arrow',
             text: 'Asignar Turnos',
             link: {name: "adminAppointments"},
+            role: 'admin'
+          },
+          {
+            icon: 'library_books',
+            text: 'Ver Turnos',
+            link: {name: "showAppointments"},
             role: 'admin'
           },
           {

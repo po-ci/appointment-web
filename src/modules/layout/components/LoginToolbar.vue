@@ -32,7 +32,13 @@
       controlLoginExpire: function () {
         const self = this;
         setInterval(function(){
-          self.checkAuth()
+          if(self.$router.currentRoute.name != "home"
+            && self.$router.currentRoute.name != "register"
+            && self.$router.currentRoute.name != "login"
+            && self.$router.currentRoute.name != "validate"){
+            self.checkAuth()
+          }
+
         },60000)
       },
       ...mapActions([
