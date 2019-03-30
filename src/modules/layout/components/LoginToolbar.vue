@@ -32,10 +32,10 @@
       controlLoginExpire: function () {
         const self = this;
         setInterval(function(){
-          console.log(self.$router.currentRoute.path)
-          if(self.$router.currentRoute.path != "/"
-            && self.$router.currentRoute.path != "/register"
-            && self.$router.currentRoute.path != "/login"){
+          if(self.$router.currentRoute.name != "home"
+            && self.$router.currentRoute.name != "register"
+            && self.$router.currentRoute.name != "login"
+            && self.$router.currentRoute.name != "validate"){
             self.checkAuth()
           }
 
