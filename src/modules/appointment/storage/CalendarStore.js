@@ -17,7 +17,10 @@ import {
   SET_EVENTS,
   SET_CALENDAR_GENERAL_ERRORS,
   SET_AVAILABLE_SHIFTS,
-  SET_CALENDAR_LOADING, ADD_APPOINTMENT, SET_APPOINTMENTS, SET_LAST_APPOINTMENT,
+  SET_CALENDAR_LOADING,
+  ADD_APPOINTMENT,
+  SET_APPOINTMENTS,
+  SET_LAST_APPOINTMENT,
   SET_CALENDAR_DELETED_RESPONSE,
   SET_CALENDAR_DELETED,
   ADD_CALENDAR,
@@ -39,7 +42,19 @@ import {
   SET_ADD_OUT_OF_SERVICE,
   UPDATE_OUT_OF_SERVICE,
   SET_RESULT_OUT_OF_SERVICE,
-  SET_OUT_OF_SERVICE_DELETED, ADD_ADMIN_APPOINTMENT, REMOVE_AVAILABLE_SHIFT, SET_SHOW_APPOINTMENTS, SET_DATA_LOADING
+  SET_OUT_OF_SERVICE_DELETED,
+  ADD_ADMIN_APPOINTMENT,
+  REMOVE_AVAILABLE_SHIFT,
+  SET_SPECIFICS_SCHEDULES,
+  SET_SPECIFICS_SCHEDULES_GENERAL_ERRORS,
+  SET_SPECIFICS_SCHEDULES_LOADING,
+  SET_ADD_SPECIFICS_SCHEDULES,
+  UPDATE_SPECIFICS_SCHEDULES,
+  SET_RESULT_SPECIFICS_SCHEDULES,
+  SET_SPECIFICS_SCHEDULES_DELETED,
+ SET_SHOW_APPOINTMENTS, 
+  SET_DATA_LOADING
+
 } from './calendar-mutation-types'
 import {SET_RESULT, SET_USERS_LOADING, UPDATE_USER} from "../../user-crud/storage/user-mutation-type";
 
@@ -70,7 +85,11 @@ export default {
     outOfService: [],
     loadingOutOfService: false,
     errorOfservice: [],
-    resultOutOfService: false
+    resultOutOfService: false,
+    specificsSchedules: [],
+    specificsSchedulesLoading: false,
+    resultSpecificsSchedules: false,
+    errorSpecificsSchedules: [],
 
   },
   getters: {
@@ -205,6 +224,21 @@ export default {
       }
       return false
     },
+    getSpecificsSchedules(state) {
+      return state.specificsSchedules
+    },
+    getSpecificsSchedulesLoading(state) {
+      return state.specificsSchedulesLoading
+    },
+    getSpecificsSchedulesError(state) {
+      return state.errorSpecificsSchedules
+    },
+    getSpecificsSchedulesResult(state) {
+      return state.resultSpecificsSchedules
+    },
+    getFlashMessaSpecificsSchedules(state) {
+      return state.flashMessage
+    },
 
   },
   actions: {
@@ -274,7 +308,8 @@ export default {
       commit(SET_CALENDAR_LOADING, true);
 
       AppointmentProvider.cancel(appointmentId).then((response) => {
-        if (response.data.status) {
+        console.log(response)
+        if (response.status) {
           commit(UPDATE_APPOINTMENT, response.data.item);
         }
         commit(SET_CALENDAR_LOADING, false);
@@ -508,6 +543,80 @@ export default {
       })
 
     },
+    fetchAllSpecificsSchedules({commit}) {
+      commit(SET_SPECIFICS_SCHEDULES_LOADING, true);
+      SpecificsScheduleProvider.fetchAll().then((response) => {
+        commit(SET_SPECIFICS_SCHEDULES, response.data)
+        commit(SET_SPECIFICS_SCHEDULES_LOADING, false);
+      }).catch((error) => {
+        commit(SET_SPECIFICS_SCHEDULES_GENERAL_ERRORS, error.data)
+      })
+    },
+
+    addSpecificsSchedules({commit}, data) {
+      commit(SET_RESULT_SPECIFICS_SCHEDULES, false);
+      commit(SET_FLASH_MESSAGE, null)
+      commit(SET_SPECIFICS_SCHEDULES_GENERAL_ERRORS, [])
+      commit(SET_ERRORS, [])
+      commit(SET_SPECIFICS_SCHEDULES_LOADING, true)
+      SpecificsScheduleProvider.create(data).then((response) => {
+        if (response.data.id) {
+          commit(SET_ADD_SPECIFICS_SCHEDULES, response.data.item)
+        }
+        commit(SET_RESULT_SPECIFICS_SCHEDULES, true)
+        commit(SET_SPECIFICS_SCHEDULES_LOADING, false);
+        commit(SET_FLASH_MESSAGE, "La Programacion Espeifica se creo con exito")
+      }).catch((error) => {
+        commit(SET_RESULT_SPECIFICS_SCHEDULES, false)
+        if (error && error.response && error.response.data && error.response.data.errors) {
+          commit(SET_SPECIFICS_SCHEDULES_GENERAL_ERRORS, error.response.data.errors)
+        }
+        commit(SET_SPECIFICS_SCHEDULES_LOADING, false)
+      })
+    },
+
+    updateSpecificsSchedules({commit}, data) {
+      commit(SET_RESULT_SPECIFICS_SCHEDULES, false);
+      commit(SET_SPECIFICS_SCHEDULES_GENERAL_ERRORS, [])
+      commit(SET_FLASH_MESSAGE, null)
+      commit(SET_SPECIFICS_SCHEDULES_LOADING, true);
+      SpecificsScheduleProvider.update(data.id, data).then((response) => {
+        if (response.data.id) {
+          commit(UPDATE_SPECIFICS_SCHEDULES, response.data.item)
+        }
+        commit(SET_RESULT_SPECIFICS_SCHEDULES, true);
+        commit(SET_SPECIFICS_SCHEDULES_LOADING, false)
+        commit(SET_FLASH_MESSAGE, "La Programacion Espeifica se edito con exito")
+      }).catch((error) => {
+        commit(SET_RESULT_SPECIFICS_SCHEDULES, false);
+        if (error && error.response && error.response.data && error.response.data.errors) {
+          commit(SET_SPECIFICS_SCHEDULES_GENERAL_ERRORS, error.response.data.errors)
+        }
+        commit(SET_SPECIFICS_SCHEDULES_LOADING, false)
+      })
+    },
+
+
+    deleteSpecificsSchedules({commit}, specificsSheduleID) {
+      commit(SET_RESULT_SPECIFICS_SCHEDULES, false);
+      commit(SET_FLASH_MESSAGE, null)
+      commit(SET_ERRORS, [])
+      commit(SET_SPECIFICS_SCHEDULES_LOADING, true);
+      SpecificsScheduleProvider.delete(specificsSheduleID).then((response) => {
+        commit(SET_SPECIFICS_SCHEDULES_DELETED, specificsSheduleID)
+        commit(SET_RESULT_SPECIFICS_SCHEDULES, true)
+        commit(SET_FLASH_MESSAGE, "La Programacion Espeifica se elimino con exito")
+        commit(SET_SPECIFICS_SCHEDULES_LOADING, false)
+      }).catch((error) => {
+        commit(SET_RESULT_SPECIFICS_SCHEDULES, false)
+        if (error && error.response && error.response.data && error.response.data.errors) {
+          commit(SET_SPECIFICS_SCHEDULES_GENERAL_ERRORS, error.response.data.errors)
+        }
+        commit(SET_SPECIFICS_SCHEDULES_LOADING, false)
+      })
+
+    },
+
   },
   mutations: {
     [SET_CALENDAR_LOADING](state, value) {
@@ -652,7 +761,30 @@ export default {
       state.outOfService = state.outOfService.filter(doc => {
         return doc.id != id
       })
-    }
-
+    },
+    [SET_SPECIFICS_SCHEDULES_LOADING](state, data) {
+      state.specificsSchedulesLoading = data
+    },
+    [SET_SPECIFICS_SCHEDULES](state, data) {
+      state.specificsSchedules = data
+    },
+    [SET_SPECIFICS_SCHEDULES_GENERAL_ERRORS](state, data) {
+      state.errorSpecificsSchedules = data
+    },
+    [SET_ADD_SPECIFICS_SCHEDULES](state, data) {
+      state.specificsSchedules.push(data)
+    },
+    [SET_RESULT_SPECIFICS_SCHEDULES](state, data) {
+      state.resultSpecificsSchedules = data
+    },
+    [UPDATE_SPECIFICS_SCHEDULES](state, data) {
+      let index = state.specificsSchedules.findIndex(specificsSchedules => specificsSchedules.id == data.id)
+      Vue.set(state.specificsSchedules, index, data)
+    },
+    [SET_SPECIFICS_SCHEDULES_DELETED](state, id) {
+      state.specificsSchedules = state.specificsSchedules.filter(doc => {
+        return doc.id != id
+      })
+    },
   },
 }
