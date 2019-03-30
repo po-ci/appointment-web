@@ -100,6 +100,22 @@
 
               </v-text-field>
 
+              <v-text-field prepend-icon="email"
+                            name="email_verify"
+                            label="Repetir Email"
+                            type="text"
+                            v-model="form.email_verify"
+                            :rules="validations.email_verify"
+                            placeholder="Repetir Email"
+                            required
+
+                            :error="emailMatchError == '' ? false : true"
+                            :error-messages="emailMatchError"
+
+              >
+
+              </v-text-field>
+
               <v-text-field prepend-icon="phone"
                             name="phone"
                             label="Telefono"
@@ -178,6 +194,7 @@
           password: null,
           password_verify: null,
           email: null,
+          email_verify: null,
           phone: null,
         },
         errors: {
@@ -216,6 +233,9 @@
       ]),
       passwordMatchError () {
         return (this.form.password === this.form.password_verify) ? '' : 'Contraseña no coincide'
+      },
+      emailMatchError () {
+        return (this.form.email === this.form.email_verify) ? '' : 'Email no coincide'
       }
     },
     methods: {
