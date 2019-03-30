@@ -215,7 +215,10 @@ export default {
     },
     getSpecificsSchedulesResult(state) {
       return state.resultSpecificsSchedules
-    }
+    },
+    getFlashMessaSpecificsSchedules(state) {
+      return state.flashMessage
+    },
 
   },
   actions: {
@@ -512,7 +515,6 @@ export default {
     fetchAllSpecificsSchedules({commit}) {
       commit(SET_SPECIFICS_SCHEDULES_LOADING, true);
       SpecificsScheduleProvider.fetchAll().then((response) => {
-        console.log(response.data)
         commit(SET_SPECIFICS_SCHEDULES, response.data)
         commit(SET_SPECIFICS_SCHEDULES_LOADING, false);
       }).catch((error) => {
@@ -544,17 +546,18 @@ export default {
 
     updateSpecificsSchedules({commit}, data) {
       commit(SET_RESULT_SPECIFICS_SCHEDULES, false);
+      commit(SET_SPECIFICS_SCHEDULES_GENERAL_ERRORS, [])
       commit(SET_FLASH_MESSAGE, null)
-      commit(SET_ERRORS, [])
       commit(SET_SPECIFICS_SCHEDULES_LOADING, true);
       SpecificsScheduleProvider.update(data.id, data).then((response) => {
-        data.id = response.data.id
-        commit(UPDATE_SPECIFICS_SCHEDULES, response.data.item)
+        if (response.data.id) {
+          commit(UPDATE_SPECIFICS_SCHEDULES, response.data.item)
+        }
+        commit(SET_RESULT_SPECIFICS_SCHEDULES, true);
         commit(SET_SPECIFICS_SCHEDULES_LOADING, false)
-        commit(SET_RESULT_SPECIFICS_SCHEDULES, true)
         commit(SET_FLASH_MESSAGE, "La Programacion Espeifica se edito con exito")
       }).catch((error) => {
-        commit(SET_RESULT_SPECIFICS_SCHEDULES, false)
+        commit(SET_RESULT_SPECIFICS_SCHEDULES, false);
         if (error && error.response && error.response.data && error.response.data.errors) {
           commit(SET_SPECIFICS_SCHEDULES_GENERAL_ERRORS, error.response.data.errors)
         }
@@ -738,7 +741,7 @@ export default {
     [SET_RESULT_SPECIFICS_SCHEDULES](state, data) {
       state.resultSpecificsSchedules = data
     },
-    [UPDATE_SPECIFICS_SCHEDULES](state) {
+    [UPDATE_SPECIFICS_SCHEDULES](state, data) {
       let index = state.specificsSchedules.findIndex(specificsSchedules => specificsSchedules.id == data.id)
       Vue.set(state.specificsSchedules, index, data)
     },
