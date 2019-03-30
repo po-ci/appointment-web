@@ -24,10 +24,8 @@
               icon="check_circle"
               outline
             >
-              Hemos enviado un correo para confirmar y finalizar la creación de su cuenta.
-
+              Hemos enviado un correo a <strong>{{form.email}}</strong> para validar y finalizar la creación de su cuenta.
             </v-alert>
-
 
           </v-card-text>
         </v-card>
@@ -108,7 +106,7 @@
                             :rules="validations.email_verify"
                             placeholder="Repetir Email"
                             required
-
+                            onPaste="return false"
                             :error="emailMatchError == '' ? false : true"
                             :error-messages="emailMatchError"
 
