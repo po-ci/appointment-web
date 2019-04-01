@@ -16,7 +16,7 @@
       <v-flex xs12 md8 offset-md2>
         <v-card class="elevation-4">
           <v-card-text class="pb-1">
-            <admin-appointments-date-picker></admin-appointments-date-picker>
+            <show-appointments-date-picker></show-appointments-date-picker>
           </v-card-text>
           <v-card-text class="pt-0">
             <v-tabs fixed-tabs v-model="tabs" color="primary" dark slider-color="cyan" show-arrows>
@@ -68,7 +68,7 @@
 <script>
   import AppointmentsCalendars from './AppointmentsCalendarRadio'
   import AppointmentsCalendarSelected from './AppointmentsCalendarSelect'
-  import AdminAppointmentsDatePicker from './AdminAppointmentsDatePicker'
+  import ShowAppointmentsDatePicker from './ShowAppointmentsDatePicker'
   import AdminAppointmentsHours from './AdminAppointmentsHours'
   import {mapActions, mapGetters} from 'vuex'
 
@@ -77,7 +77,7 @@
     components: {
       AppointmentsCalendars,
       AppointmentsCalendarSelected,
-      AdminAppointmentsDatePicker,
+      ShowAppointmentsDatePicker,
       AdminAppointmentsHours
     },
     data: () => ({

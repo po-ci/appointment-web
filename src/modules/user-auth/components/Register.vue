@@ -24,10 +24,8 @@
               icon="check_circle"
               outline
             >
-              Hemos enviado un correo para confirmar y finalizar la creación de su cuenta.
-
+              Hemos enviado un correo a <strong>{{form.email}}</strong> para validar y finalizar la creación de su cuenta.
             </v-alert>
-
 
           </v-card-text>
         </v-card>
@@ -96,6 +94,22 @@
                             :error-messages="errors.email"
 
                             required
+              >
+
+              </v-text-field>
+
+              <v-text-field prepend-icon="email"
+                            name="email_verify"
+                            label="Repetir Email"
+                            type="text"
+                            v-model="form.email_verify"
+                            :rules="validations.email_verify"
+                            placeholder="Repetir Email"
+                            required
+                            onPaste="return false"
+                            :error="emailMatchError == '' ? false : true"
+                            :error-messages="emailMatchError"
+
               >
 
               </v-text-field>
@@ -178,6 +192,7 @@
           password: null,
           password_verify: null,
           email: null,
+          email_verify: null,
           phone: null,
         },
         errors: {
@@ -216,6 +231,9 @@
       ]),
       passwordMatchError () {
         return (this.form.password === this.form.password_verify) ? '' : 'Contraseña no coincide'
+      },
+      emailMatchError () {
+        return (this.form.email === this.form.email_verify) ? '' : 'Email no coincide'
       }
     },
     methods: {
