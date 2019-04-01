@@ -218,18 +218,23 @@
         'orderAppointments',
         'getFlashMessageAppointment',
         'getAppointmentsLoading',
-        'getResultAppointment'
+        'getResultAppointment',
+        'getCalendars'
       ])
     },
     methods: {
       ...mapActions([
-        'cancelAppointment'
+        'cancelAppointment',
+        'fetchCalendars'
       ]),
       appointmentsCancel(appointment) {
         this.dialogCancel = true
         this.appointmentCancel = appointment
       }
     },
+    mounted() {
+      this.fetchCalendars()
+    }
 
   }
 </script>

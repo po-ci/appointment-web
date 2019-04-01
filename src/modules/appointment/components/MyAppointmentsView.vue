@@ -8,7 +8,7 @@
                :color="'amber lighten-4'"
                @click="$emit('dialogCancel', appointment )"
                small
-
+               :disabled="disableCancel"
         >
           Cancelar
         </v-btn>
@@ -21,6 +21,7 @@
 <script>
   import {mapGetters, mapActions} from 'vuex'
   import ViewAppointment from './ViewAppointment'
+  import moment from 'moment'
 
   export default {
     name: "MyAppointmentsView",
@@ -31,11 +32,11 @@
       }
     },
     props: {
-      appointment: {type: Object}
+      appointment: {type: Object},
     },
     computed: {
       ...mapGetters([
-        'getAppointmentsLoading', 'getResultAppointment'
+        'getAppointmentsLoading', 'getResultAppointment', 'getCalendars'
       ]),
       getClass: function () {
         if (this.appointment.status == 2 || this.appointment.status == 3) {
@@ -45,6 +46,20 @@
           return 'border-green'
         }
         return ''
+      },
+      disableCancel() {
+        let idCalendar = this.appointment.calendar.id
+        let appointmentStart = moment(this.appointment.start, 'YYYY-MM-DD HH:mm')
+        let now = moment()
+
+
+        let calendar = this.getCalendars.find(calendars => calendars.id == idCalendar)
+        appointmentStart.subtract(calendar.appointmentConfig.cancelTimeInHours, 'hours')
+
+        if (now > appointmentStart) {
+          return true
+        }
+        return false
       }
     },
     methods: {
@@ -53,7 +68,8 @@
       ]),
       appointmentCancel(appointmentId) {
         this.cancelAppointment(appointmentId)
-      }
+      },
+
 
     },
   }
