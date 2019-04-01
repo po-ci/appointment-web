@@ -52,8 +52,11 @@ import {
   UPDATE_SPECIFICS_SCHEDULES,
   SET_RESULT_SPECIFICS_SCHEDULES,
   SET_SPECIFICS_SCHEDULES_DELETED,
- SET_SHOW_APPOINTMENTS, 
-  SET_DATA_LOADING
+  SET_SHOW_APPOINTMENTS,
+  SET_DATA_LOADING,
+  SET_RESULT_APPOINTMENT,
+  SET_FLASH_MESSAGE_APPOINTMENT,
+  SET_APPOINTMENTS_LOADING
 
 } from './calendar-mutation-types'
 import {SET_RESULT, SET_USERS_LOADING, UPDATE_USER} from "../../user-crud/storage/user-mutation-type";
@@ -90,6 +93,9 @@ export default {
     specificsSchedulesLoading: false,
     resultSpecificsSchedules: false,
     errorSpecificsSchedules: [],
+    flashMessageAppointmets: null,
+    resultAppointments: false,
+    appointmentsLoading: false
 
   },
   getters: {
@@ -239,6 +245,15 @@ export default {
     getFlashMessaSpecificsSchedules(state) {
       return state.flashMessage
     },
+    getResultAppointment(state) {
+      return state.resultAppointments
+    },
+    getFlashMessageAppointment(state) {
+      return state.flashMessageAppointmets
+    },
+    getAppointmentsLoading(state) {
+      return state.appointmentsLoading
+    }
 
   },
   actions: {
@@ -304,17 +319,21 @@ export default {
     },
 
 
-    cancelAppointment({commit, getters}, appointmentId) {
-      commit(SET_CALENDAR_LOADING, true);
-
-      AppointmentProvider.cancel(appointmentId).then((response) => {
-        console.log(response)
+    cancelAppointment({commit, getters}, appointment) {
+      commit(SET_FLASH_MESSAGE_APPOINTMENT, null)
+      commit(SET_APPOINTMENTS_LOADING, true);
+      commit(SET_RESULT_APPOINTMENT, null);
+      AppointmentProvider.cancel(appointment.id).then((response) => {
+        commit(SET_RESULT_APPOINTMENT, response.status);
+        commit(SET_FLASH_MESSAGE_APPOINTMENT, response.data.message)
         if (response.status) {
           commit(UPDATE_APPOINTMENT, response.data.item);
+
         }
-        commit(SET_CALENDAR_LOADING, false);
+        commit(SET_APPOINTMENTS_LOADING, false)
       }).catch((error) => {
-        commit(SET_CALENDAR_LOADING, false);
+        commit(SET_RESULT_APPOINTMENT, false)
+        commit(SET_APPOINTMENTS_LOADING, false);
       })
 
     },
@@ -786,5 +805,15 @@ export default {
         return doc.id != id
       })
     },
+    [SET_RESULT_APPOINTMENT](state, data) {
+      state.resultAppointments = data
+    },
+    [SET_FLASH_MESSAGE_APPOINTMENT](state, data) {
+      state.flashMessageAppointmets = data
+    },
+    [SET_APPOINTMENTS_LOADING](state, data) {
+      state.appointmentsLoading = data
+    }
+
   },
 }
