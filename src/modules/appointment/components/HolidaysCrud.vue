@@ -34,9 +34,6 @@
 
 
               <template slot="items" slot-scope="props">
-                <td>{{props.item.id}}</td>
-                <td>{{ props.item.title}}</td>
-                <td>{{ props.item.date}}</td>
                 <td>
                   <v-icon
                     small
@@ -52,6 +49,10 @@
                     delete
                   </v-icon>
                 </td>
+                <td>{{props.item.id}}</td>
+                <td>{{ props.item.title}}</td>
+                <td>{{ props.item.date}}</td>
+
               </template>
             </v-data-table>
           </v-card-text>
@@ -113,10 +114,10 @@
     data() {
       return {
         headers: [
+          {text: 'Aciones', value: 'acciones', sortable: false},
           {text: 'ID', value: 'id'},
           {text: 'Titulo', value: 'title'},
           {text: 'Fecha', value: 'date'},
-          {text: 'Aciones', value: 'acciones', sortable: false},
         ],
         dialog: false,
         titles: null,

@@ -48,6 +48,20 @@
               </template>
 
               <template slot="items" slot-scope="props">
+
+                <!--       <td class="text-xs-center">
+                         {{props.item}}
+                       </td>-->
+
+                <td class="text-xs-center">
+                  <v-icon
+                    small
+                    class="mr-2"
+                    @click="editUser(props.item)"
+                  >
+                    edit
+                  </v-icon>
+                </td>
                 <td>
                   <v-avatar
                     size="36px"
@@ -71,19 +85,6 @@
                 </td>
                 <td>{{ props.item.phone }}</td>
 
-                <!--       <td class="text-xs-center">
-                         {{props.item}}
-                       </td>-->
-
-                <td class="text-xs-center">
-                  <v-icon
-                    small
-                    class="mr-2"
-                    @click="editUser(props.item)"
-                  >
-                    edit
-                  </v-icon>
-                </td>
               </template>
             </v-data-table>
           </v-card-text>
@@ -142,6 +143,7 @@
     data() {
       return {
         headers: [
+          {text: 'Aciones', value: 'acciones', sortable: false},
           {text: '', value: 'img', sortable: false},
           {text: 'Nombre', value: 'name'},
           {text: 'Usuario', value: 'user'},
@@ -149,7 +151,6 @@
           {text: 'Activo', value: 'active'},
           {text: 'Telefono', value: 'phone'},
           //  {text: 'Log', value: 'log', sortable: false},
-          {text: 'Aciones', value: 'acciones', sortable: false},
         ],
         search: '',
         dialog: false,

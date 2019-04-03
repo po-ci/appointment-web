@@ -48,12 +48,6 @@
                   </template>
 
                   <template slot="items" slot-scope="props">
-                    <td>{{props.item.id}}</td>
-                    <td v-if="props.item.calendar">{{props.item.calendar.name}}</td>
-                    <td v-else></td>
-                    <td>{{props.item.reason}}</td>
-                    <td>{{props.item.start}}</td>
-                    <td>{{props.item.end}}</td>
                     <td>
                       <v-icon
                         small
@@ -69,6 +63,13 @@
                         delete
                       </v-icon>
                     </td>
+                    <td>{{props.item.id}}</td>
+                    <td v-if="props.item.calendar">{{props.item.calendar.name}}</td>
+                    <td v-else></td>
+                    <td>{{props.item.reason}}</td>
+                    <td>{{props.item.start}}</td>
+                    <td>{{props.item.end}}</td>
+
                   </template>
 
                 </v-data-table>
@@ -133,12 +134,12 @@
     data() {
       return {
         headers: [
+          {text: 'Acciones', value: 'actions'},
           {text: 'ID', value: 'id'},
           {text: 'Calendario', value: 'calendar'},
           {text: 'Razon', value: 'reason'},
           {text: 'Desde', value: 'start'},
           {text: 'Hasta', value: 'end'},
-          {text: 'Acciones', value: 'actions'}
         ],
         search: null,
         dialog: false,

@@ -51,7 +51,9 @@
         let v = moment(val)
 
 
-        //TODO: Specific Schedule
+        if(this.getSpecificsSchedulesActive.findIndex(sc => sc.date == val) != -1){
+          return true
+        }
 
         //Working Days
         if(this.getWorkingDays && this.getWorkingDays.findIndex(d => d == v.format('E')) == -1){
@@ -74,7 +76,8 @@
     computed: {
       ...mapGetters([
         'getDateFormated',
-        'getCalendarSelected'
+        'getCalendarSelected',
+        'getSpecificsSchedulesActive'
       ]),
       getMaxDays: function () {
         if (this.getCalendarSelected && this.getCalendarSelected.appointmentConfig && this.getCalendarSelected.appointmentConfig.maxTimeInDays) {

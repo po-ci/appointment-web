@@ -58,7 +58,8 @@ import {
   SET_FLASH_MESSAGE_APPOINTMENT,
   SET_APPOINTMENTS_LOADING,
   DELETED_SHOW_APPOINTMENTS,
-  SET_CALENDAR_RESULT
+  SET_CALENDAR_RESULT,
+  SET_SPECIFICS_SCHEDULES_ACTIVE
 
 } from './calendar-mutation-types'
 import {SET_RESULT, SET_USERS_LOADING, UPDATE_USER} from "../../user-crud/storage/user-mutation-type";
@@ -93,6 +94,7 @@ export default {
     errorOfservice: [],
     resultOutOfService: false,
     specificsSchedules: [],
+    specificsSchedulesActive: [],
     specificsSchedulesLoading: false,
     resultSpecificsSchedules: false,
     errorSpecificsSchedules: [],
@@ -241,6 +243,9 @@ export default {
         return true
       }
       return false
+    },
+    getSpecificsSchedulesActive(state) {
+      return state.specificsSchedulesActive
     },
     getSpecificsSchedules(state) {
       return state.specificsSchedules
@@ -622,6 +627,16 @@ export default {
       })
 
     },
+    fetchSpecificsSchedulesActive({commit}) {
+      commit(SET_SPECIFICS_SCHEDULES_LOADING, true);
+      SpecificsScheduleProvider.fetchActive(moment().format("YYYY-MM-DD")).then((response) => {
+        commit(SET_SPECIFICS_SCHEDULES_ACTIVE, response.data)
+        commit(SET_SPECIFICS_SCHEDULES_LOADING, false);
+      }).catch((error) => {
+        commit(SET_SPECIFICS_SCHEDULES_GENERAL_ERRORS, error.data)
+      })
+    },
+
     fetchAllSpecificsSchedules({commit}) {
       commit(SET_SPECIFICS_SCHEDULES_LOADING, true);
       SpecificsScheduleProvider.fetchAll().then((response) => {
@@ -846,6 +861,9 @@ export default {
       state.outOfService = state.outOfService.filter(doc => {
         return doc.id != id
       })
+    },
+    [SET_SPECIFICS_SCHEDULES_ACTIVE](state, data) {
+      state.specificsSchedulesActive = data
     },
     [SET_SPECIFICS_SCHEDULES_LOADING](state, data) {
       state.specificsSchedulesLoading = data

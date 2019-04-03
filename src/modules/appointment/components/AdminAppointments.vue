@@ -117,6 +117,7 @@
     mounted: function () {
       this.allUsers()
       this.clearData()
+      this.fetchSpecificsSchedulesActive()
       this.fetchCalendars()
     },
     watch: {
@@ -148,7 +149,8 @@
         'getDataLoading',
         'getFriendlyDateFormated',
         'getActiveAdminAppointments',
-        'getUsers'
+        'getUsers',
+        'getSpecificsSchedulesActive'
       ]),
     },
     methods: {
@@ -162,7 +164,8 @@
         'fetchAvailableAppointments',
         'clearLastAppointment',
         'setCalendarSelected',
-        'fetchAdminAppointments'
+        'fetchAdminAppointments',
+        'fetchSpecificsSchedulesActive'
       ]),
 
       doFetchAdminAppointments() {
