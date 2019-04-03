@@ -37,6 +37,7 @@
                      {text: '#', value: 'Numero', sortable: false},
                    {text: 'Hora', value: 'Hora', sortable: false},
                     {text: 'Nombre', value: 'Nombre', sortable: false},
+                    {text: 'Aciones', value: 'actions', sortable: false},
                   ]"
                       :items="getShowAppointmentsByCalendar(calendar.id)"
                       :loading="getCalendarLoading"
@@ -47,6 +48,14 @@
                         <td>{{ props.item.id }}</td>
                         <td>{{ props.item.start.substr(11, 5) }}</td>
                         <td>{{ props.item.user.name }}</td>
+                        <td>
+                          <v-icon
+                            small
+                            @click="dialogCancelOpen(props.item)"
+                          >
+                            error
+                          </v-icon>
+                        </td>
                       </template>
 
                     </v-data-table>
@@ -60,6 +69,65 @@
         </v-card>
       </v-flex>
     </v-layout>
+
+
+    <v-dialog
+      v-model="dialogCancel"
+      max-width="500"
+    >
+
+      <v-card v-if="getFlashMessageAppointment != null">
+        <v-card-text>
+
+          <v-alert
+            :value="true"
+            :color="getResultAppointment?'success':'error'"
+            icon="check_circle"
+            outline>
+            {{getFlashMessageAppointment}}
+          </v-alert>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-btn
+            color="grey"
+            flat="flat"
+            @click="dialogCancel = false"
+          >
+            Cerrar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+
+      <v-card v-else>
+        <v-card-title class="title" primary-title>
+          Desea cancelar este turno?
+        </v-card-title>
+        <v-card-text>
+          Si cancela el turno no se podrá recuperar nuevamente, y en tal caso deberá solicitar uno nuevo.
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="grey"
+            flat="flat"
+            @click="dialogCancel = false"
+          >
+            Cancelar
+          </v-btn>
+          <v-btn
+            color="green darken-1"
+            flat="flat"
+            :loading="getAppointmentsLoading"
+            @click="cancelAppointmentAdmin(appointmentCancel)"
+          >
+            Aceptar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+
+
+    </v-dialog>
 
 
   </v-container>
@@ -84,6 +152,9 @@
         dialog: false,
         appointment: null,
         tabs: null,
+        dialogCancel: false,
+        appointmentCancel: null
+
       }
     ),
     mounted: function () {
@@ -114,7 +185,10 @@
         'getFriendlyDateFormated',
         'getActiveAdminAppointments',
         'getUsers',
-        'getShowAppointmentsByCalendar'
+        'getShowAppointmentsByCalendar',
+        'getFlashMessageAppointment',
+        'getResultAppointment',
+        'getAppointmentsLoading'
       ]),
     },
     methods: {
@@ -129,7 +203,8 @@
         'clearLastAppointment',
         'setCalendarSelected',
         'fetchShowAppointments',
-        'setNowToDate'
+        'setNowToDate',
+        'cancelAppointmentAdmin'
       ]),
 
       doFetchShowAppointments() {
@@ -142,7 +217,13 @@
             }
           )
         }
+      },
+
+      dialogCancelOpen(appointment) {
+        this.appointmentCancel = appointment
+        this.dialogCancel = true
       }
+
     }
   }
 

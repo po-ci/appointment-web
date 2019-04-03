@@ -2,7 +2,7 @@
   <v-dialog :value="open" width="800" persistent>
     <v-card>
       <v-card-title>
-        {{title}}
+        <h2>{{title}}</h2>
       </v-card-title>
       <v-card-text>
 
