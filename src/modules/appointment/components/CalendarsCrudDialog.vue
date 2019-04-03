@@ -24,6 +24,7 @@
           <v-btn
             dark
             flat
+            :loading="getCalendarLoading"
             @click="submitForm"
           >
             Guardar
@@ -35,7 +36,7 @@
 
       <v-card-text>
         <v-form>
-          <v-layout row wrap >
+          <v-layout row wrap>
             <v-text-field
               md4 xs12
               class="pr-2"
@@ -54,6 +55,11 @@
               label="Usuario"
               v-model="form.user"
               required
+              :loading="getUsersLoading"
+              :error="localErrors.user.length?true:false"
+              :error-messages="localErrors.user"
+
+
             ></v-select>
 
             <v-text-field
@@ -125,7 +131,7 @@
           <v-layout row wrap>
             <v-flex xs4 md2 class="text-xs-center py-3 px-0 ">
               <v-layout row wrap fill-height align-center justify-center>
-              {{day.name}}
+                {{day.name}}
               </v-layout>
             </v-flex>
 
@@ -167,8 +173,6 @@
             </v-flex>
 
 
-
-
           </v-layout>
         </template>
 
@@ -184,7 +188,7 @@
 
 <script>
   import CalendarsCrudDialogTime from './CalendarsCrudDialogTime'
-  import {mapActions} from 'vuex'
+  import {mapActions, mapGetters} from 'vuex'
 
   export default {
     name: "CalendarCrudDialog",
@@ -196,6 +200,11 @@
       users: Array,
       calendarForm: Object
     },
+
+    computed: {
+      ...mapGetters(['getCalendatResult', 'getCalendatGeneralErrors', 'getCalendarLoading', 'getUsersLoading'])
+    },
+
     watch: {
       calendarForm: function () {
         if (this.calendarForm === null) {
@@ -228,7 +237,16 @@
           this.form = this.calendarForm;
 
         }
+      },
+      getCalendatResult: function (value) {
+        if (value) {
+          this.$emit('closeDialog')
+        }
+      },
+      getCalendatGeneralErrors:function (value) {
+        this.localErrors = Object.assign({}, this.localErrors, value);
       }
+
     },
     data() {
       return {
@@ -264,7 +282,11 @@
             maxTimeInDays: null,
             cancelTimeInHours: null
           }
+        },
+        localErrors: {
+          user: []
         }
+
       }
     },
     methods: {
@@ -285,7 +307,6 @@
           this.createCalendar(this.form)
 
         }
-        this.$emit('closeDialog')
       }
     }
   }

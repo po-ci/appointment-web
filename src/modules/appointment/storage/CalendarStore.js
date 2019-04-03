@@ -57,7 +57,8 @@ import {
   SET_RESULT_APPOINTMENT,
   SET_FLASH_MESSAGE_APPOINTMENT,
   SET_APPOINTMENTS_LOADING,
-  DELETED_SHOW_APPOINTMENTS
+  DELETED_SHOW_APPOINTMENTS,
+  SET_CALENDAR_RESULT
 
 } from './calendar-mutation-types'
 import {SET_RESULT, SET_USERS_LOADING, UPDATE_USER} from "../../user-crud/storage/user-mutation-type";
@@ -76,6 +77,7 @@ export default {
     events: [],
     availableShifts: [],
     calendarLoading: false,
+    calendarResult: false,
     lastAppointment: null,
     calendarDelete: null,
     users: [],
@@ -173,6 +175,12 @@ export default {
     getCalendars: (state) => {
       return state.calendars
     },
+    getCalendatResult(state) {
+      return state.calendarResult
+    },
+    getCalendatGeneralErrors(state) {
+      return state.calendarGeneralErrors
+    },
     getEvents: (state) => {
       return state.events
     },
@@ -182,6 +190,9 @@ export default {
     findCalendarById: (state) => id => {
       let calendar = state.calendars.find(calendar => calendar.id === id);
       return calendar
+    },
+    getFlashMessageCalendar(state) {
+      return state.flashMessage
     },
     getHolidays(state) {
       return state.holidays
@@ -391,41 +402,67 @@ export default {
     },
 
     deleteCalendar({state, commit}, calendarId) {
-      commit(SET_CALENDAR_LOADING, true);
+      commit(SET_CALENDAR_RESULT, false)
+      commit(SET_FLASH_MESSAGE, null)
+      commit(SET_CALENDAR_GENERAL_ERRORS, [])
+      commit(SET_ERRORS, [])
+      commit(SET_CALENDAR_LOADING, true)
+
       CalendarProvider.delete(calendarId).then((response) => {
-        commit(SET_CALENDAR_DELETED_RESPONSE, response.data);
-        commit(SET_CALENDAR_DELETED, calendarId);
-        commit(SET_CALENDAR_LOADING, false);
+        commit(SET_CALENDAR_DELETED_RESPONSE, response.data)
+        commit(SET_CALENDAR_DELETED, calendarId)
+        commit(SET_FLASH_MESSAGE, "Se elimino correctamente la Agenda")
+        commit(SET_CALENDAR_RESULT, true)
+        commit(SET_CALENDAR_LOADING, false)
       }).catch(
         (error) => {
           commit(SET_CALENDAR_GENERAL_ERRORS, error.response.data);
           console.log(error.response.data)
+          commit(SET_CALENDAR_RESULT, false)
           commit(SET_CALENDAR_LOADING, false);
 
         }
       );
     },
     createCalendar({commit}, newCalendar) {
-      commit(SET_CALENDAR_LOADING, true);
+      commit(SET_CALENDAR_RESULT, false)
+      commit(SET_FLASH_MESSAGE, null)
+      commit(SET_CALENDAR_GENERAL_ERRORS, [])
+      commit(SET_CALENDAR_LOADING, true)
       CalendarProvider.create(newCalendar).then((response) => {
-        console.log(response.data)
-        newCalendar.id = response.data.id
-        commit(ADD_CALENDAR, newCalendar)
+        if (response.data.id) {
+          newCalendar.id = response.data.id
+          commit(ADD_CALENDAR, newCalendar)
+        }
+
+        commit(SET_FLASH_MESSAGE, "Se creo la agenda con exito")
+        commit(SET_CALENDAR_RESULT, true)
         commit(SET_CALENDAR_LOADING, false);
       }).catch((error) => {
-        console.log(error.response.data)
+        commit(SET_CALENDAR_RESULT, false)
+        if (error && error.response && error.response.data && error.response.data.errors) {
+          commit(SET_CALENDAR_GENERAL_ERRORS, error.response.data.errors)
+        }
+        commit(SET_CALENDAR_LOADING, false)
 
       })
     },
     updateCalendar({commit}, newCalendar) {
-      commit(SET_CALENDAR_LOADING, true);
+      commit(SET_CALENDAR_RESULT, false)
+      commit(SET_FLASH_MESSAGE, null)
+      commit(SET_CALENDAR_GENERAL_ERRORS, [])
+      commit(SET_CALENDAR_LOADING, true)
       CalendarProvider.update(newCalendar.id, newCalendar).then((response) => {
-        console.log(response.data)
-        newCalendar.id = response.data.id
         commit(UPDATE_CALENDAR, newCalendar)
+        commit(SET_CALENDAR_RESULT, true)
+        commit(SET_FLASH_MESSAGE, "Se edito con exito la agenda")
         commit(SET_CALENDAR_LOADING, false);
       }).catch((error) => {
-        console.log(error.response.data)
+        commit(SET_CALENDAR_RESULT, false)
+        if (error && error.response && error.response.data && error.response.data.errors) {
+          commit(SET_CALENDAR_GENERAL_ERRORS, error.response.data.errors)
+        }
+        commit(SET_CALENDAR_LOADING, false)
 
       })
     },
@@ -774,7 +811,7 @@ export default {
         return doc.id != id
       });
     },
-    [DELETED_SHOW_APPOINTMENTS](state, id){
+    [DELETED_SHOW_APPOINTMENTS](state, id) {
       state.showAppointments = state.showAppointments.filter(doc => {
         return doc.id != id
       });
@@ -842,6 +879,9 @@ export default {
     },
     [SET_APPOINTMENTS_LOADING](state, data) {
       state.appointmentsLoading = data
+    },
+    [SET_CALENDAR_RESULT](state, data) {
+      state.calendarResult = data
     }
 
   },
