@@ -22,6 +22,7 @@
         <v-btn
           color="green darken-1"
           flat="flat"
+          :loading="getCalendarLoading"
           @click="$emit('acceptDelete', calendar.id)"
         >
           Aceptar
@@ -32,6 +33,7 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   export default {
     name: "CalendarsCrudDialogDelete",
     data() {
@@ -40,6 +42,9 @@
     props: {
       dialogOpen: Boolean,
       calendar: Object
+    },
+    computed:{
+      ...mapGetters(['getCalendatResult', 'getCalendarLoading'])
     }
   }
 </script>

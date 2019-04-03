@@ -70,8 +70,23 @@
            @click="dialogOpenCreate">
       <v-icon>add</v-icon>
     </v-btn>
-  </v-container>
 
+    <v-snackbar
+      v-model="snackbar"
+      :color="'success'"
+      :timeout="4000"
+    >
+      {{ getFlashMessageCalendar }}
+      <v-btn
+        dark
+        flat
+        @click="snackbar = false"
+      >
+        <v-icon>close</v-icon>
+      </v-btn>
+    </v-snackbar>
+
+  </v-container>
 </template>
 
 <script>
@@ -93,6 +108,7 @@
         dialog: false,
         dialogDelete: false,
         calendarToDelete: null,
+        snackbar: false,
         users: [],
         headers: [
           {text: 'Aciones', value: 'acciones', sortable: false},
@@ -104,7 +120,7 @@
       }
     },
     computed: {
-      ...mapGetters(['getCalendars', 'getCalendarLoading', 'getUsersForCalendar']),
+      ...mapGetters(['getCalendars', 'getCalendarLoading', 'getUsersForCalendar', 'getCalendatResult', 'getFlashMessageCalendar']),
     },
     methods: {
       ...mapActions(['fetchCalendars', 'deleteCalendar', 'allUsers']),
@@ -112,8 +128,6 @@
 
       deleteCalendars(calendarId) {
         this.deleteCalendar(calendarId)
-        this.dialogDelete = false
-
       },
 
       dialogOpenCreate() {
@@ -131,6 +145,19 @@
     },
     created() {
       this.fetchCalendars()
+    },
+
+    watch: {
+      getCalendatResult: function (value) {
+        if (value) {
+          this.dialogDelete = false
+        }
+      },
+      getFlashMessageCalendar: function (value) {
+        if (value) {
+          this.snackbar = true
+        }
+      }
     }
   }
 </script>
