@@ -18,11 +18,13 @@
         :label="title"
         prepend-icon="access_time"
         readonly
+        clearable
         class="pt-0"
       ></v-text-field>
 
       <v-time-picker
         full-width
+        format="24hs"
         v-model="time"
         @click:minute="$refs.menu.save(time)"
       ></v-time-picker>
