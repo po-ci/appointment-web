@@ -345,7 +345,6 @@ export default {
       commit(SET_RESULT_APPOINTMENT, null)
       commit(SET_CALENDAR_LOADING, true)
       AppointmentProvider.cancel(appointment.id).then((response) => {
-        console.log(response)
         commit(SET_RESULT_APPOINTMENT, response.status);
         commit(DELETED_SHOW_APPOINTMENTS, appointment.id)
         commit(SET_FLASH_MESSAGE_APPOINTMENT, response.data.message)
