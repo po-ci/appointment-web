@@ -34,14 +34,6 @@
               </template>
 
               <template slot="items" slot-scope="props">
-                <td>{{props.item.id}}</td>
-                <td v-if="props.item.calendar">{{props.item.calendar.name}}</td>
-                <td v-else></td>
-                <td>{{props.item.date}}</td>
-                <td>{{props.item.start}}</td>
-                <td>{{props.item.end}}</td>
-                <td>{{props.item.start2}}</td>
-                <td>{{props.item.end2}}</td>
                 <td>
                   <v-icon
                     small
@@ -57,6 +49,15 @@
                     delete
                   </v-icon>
                 </td>
+                <td>{{props.item.id}}</td>
+                <td v-if="props.item.calendar">{{props.item.calendar.name}}</td>
+                <td v-else></td>
+                <td>{{props.item.date}}</td>
+                <td>{{props.item.start}}</td>
+                <td>{{props.item.end}}</td>
+                <td>{{props.item.start2}}</td>
+                <td>{{props.item.end2}}</td>
+
               </template>
 
 
@@ -121,14 +122,14 @@
     data() {
       return {
         headers: [
+          {text: 'Acciones', value: 'actions'},
           {text: 'ID', value: 'id'},
-          {text: 'Calendario', value: 'calendar'},
+          {text: 'Agenda', value: 'agenda'},
           {text: 'Dia', value: 'date'},
           {text: 'Desde', value: 'start'},
           {text: 'Hasta', value: 'end'},
           {text: 'Desde2', value: 'start2'},
           {text: 'Hasta2', value: 'end2'},
-          {text: 'Acciones', value: 'actions'}
         ],
         snackbar: false,
         title: null,

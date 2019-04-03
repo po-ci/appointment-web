@@ -181,7 +181,9 @@
     ),
     mounted: function () {
       this.clearData()
+      this.fetchSpecificsSchedulesActive()
       this.fetchCalendars()
+
     },
     watch: {
 
@@ -230,7 +232,8 @@
         'fetchCalendars',
         'fetchAvailableAppointments',
         'clearLastAppointment',
-        'setCalendarSelected'
+        'setCalendarSelected',
+        'fetchSpecificsSchedulesActive'
       ])
     }
   }
