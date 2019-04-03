@@ -119,7 +119,7 @@
             color="green darken-1"
             flat="flat"
             :loading="getAppointmentsLoading"
-            @click="cancelAppointment(appointmentCancel)"
+            @click="cancelAppointmentAdmin(appointmentCancel)"
           >
             Aceptar
           </v-btn>
@@ -204,7 +204,7 @@
         'setCalendarSelected',
         'fetchShowAppointments',
         'setNowToDate',
-        'cancelAppointment'
+        'cancelAppointmentAdmin'
       ]),
 
       doFetchShowAppointments() {

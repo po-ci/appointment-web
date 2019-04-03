@@ -56,7 +56,8 @@ import {
   SET_DATA_LOADING,
   SET_RESULT_APPOINTMENT,
   SET_FLASH_MESSAGE_APPOINTMENT,
-  SET_APPOINTMENTS_LOADING
+  SET_APPOINTMENTS_LOADING,
+  DELETED_SHOW_APPOINTMENTS
 
 } from './calendar-mutation-types'
 import {SET_RESULT, SET_USERS_LOADING, UPDATE_USER} from "../../user-crud/storage/user-mutation-type";
@@ -326,6 +327,29 @@ export default {
       AppointmentProvider.cancel(appointment.id).then((response) => {
         commit(SET_RESULT_APPOINTMENT, response.status);
         commit(SET_FLASH_MESSAGE_APPOINTMENT, response.data.message)
+        if (response.status) {
+          commit(UPDATE_APPOINTMENT, response.data.item);
+
+        }
+        commit(SET_APPOINTMENTS_LOADING, false)
+      }).catch((error) => {
+        commit(SET_RESULT_APPOINTMENT, false)
+        commit(SET_APPOINTMENTS_LOADING, false);
+      })
+
+    },
+
+    cancelAppointmentAdmin({commit, getters}, appointment) {
+      commit(SET_FLASH_MESSAGE_APPOINTMENT, null)
+      commit(SET_APPOINTMENTS_LOADING, true)
+      commit(SET_RESULT_APPOINTMENT, null)
+      commit(SET_CALENDAR_LOADING, true)
+      AppointmentProvider.cancel(appointment.id).then((response) => {
+        console.log(response)
+        commit(SET_RESULT_APPOINTMENT, response.status);
+        commit(DELETED_SHOW_APPOINTMENTS, appointment.id)
+        commit(SET_FLASH_MESSAGE_APPOINTMENT, response.data.message)
+        commit(SET_CALENDAR_LOADING, false)
         if (response.status) {
           commit(UPDATE_APPOINTMENT, response.data.item);
 
@@ -751,6 +775,12 @@ export default {
         return doc.id != id
       });
     },
+    [DELETED_SHOW_APPOINTMENTS](state, id){
+      state.showAppointments = state.showAppointments.filter(doc => {
+        return doc.id != id
+      });
+    },
+
     [SET_SHOW_APPOINTMENTS](state, data) {
       state.showAppointments = data
     },
