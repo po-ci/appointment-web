@@ -187,6 +187,7 @@
 </template>
 
 <script>
+  import cloneByJsonCopy from './../../../helpers/cloneByJsonCopy'
   import CalendarsCrudDialogTime from './CalendarsCrudDialogTime'
   import {mapActions, mapGetters} from 'vuex'
 
@@ -206,44 +207,12 @@
     },
 
     watch: {
-      calendarForm: function () {
-        if (this.calendarForm === null) {
-          this.form = {
-            name: null,
-            description: null,
-            user: null,
-            schedules: [
-              {day: 1, start: null, end: null, start2: null, end2: null},
-              {day: 2, start: null, end: null, start2: null, end2: null},
-              {day: 3, start: null, end: null, start2: null, end2: null},
-              {day: 4, start: null, end: null, start2: null, end2: null},
-              {day: 5, start: null, end: null, start2: null, end2: null},
-              {day: 6, start: null, end: null, start2: null, end2: null},
-              {day: 7, start: null, end: null, start2: null, end2: null},
-              {day: 8, start: null, end: null, start2: null, end2: null}
-
-            ],
-            appointmentConfig: {
-              duration: null,
-              break: null,
-              minTimeInHours: null,
-              maxTimeInDays: null,
-              cancelTimeInHours: null
-            }
-          }
-
-        } else {
-
-          this.form = this.calendarForm;
-
-        }
-      },
       getCalendatResult: function (value) {
         if (value) {
           this.$emit('closeDialog')
         }
       },
-      getCalendatGeneralErrors:function (value) {
+      getCalendatGeneralErrors: function (value) {
         this.localErrors = Object.assign({}, this.localErrors, value);
       }
 
@@ -307,6 +276,11 @@
           this.createCalendar(this.form)
 
         }
+      }
+    },
+    mounted: function () {
+      if (this.calendarForm.id) {
+        this.form = cloneByJsonCopy(this.calendarForm)
       }
     }
   }

@@ -46,7 +46,7 @@
     </v-layout>
 
     <calendars-crud-dialog
-
+      v-if="dialog"
       :open="dialog"
       :calendar-form="calendarForm"
       :users="getUsersForCalendar"
@@ -132,7 +132,7 @@
 
       dialogOpenCreate() {
         this.users = this.allUsers()
-        this.calendarForm = null
+        this.calendarForm = {}
         this.dialog = true
       },
 
