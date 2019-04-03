@@ -37,6 +37,7 @@
             label="Hasta"
             prepend-icon="event"
             readonly
+            clearable
             :error="localErrors.start.length?true:false"
             :error-messages="localErrors.start"
 
@@ -68,6 +69,7 @@
             label="Hasta"
             prepend-icon="event"
             readonly
+            clearable
             :error="localErrors.end.length?true:false"
             :error-messages="localErrors.end"
 

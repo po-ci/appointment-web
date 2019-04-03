@@ -18,6 +18,7 @@
         :label="title"
         prepend-icon="access_time"
         readonly
+        clearable
         class="pt-0"
       ></v-text-field>
 
