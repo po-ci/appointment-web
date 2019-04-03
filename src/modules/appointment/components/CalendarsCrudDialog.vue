@@ -56,6 +56,10 @@
               v-model="form.user"
               required
               :loading="getUsersLoading"
+              :error="localErrors.user.length?true:false"
+              :error-messages="localErrors.user"
+
+
             ></v-select>
 
             <v-text-field
@@ -238,6 +242,9 @@
         if (value) {
           this.$emit('closeDialog')
         }
+      },
+      getCalendatGeneralErrors:function (value) {
+        this.localErrors = Object.assign({}, this.localErrors, value);
       }
 
     },
@@ -275,7 +282,11 @@
             maxTimeInDays: null,
             cancelTimeInHours: null
           }
+        },
+        localErrors: {
+          user: []
         }
+
       }
     },
     methods: {
