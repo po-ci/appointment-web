@@ -13,7 +13,7 @@
   export default {
     name: "LayoutLogo",
     data: () => ({
-      src: '/assets/sonriu.jpg',
+      src: '/assets/'+process.env.VUE_APP_LOGO,
       avatarSize: 200,
       tile: false
     })
