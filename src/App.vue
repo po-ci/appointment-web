@@ -22,6 +22,7 @@
     name: 'App',
     components: {Layout, MyAppointmentsToolbar},
     mounted: function () {
+      document.title = process.env.VUE_APP_COMPANY
       this.checkAuth()
     },
     methods: {
