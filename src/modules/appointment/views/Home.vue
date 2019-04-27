@@ -44,14 +44,14 @@
       <v-flex xs12 md7>
         <v-card color="primary" dark>
           <v-card-title>
-            <h1 class="font-weight-light display-3 ">SON.RIU</h1>
+            <h1 class="font-weight-light display-3 ">{{getCompany}}</h1>
           </v-card-title>
           <!--    <v-card-text class="text-xs-center white">
                 <layout-logo></layout-logo>
               </v-card-text>-->
 
           <v-card-text class="text-xs-left white black--text">
-            <p>Bienvenidos a la plataforma web para gestion de turnos de Son.Riu!</p>
+            <p>Bienvenidos a la plataforma web para gestion de turnos de {{getCompany}}!</p>
             <p>Solicitar un turno es muy facil, solo tenes que tener una cuenta en nuestra web, si aun no estas
               registrado,
               podes
@@ -89,6 +89,9 @@
       LayoutLogo
     },
     computed: {
+      getCompany: function(){
+        return process.env.VUE_APP_COMPANY
+      },
       ...mapGetters(['isLogin'])
     }
   }

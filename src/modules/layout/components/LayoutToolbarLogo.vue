@@ -16,7 +16,7 @@
     export default {
         name: "LayoutToolbarLogo",
         data: () => ({
-            src: '/assets/sonriu.jpg',
+            src: '/assets/'+process.env.VUE_APP_LOGO,
             avatarSize: 40,
             tile: false
         })
